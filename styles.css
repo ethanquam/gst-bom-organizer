@@ -56,6 +56,23 @@ body {
   min-height: 100vh;
 }
 
+.beta-disclaimer {
+  margin: 0;
+  padding: 0.65rem 1.25rem;
+  font-size: var(--type-body);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: var(--track-body);
+  color: #da212c;
+  background: var(--paper);
+  border-bottom: 1px solid #f0c4c8;
+  border-left: 4px solid #da212c;
+}
+
+.beta-disclaimer strong {
+  font-weight: 600;
+}
+
 .app-header {
   display: flex;
   justify-content: space-between;
