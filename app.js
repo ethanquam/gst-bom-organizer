@@ -1070,8 +1070,17 @@
     return false;
   }
 
-  function isRadioFrequencyAntenna(desc) {
+  function isSpsGnssReceiverPart(partUp, desc) {
     var text = String(desc || "");
+    if (/CON-R(780|750)/i.test(partUp)) return true;
+    if (/CON-R(780|750)/i.test(text)) return true;
+    return false;
+  }
+
+  function isRadioFrequencyAntenna(desc, partUp) {
+    var text = String(desc || "");
+    if (isSpsGnssReceiverPart(partUp, text)) return false;
+    if (/Smart\s+Antenna/i.test(text)) return false;
     if (!/Antenna/i.test(text)) return false;
     if (/^Antenna\s*-\s*GNSS/i.test(text)) return false;
     if (/Zephyr\s*3/i.test(text) && /GNSS|GPS/i.test(text)) return false;
@@ -1096,10 +1105,11 @@
     var text = String(desc || "");
     if (!text && !partUp) return false;
     if (isReceiverOptionsLine(text, partUp)) return false;
+    if (isSpsGnssReceiverPart(partUp, text)) return true;
     if (isFruGnssReceiverUnit(text, partUp)) return true;
     if (isGnssReceiverAccessory(text, partUp)) return false;
     if (/^Antenna\s*-/i.test(text)) return false;
-    if (isRadioFrequencyAntenna(text)) return false;
+    if (isRadioFrequencyAntenna(text, partUp)) return false;
     if (/^CON-R/i.test(partUp)) return true;
     if (/^109695/i.test(partUp)) return true;
     if (/\bDA2\b/i.test(text) || /\bCatalyst\b/i.test(text)) return true;
@@ -1113,7 +1123,7 @@
 
   function isGnssAntennaLine(desc, partUp) {
     var text = String(desc || "");
-    if (isRadioFrequencyAntenna(text)) return false;
+    if (isRadioFrequencyAntenna(text, partUp)) return false;
     if (/^Antenna\s*-\s*GNSS/i.test(text)) return true;
     if (/Zephyr\s*3/i.test(text) && /Antenna|GNSS/i.test(text)) return true;
     if (/^Antenna\s*-/i.test(text) && /GNSS|GPS|Zephyr|GA830/i.test(text)) return true;
@@ -1138,6 +1148,7 @@
 
   function isRadiosUhfLine(desc, partUp, category, section) {
     var text = String(desc || "");
+    if (isSpsGnssReceiverPart(partUp, text)) return false;
     if (/^TDL\d|^TDL450|^TDL510/i.test(partUp)) return true;
     if (/^EM1[02]\d|^EM940|^EM130/i.test(partUp)) return true;
     if (/^SNM94|^SNR\d|^SNR\d/i.test(partUp)) return true;
@@ -1147,8 +1158,8 @@
     if (/\bUHF\b/i.test(text) && /Kit|Antenna|Radio|Coaxial/i.test(text)) return true;
     if (/Kit\s*-\s*.*(UHF|Coaxial|Radio Antenna)/i.test(text)) return true;
     if (/TDL\d|Connected Site Gateway|On-Machine/i.test(text)) return true;
-    if (/Antenna.*(900\s*MHz|450\s*MHz|410-470|UHF|Whip)/i.test(text) && !/GNSS|Zephyr|GPS/i.test(text)) return true;
-    if (isRadioFrequencyAntenna(text)) return true;
+    if (/Antenna.*(900\s*MHz|450\s*MHz|410-470|UHF|Whip)/i.test(text) && !/GNSS|Zephyr|GPS|Smart\s+Antenna/i.test(text)) return true;
+    if (isRadioFrequencyAntenna(text, partUp)) return true;
     return false;
   }
 
@@ -1218,7 +1229,7 @@
 
   function isGnssFamilyAccessory(desc, partUp, section) {
     if (isPrimaryGnssReceiver(desc, partUp)) return false;
-    if (isGnssAntennaLine(desc, partUp) || isRadioFrequencyAntenna(desc)) return false;
+    if (isGnssAntennaLine(desc, partUp) || isRadioFrequencyAntenna(desc, partUp)) return false;
     if (isGnssReceiverAccessory(desc, partUp)) return true;
     if (section && /gnss receiver/i.test(section)) return true;
     return false;
@@ -1242,7 +1253,7 @@
     if (isPrimaryDataCollector(desc, partUp)) return "data_collector";
     if (isPrimaryGnssReceiver(desc, partUp)) return "gnss_receiver";
     if (isGnssAntennaLine(desc, partUp)) return "gnss_antenna";
-    if (isRadioFrequencyAntenna(desc)) return "radios_uhf";
+    if (isRadioFrequencyAntenna(desc, partUp)) return "radios_uhf";
     if (isRadiosUhfLine(desc, partUp, category, section)) return "radios_uhf";
     if (isPowerChargingLine(desc, partUp)) return "power_charging";
     if (category === "cabling" || category === "harness" || /\bCable\b/i.test(desc) || /\bHarness\b/i.test(desc)) {
@@ -1299,7 +1310,6 @@
     if (isProtectionPlanLine(partUp, desc)) return "protection_plans";
     if (isOptionKeysLine(partUp, desc)) return "option_keys";
     if (isCasesTransportLine(desc)) return "cases_transport";
-    if (isRadioFrequencyAntenna(desc)) return "radios_uhf";
     if (isPrimaryGnssReceiver(desc, partUp)) return "gnss_receiver";
     if (isGnssAntennaLine(desc, partUp)) return "gnss_antenna";
     if (isOpticalLine(desc, partUp, section)) return "optical";
