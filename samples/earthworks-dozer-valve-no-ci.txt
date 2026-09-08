@@ -1,0 +1,9 @@
+1	160005-500	Kit - Base, Dozer, Generic Blade Mount, V3.0	4500.00
+1	100435-10	FRU - Electronic Controller, EC520	892.50
+1	150603-02	Harness - EC520 Long Platform	425.00
+1	150411-045	Cable - Power, Machine	89.00
+1	222540-00	Display - TD540-W FRU Touch Display	2100.00
+1	AA510-00	Sensor - AA510 Audible Alarm	120.00
+1	160005-502	Kit - Valve Module Add-on, Dozer, Generic Blade Mount	890.00
+1	100441-00	Sensor - VM510 Valve Module	650.00
+2	95106-01	Receiver - GNSS, MS995 Smart Antenna	2400.00

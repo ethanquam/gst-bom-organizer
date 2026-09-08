@@ -1,0 +1,2179 @@
+﻿-----
+
+î¤„  
+SPS (Site Positioning Systems)  
+Data Collectors&#9;  
+Empower Modules&#9;  
+GNSS Receivers&#9;&#9;  
+Radios&#9;&#9;  
+Poles and Tripods&#9;  
+Siteworks Machine Guidance  
+SiteVision&#9;&#9;  
+Optical  
+S-Series Total Stations  
+SX12&#9;  
+Prisms&#9;  
+Trimble Siteworks Modules  
+  
+Trimble Roadworks  
+Trimble Groundworks  
+Trimble Marine Construction&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;  
+
+# Rev E - July 2026  
+Trimble Components Sheet  
+
+  
+Always verify part number availability, price, and accuracy using: https://store.trimble.com/    
+This document is meant to be an aid for better identifying Trimble components. This is not a comprehensive list of all available parts, kits, or configurations.  
+Click HERE for Current Software & Firmware  
+Trimble Earthworks  
+Common Components  
+MS Receivers&#9;  
+Coil Cables&#9;&#9;  
+Machine Radios&#9;  
+SNM941&#9;  
+Convenience Switches&#9;  
+MS Mounting&#9;  
+Grader Fixed Masts  
+Electric Mast&#9;  
+Lasers&#9;  
+Sonics&#9;  
+Zephyr 3 Rugged&#9;  
+BX992  
+Display Mounts  
+Submersible  
+Swing Boom&#9;&#9;&#9;&#9;&#9;  
+
+-----
+
+-----
+
+Software  
+(Siteworks)  
+Optical  
+(Total Stations)  
+GNSS Receivers  
+(Base/ Rover)  
+Data Collectors  
+(Controllers)  
+
+# SPS (Site Positioning Systems)
+
+  
+
+-----
+
+-----
+
+# SPS - Data Collectors (TSC710)
+
+  
+189200-HH  
+Trimble GNSS + TSCx Data Collector Transport Case  
+132797-HH  
+TSC710 Device Bracket with Quick Release Pin and Stylus Holder - 5 pack  
+  
+132798-HH  
+TSC710 Adjustable Pole Mount Clamp  
+  
+TSC710-1-1100-00-HH  
+Trimble TSC710 controller - QWERTY keypad, WWAN, Worldwide region, Standalone  
+  
+Comes with stylus, 2x stylus tips, screen protector, USB-C cable, hand strap and carrying   
+  
+140110-00-HH  
+TSC710 Glass Screen Protector - 10 pack  
+131922-01-BLK-HH  
+65w USB Type C Charger (10 Pack)  
+121986-02-HH  
+TSC Soft Carry Case (This is the case included with the TSC710)  
+220200-HH  
+Li-35 Battery Pack  
+  
+The Li-35 is a rechargeable, Lithium-ion battery pack that is compatible with the TSC5, TSC510 & TSC710 controllers. The Li-35 can be charged while installed in the device or separately through the integrated USB-C port.  
+122338-HH-BLK  
+Metal passive stylus with tether, screwdriver and 2 extra tips - 5 Pack  
+  
+121351-01-HH  
+Trimble Accessory - Hand Strap  
+  
+132799-HH  
+TSC710 Quick Release Pin and Stylus Holder Replacements for Device Bracket - 10 each  
+132802-HH  
+TSC710 Cam Lock Assembly Replacement for Adjustable Pole Clamp - 20 pack  
+  
+  
+  
+121344-01-HH  
+Trimble Accessory - Shoulder Sling  
+121354-01-HH  
+Trimble Accessory - Carry Case Shoulder Bag  
+119542-HH  
+Trimble Accessory- TSC7, TSC5, T7 Tablet, Replacement Stylus tips (5 Pack)  
+https://help.fieldsystems.trimble.com/tsc710/in-the-box.htm   
+
+-----
+
+-----
+
+# SPS - Data Collectors (TSC510)
+
+  
+189200-HH  
+Trimble GNSS + TSCx Data Collector Transport Case  
+TSC510-1-1100-00-HH  
+Trimble TSC510 controller - QWERTY keypad, WWAN, Worldwide region, Standalone  
+  
+Comes with stylus, 2x stylus tips, screen protector, USB-C cable, hand strap and carrying case.  
+  
+131922-01-BLK-HH  
+65w USB Type C Charger (10 Pack)  
+121986-02-HH  
+TSC Soft Carry Case (This is the case included with the TSC510)  
+220200-HH  
+Li-35 Battery Pack  
+  
+The Li-35 is a rechargeable, Lithium-ion battery pack that is compatible with the TSC5, TSC510 & TSC710 controllers. The Li-35 can be charged while installed in the device or separately through the integrated USB-C port.  
+121351-01-HH  
+Trimble Accessory - Hand Strap  
+121952-01-HH  
+TSC5 Pole Mount Bracket  
+  
+121951-01-HH  
+TSC5 / TSC7 Quick Release Pole Mount Clamp with Adjustable Arm  
+  
+140100-00-HH  
+USB3.1 Type-C to Type-C 2m Charge and Sync Cable - 10 pack  
+121354-01-HH  
+Trimble Accessory - Carry Case Shoulder Bag  
+119542-HH  
+Trimble Accessory- TSC7, TSC5, T7 Tablet, Replacement Stylus tips (5 Pack)  
+122338-HH-BLK  
+Metal passive stylus with tether, screwdriver and 2 extra tips - 5 Pack  
+115896-HH  
+TSC5 Glass Screen Protector (Standard Ultra Clear), 10 pack  
+https://help.fieldsystems.trimble.com/tsc510/in-the-box.htm   
+5200-39-052-HH  
+QUICK RELEASE TO RAM 1.5"  
+
+-----
+
+-----
+
+# SPS - Data Collectors (T110)
+
+  
+114050-50-1-HH  
+T110 Tablet, WfFi/BT, WWAN, Empower  
+  
+Packout includes active pen (1), screen protector (1), hand strap (1), removable battery (1)  
+131922-01-BLK-HH  
+65w USB Type C Charger (10 Pack)  
+121986-02-HH  
+TSC Soft Carry Case   
+140100-00-HH  
+USB3.1 Type-C to Type-C 2m Charge and Sync Cable - 10 pack  
+121354-01-HH  
+Trimble Accessory - Carry Case Shoulder Bag  
+131933-HH  
+T110/T10x (2024) Hand Strap  
+  
+Compatible with T110 and T10x (2024)  
+  
+114111-HH  
+Trimble T10 Extended Battery  
+114113-HH  
+Single battery charger for charging T110 batteries outside of tablet  
+129448-00-HH  
+T110 / T10x (2024) Pole Mount Assembly with 152mm (6 inch) Arm and Quick Release Pin  
+  
+  
+  
+124343-HH  
+Active pen, includes batteries  
+  
+Compatible with T110 and T10x (2024)  
+132686-HH  
+Anti reflective film screen protector  
+131932-HH  
+Shoulder strap for use off T110 off of a range pole, especially in reality  
+capture workflows  
+https://help.fieldsystems.trimble.com/t110/in-the-box.htm   
+
+-----
+
+-----
+
+# SPS - Data Collectors (TDC6)
+
+  
+TDC601  
+6 inch controller, Android, ARCore, Worldwide  
+  
+The TDC6 Handheld Data Collector packouts include Screen protector (pre-installed), USB-C cable, and Bumpers (pre-installed), battery pack.  
+  
+125521-HH  
+Device Bracket with magnetic plate for the Trimble TDC6 handheld  
+  
+125522-HH  
+Use with the Trimble TDC6 handheld device bracket with magnetic plate  
+  
+125520-HH  
+Device bracket with tapered quick release for the Trimble TDC6 handheld  
+119696-HH  
+Trimble Accessory - Quick Release Pole Mount, Centered  
+125513-10-HH  
+TDC6 Glass Screen Protector (3 pack)  
+125523-HH  
+Bracket for the mechanical mounting of the Trimble TDC6 handheld onto a  
+Trimble S-series total station.   
+121921-HH  
+45W AC Wall Charger Kit (includes regional plugs and USB-C to USB-C charge/sync cable) - 1 Pack  
+125510-10-HH  
+Hot-swappable battery pack for the Trimble TDC6 handheld.  
+Li-ion 5100 mAh 3.85 V  
+125517-00-HH  
+TDC6 Battery Charger Cradle, 12V AC Adapter and Cord Set Bundle  
+125524-10-GEO-BLK  
+TDC6 Bumper with USB-C Cover (3 pack)  
+121928-01-HH  
+Power Supply,AC,USB-C PD,45W,58X46X28mm,US,EU,UK,AU plug adapters  
+121920-01-HH  
+USB-C to USB-C Charge and Sync Cable  
+https://help.fieldsystems.trimble.com/tdc6/getting-started-with-the-handheld-device.htm   
+
+-----
+
+-----
+
+# SPS - Data Collectors (T70)
+
+  
+T70-1-1100-00-HH  
+  
+Trimble T70 Controller - Wifi/BT,  
+WWAN, Empower  
+  
+Includes:  
+\-T70 Controller  
+\-Glass Screen Protector  
+\-USB Type C to USB Type C Cable  
+\-Soft Carry Case  
+\-Passive stylus with tether, screwdriver, and 2 extra tips  
+\-Wrist Strap  
+  
+  
+133919-HH  
+SPS Series Adapter for T70  
+Controller  
+134926-00-HH  
+T70 Pole Bracket  
+  
+  
+134694-00-HH   
+1.5 inch Ram Ball to Quick  
+Release for T70 and TSC710  
+  
+132798-HH  
+TSC710 Adjustable Pole Mount Clamp  
+132802-HH  
+TSC710 Cam Lock Assembly Replacement for Adjustable Pole Clamp - 20 pack  
+  
+  
+  
+121928-01-HH  
+Power Supply,AC,USB-C PD,45W,58X46X28mm,US,EU,UK,AU plug adapters  
+
+-----
+
+-----
+
+# SPS - Data Collectors (EMPOWER)
+
+  
+129774-00-HH  
+EM940 Dual Band GNSS RCV Radio EMPOWER Module. Supports UHF 410Mhz-470Mhz frequencies and 900 Mhz band. Includes 450MHz & 900MHz antennas. Works with any Trimble Empower enabled controller. Receive radio corrections via this module rather than â€œRadio in Receiver.â€ This is how to get radio corrections with a DA2.  
+110238-00-HH  
+Trimble EM120 2.4GHz Module. EM120 2.4 GHz Empower Radio module to connect with SPS robotic total stations.  
+123731-00-GEO  
+EM130 Radio Module. Trimble Empower EM130 module used with Trimble SX12 scanning total station with Wiâ€‘Fi HaLow option.   
+  
+https://help.fieldsystems.trimble.com/tsc710/using-empower-modules.htm    
+
+-----
+
+-----
+
+# SPS - GNSS Receivers (R780-2)
+
+  
+CON-R780-102-00  
+  
+R780 Model 2 Smart Antenna, WiFi no radio  
+  
+  
+  
+  
+CON-R780-102-50  
+  
+ R780 Model 2 Smart Antenna, 450/900Mhz Radio  
+192670-02-HH  
+  
+Kit - Battery, Li-Ion, 7.2V 3350mAHr  
+  
+Battery for R780-2, R780, SPS986, and SPS985  
+  
+  
+  
+109000-10-HH  
+  
+Dual Slot Battery Charger (without Power Supply or Cord)  
+  
+Battery charger for R780-2 batteries (192670) and SPSx20 & SPSx30 total station batteries (99511)  
+  
+  
+107000-HH  
+  
+Power supply, 110-240V 100W, power supply for Dual Slot Battery Charger  
+  
+78651-HH  
+  
+Power Cord Kit - USA, EU, UK, AUS with C7 Connector  
+123588  
+  
+Antenna - UHF, 6in Rubber Whip, 900MHz/450MHz, Reverse polarity  
+  
+Dual-band whip radio antenna. Compatible with R780 & R750 GNSS receivers and EM940 empower modules  
+  
+80751-HH  
+  
+Cable - 7P Lemo (R780, SPS98x) to USB-A and Plug/PwrJack  
+  
+Cable for updating R780-2 receiver firmware/ licensing via Trimble Installation Manager and a computer/ data collector. May also be used with power supply for charging inside receiver.  
+  
+84690-00  
+  
+SPS Quicklock  
+  
+4cm/ 0.13FT quick release adapter and pin for R780-2 and similar GNSS receivers  
+  
+https://help.fieldsystems.trimble.com/r780/ch-accessories-cables.htm   
+Requires a minimum of Siteworks v1.72  
+
+-----
+
+-----
+
+# SPS - Siteworks Machine Guidance
+
+  
+132563-100  
+  
+KIT-Install, Siteworks Machine Guidance  
+  
+ Generic Machine Install Kit including receiver   
+bracket, machine harness, and BLE Transmitter.   
+This kit is required for all machine types.  
+132563-300  
+  
+KIT-Install, Siteworks Machine Guidance, 1.5M Armored Cable  
+  
+Attachment Sensor Kit that can be used for either   
+excavators or compact track loaders; 1.5m  armored cable.  
+  
+  
+  
+132563-305  
+  
+KIT-Install, Siteworks Machine Guidance, 3.0M Armored Cable  
+  
+Attachment Sensor Kit that can be used for excavators; 3m armored cable.  
+  
+  
+132563-310  
+  
+KIT-Install, Siteworks Machine Guidance, CTL, LR970B  
+  
+Attachment Sensor Kit with built in quick  disconnect and coil cable designed to be used   
+with compact track loaders.  
+SITEWORKS-MG  
+  
+Siteworks Machine Guidance Module (software)  
+  
+Required add-on module for Trimble Siteworks  
+  
+https://community.trimble.com/distributors/viewdocument/trimble-siteworks-machine-guidance?CommunityKey=e9935f5b-0bcb-495b-89b4-7f51a9575c58\&tab=librarydocuments   
+NOTE: These kits do not include a Data Collector, Data Collector Mount, Rover, Siteworks License, or Rover Accessories  
+Click HERE for SMG Display Mount Options  
+
+-----
+
+-----
+
+# SPS - GNSS Receivers (R750-2)
+
+  
+CON-R750-2-50  
+  
+GNSS Receiver - R750-2, 410-470MHz/ 900MHz UHF  
+  
+  
+  
+CON-R750-2-00  
+  
+ GNSS Receiver - R750-2, NoUHF  
+115000-50  
+  
+Antenna - GNSS, Zephyr 3 Base (boxed)  
+  
+Part Number 57971-10 and 77971-10 are obsolete and have been replaced by Part Number 115000-50  
+  
+  
+  
+125000-30  
+  
+Antenna - GNSS, Zephyr 3 Rugged with 5/8" mtg bracket  
+  
+  
+GNSS-AC-USB  
+  
+Kit - GNSS AC Power USB-C Wall Charger w/cable R750, MPS566  
+  
+GNSS-AC-INT  
+  
+Kit - GNSS AC Power R750, MPS566 International  
+123588  
+  
+Antenna - UHF, 6in Rubber Whip, 900MHz/450MHz, Reverse polarity  
+  
+Dual-band whip radio antenna. Compatible with R780 & R750 GNSS receivers and EM940 empower modules  
+  
+58957-02  
+  
+Cable - GPS, 1.6m, TNC/TNC Rt. Angle  
+  
+GNSS Zephyr antenna to GNSS Receiver (R750/ MPS566)  
+  
+58957-05-HH  
+  
+Cable, GPS, 5m, TNC/TNC Rt. Angle  
+  
+28959-00-HH  
+  
+Tripod - Adjustable Height, 2m for GPS  
+  
+Adjustable GNSS tripod ideal for setting up over control points and known positions  
+  
+https://help.fieldsystems.trimble.com/r750/cables-accessories-r750.htm   
+Requires a minimum of Siteworks v1.75  
+
+-----
+
+-----
+
+# SPS - GNSS Receivers (DA2)
+
+  
+109695-00-HH  
+  
+Trimble Catalyst DA2 GNSS Receiver  
+  
+SiteVision or Works Precise Rover subscription required to use.  
+  
+DA2 requires Siteworks v1.70 or newer.  
+  
+The DA2 receiver comes with the following accessories as standard:  
+  
+Rubber push-fit mount (pre-fitted to the DA2); 5/8-11 thread pole adapter for rubber push-fit mount; USB power cable (pre-fitted to the DA2); Mounting kit for single-cell cylindrical USB power banks (2 x rubber straps and a plastic clip)  
+109301-HH  
+  
+Pouch, Trimble Catalyst  
+  
+Fabric pouch for the Trimble Catalyst DA2 with a cavity  
+for battery and cable.  
+129461-00-HH  
+  
+Nitecore NPB1 Power Bank (5000 mAh)  
+  
+  
+129461-00-BLK-HH  
+  
+External USB Power Pack, Li-Ion, INDUS, 1S1P, 5V, 5000mAHr, 26.9x102.4mm, Nitecore-NPB1   
+(5 pack)  
+  
+114095-HH  
+  
+DA1/DA2 Mounting Accessory Kit  
+  
+Kit contains replacement parts for the standard antenna push-fit mount components and push-fit 5/8-11 thread pole adapter that come standard with the Trimble Catalyst DA1 and DA2 receivers. The kit also includes push-fit Â¼ in thread camera tripod adapter, a locking-fit 5/8-11 thread pole mount adapter, and a tall 5/8-11 thread vehicle mount adapter.   
+128404-00-HH  
+  
+Cable - DA USB Micro-B to USB type C 1.2 m  
+  
+Optional 1.2 m cable for the DA1/DA2. Ends with a USB Type C  
+connector. Provides data communications between the DA1 and  
+Androidâ„¢ devices. Can also be used for powering the Trimble Catalyst  
+DA1/DA2 receiver via USB-C power-delivery equipped power banks,  
+phones and tablets.  
+  
+118615-HH  
+  
+DA2 USB cable - micro B \> Type-C - 30cm  
+  
+Included with 109695-00-HH  
+  
+Replacement/spare for the standard USB cable for connecting  
+Trimble Catalyst DA2 receiver to USB-A power supplies.  
+  
+https://help.fieldsystems.trimble.com/trimble-catalyst/da2.htm    
+  
+Included in 109695-00-HH  
+Replacement PN: 120523-HH  
+Requires a minimum of Siteworks v1.70  
+
+-----
+
+-----
+
+# SPS - SiteVision
+
+  
+121701-10-GEO  
+  
+Trimble HPS2 handle  
+  
+Includes everything pictured above  
+  
+TSV-YR-HH-NR  
+  
+SiteVision Pro - Annual Subscription  
+  
+Pro Subscription includes indoor & outdoor workflows. Subscription License is assigned to user TID.  
+  
+ Trimble Catalyst DA2 GNSS Receiver (only required for Pole-Mount SiteVision Option)  
+Nitecore NPB1 Power Bank (only required for Pole-Mount SiteVision Option)  
+Accessories - POLE EXTENSION 25 CM  
+52607-HH  
+129461-00-HH  
+109695-00-HH  
+88142-02-HH  
+Trimble Monopole Carbon Fiber (1.3 m)  
+130090-HH  
+Range Pole bracket with Magnet mount (only required for Pole-Mount SiteVision Option)  
+124721-HH  
+Device Bracket Mounting Plate - 3 Pack  
+125521-HH  
+TDC6/MM6 Device Bracket with Magnetic Plate  
+TDC601  
+6 inch controller, Android, ARCore, Worldwide  
+A  
+B  
+C  
+D  
+E  
+F  
+G  
+H  
+https://help.fieldsystems.trimble.com/sitevision-pro/en/hardware-setup-sv.htm    
+A  
+B  
+  
+C  
+D  
+E  
+F  
+G  
+H  
+  
+  
+
+-----
+
+-----
+
+# SPS - GNSS Receivers (Radios-TDL510)
+
+  
+130510-50  
+  
+TDL510 External 450/900 MHz dual band Radio Base/Repeater (no accessories)  
+  
+The TDL510 is a dual-band (450/900 MHz) field switchable data radio for use in USA and Canada  
+  
+The Trimble dealer or SITECH MUST configure the TDL510 prior to delivery to end user.  
+TDL510 Tripod Mounting Clip (screws to the back of TDL for easy mounting)  
+CABLE ADAPTER USB TO RS232 (for programming)  
+Cable - Office/3rd Party Cable TDL510 Radio. SAE - DE-9 - DA-15 (for connecting TDL510 to R750-2 with SAE port for power)  
+128287  
+90938-HH  
+128429  
+83223-02-HH  
+Cable - Power, 1.8m, SAE to Battery Clips  
+A00393-HH  
+Cable - SAE Connector to terminals, 2M (6')  
+51862-00-HH  
+Cable - SAE to SAE, Power cable, 2.7M (9')  
+89073-00  
+Cable - Splitter, 0.25m, SAE to SAE/SAE  
+88769-00  
+Cable - Adapter, 0.15m, SAE to DC socket (2.1mm)  
+A  
+A  
+B  
+B  
+C  
+C  
+D  
+D  
+E  
+E  
+F  
+F  
+G  
+G  
+H  
+H  
+NOTE: TDL510 has no internal battery  
+https://help.fieldsystems.trimble.com/tdl510/home.htm   
+
+-----
+
+-----
+
+# SPS - GNSS Receivers (Radios-TDL450B)
+
+  
+TDL450B-HH  
+  
+TDL450B Radio with PC and power cables  
+  
+Includes:  
+   
+129681-80| TDL450B / ADL450B Tripod Hook  
+130916| CBL ASSY, RCVR USB 7P TO RS232 TDL 5P  
+130918| CBL ASSY, RCVR RS232 7P TO TDL RS232 5P  
+130919| CBL ASSY, TDL450B PWR 2P SAE  
+130927| CBL ASSY, Type A USB TO RS232 TDL 5P  
+83223-02| Cable - Power, 1.8m, SAE to Battery Clips  
+TDL450B Office Power Kit (for powering TDL450B via outlet)  
+TDL450B Radio (radio only, no accessories)  
+TDL450B Fan Tray (fan tray only to help keep TDL450B cool. HIGHLY advised for warmer climates as TDL will reduce power when too hot)  
+129681-20-HH  
+129681-10-HH  
+74450-12-HH  
+130916-HH  
+Cable - TDL450B USB Data, 5P Lemo to 7P Lemo (R780)  
+130918-HH  
+Cable - TDL450B Serial Data, 5P Lemo to 7P Lemo (R750)  
+130927-HH  
+Cable - TDL450B,5P Lemo to USB-A (for programming via TIM)  
+130917  
+Cable - TDL450B Serial Data 5P Lemo to DB9(F)  
+130919-HH  
+Cable - TDL450B Power, 2P Lemo to SAE  
+A  
+B  
+C  
+D  
+E  
+F  
+G  
+H  
+A  
+B  
+C  
+D  
+E  
+F  
+G  
+H  
+NOTE: TDL450B has no internal battery  
+https://help.fieldsystems.trimble.com/tdl450b/home.htm   
+129681-75-HH  
+TDL450B Hardshell Transportation case  
+
+-----
+
+-----
+
+# SPS - GNSS Receivers (Radio Antennas)
+
+  
+56510-90  
+  
+Kit - External UHF Antenna, 900MHz, R750, MPS566  
+  
+External radio antenna for increasing radio transmission range. Compatible with R750, R780, and MPS566 receivers.  
+  
+Choose the correct kit for the correct frequencies being sent\!   
+  
+  
+56510-64  
+  
+Kit - External UHF Antenna, 430-450MHz, R750, MPS566  
+  
+  
+56510-66  
+  
+ Kit - External UHF Antenna, 450-470MHz, R750, MPS566  
+  
+  
+  
+105600-90  
+  
+External Radio Antenna Mount R780, SPS98x -900 MHz  
+123588  
+  
+Antenna - UHF, 6in Rubber Whip, 900MHz/450MHz, Reverse polarity  
+  
+Dual-band whip radio antenna. Compatible with R780 & R750 GNSS receivers and EM940 empower modules  
+  
+44085-60  
+  
+Antenna 5in Whip - TNC 410-470MHz Radio  
+  
+  
+  
+  
+  
+  
+66540-10  
+  
+ ANTENNA 900/2400 MHZ RP TNC WATER RESISTANT  
+  
+32319  
+  
+Antenna - Radio, 8in Rubber Whip, 900MHz, Reverse Polarity  
+  
+Articulated right angle/ 360 degree swivel connection  
+  
+Not water resistant  
+  
+  
+  
+44482-00  
+  
+Radio Antenna Mast Kit  
+  
+Use with a   
+tripod   
+or rover  
+ pole and   
+bipod to   
+extend  
+ external   
+antenna   
+1.8m higher  
+  
+
+-----
+
+-----
+
+# SPS - GNSS Receivers (Poles & Tripods)
+
+  
+55201-00  
+  
+GPS Kit - 2m Range Pole, Quick Release Bipod, Topo Shoe, Bag  
+  
+Fixed height two part, 2 meter, carbon fiber range pole with bipod, topo shoe,  
+and carry bag.  
+88774-10  
+  
+Kit - 2m Range Pole Carbon-Fiber Snap-Lock  
+  
+Extendable snap-lock, 2 meter, carbon fiber range pole with bipod, topo shoe,  
+and carry bag.  
+  
+88770-10  
+  
+ Kit - 2m Range Pole Aluminum Snap-Lock  
+  
+  
+55128-00  
+  
+Accessory - Range Pole Point, Thread (F)  
+  
+  
+  
+  
+55130-00  
+  
+ Accessory - Range Pole Topo Shoe, Wide Base, Thread (F)  
+  
+58002007-HH  
+  
+Accessory - Tribrach 3 Pin type with Optical Plummet  
+  
+  
+  
+  
+  
+12180-HH  
+  
+ Adapter - Tribrach to 5/8, with Removable Center  
+  
+103530-HH  
+  
+Tripod - Heavy Duty Fiberglass, Dual Clamp  
+  
+  
+  
+  
+  
+  
+44092-HH  
+  
+ Mount - Tripod, Adapter Plate for Radio Antenna Mounting Pole  
+  
+28959-00-HH  
+  
+Tripod - Adjustable Height, 2m for GPS  
+  
+Ideal for bases on control points, extends to 1.8m, includes bag  
+  
+  
+  
+110015  
+  
+TRIPOD, THUMB RELEASE PRISM POLE  
+  
+Thumb-Release Tripod uses the same thumb action release and lock mechanism as the Thumb-Release Bipod  
+  
+
+-----
+
+-----
+
+# SPS - Optical (SPS Total Stations)
+
+  
+SPS930152200  
+  
+Instrument - SPS930 1"/1" Robotic UTS (Global), DR Plus w/ MC option  
+  
+SPS930052200  
+  
+Instrument - SPS930 0.5"/0.5" Robotic UTS (Global), DR Plus w/ MC option  
+  
+SPS730252200  
+  
+Instrument - SPS730 3"/2" Robotic UTS (Global), DR Plus w/ MC option  
+Rod - 2.5m Carbon Fiber Telescopic Range Pole with Bipod (2.5m Telescopic Range Pole is not for use with GNSS without an adapter)  
+Kit - SPS Series, Robotic Power Kit (comes with 3 batteries, 2 dual slot chargers, hirose 6-pin to hirose 6-pin cable, 3 pack battery holder, and rugged case)  
+Battery- Li-Ion, 10.8V 6500mAH Trimble (S-Series and SX12 batteries, will charge on dual slot battery charger)  
+99511-30-HH  
+SPS1000  
+43169-20  
+73836019-HH  
+Cable - 3.0m, Car battery (croc clips) to Hirose 6 pin (powers total station via 6-pin hirose connection on the tribrach and a car battery \[car battery sold separately\])  
+53099032-HH  
+CABLE 2.5M HIROSE 6P-PC USB2.0 (connects total station to a computer via USB-A and 6-pin hirose connection)  
+58313012  
+Kit - Radio, Antenna Extension Kit for 2.4 GHz radio  
+SPSSERIES-BP-01  
+Trimble SPS Total Station Backpack (softshell backpack for S-Series Total Stations with front pocket for data collector)  
+103530-HH  
+Tripod - Heavy Duty Fiberglass, Dual Clamp  
+A  
+B  
+C  
+D  
+E  
+F  
+G  
+H  
+A  
+H  
+C  
+D  
+E  
+F  
+G  
+S-Series Total Stations come with a hard case, tribrach, and no other accessories. Batteries, chargers, and cables sold separately.  
+B  
+
+-----
+
+-----
+
+# SPS - Optical (SX12 Total Station)
+
+  
+SX12-001-HH  
+  
+Instrument - Trimble SX12 1"  
+  
+SX12 Scanning Total Station comes with a hard case, triprach, hirose to USB cable, and no other accessories. Batteries, chargers, and cables sold separately.  
+  
+The SX12 does not support active tracking meaning it cannot do machine control and can only track prisms passively.  
+  
+Requires Siteworks v1.50 and newer. Currently only supported on Windows Data Collectors  
+  
+  
+Rod - 2.5m Carbon Fiber Telescopic Range Pole with Bipod (2.5m Telescopic Range Pole is not for use with GNSS without an adapter)  
+Kit - SPS Series, Robotic Power Kit (comes with 3 batteries, 2 dual slot chargers, hirose 6-pin to hirose 6-pin cable, 3 pack battery holder, and rugged case)  
+Battery- Li-Ion, 10.8V 6500mAH Trimble (S-Series and SX12 batteries, will charge on dual slot battery charger)  
+99511-30-HH  
+SPS1000  
+43169-20  
+73836019-HH  
+Cable - 3.0m, Car battery (croc clips) to Hirose 6 pin (powers total station via 6-pin hirose connection on the tribrach and a car battery \[car battery sold separately\])  
+53099032-HH  
+CABLE 2.5M HIROSE 6P-PC USB2.0 (connects total station to a computer via USB-A and 6-pin hirose connection)  
+58028007-HH  
+Prism - Reflective foil 5p.c. 60x60mm with sighting marks  
+55200-00  
+Kit - Telescopic Range Pole, Optical Kit (comes with soft case, 2.5m Carbon Fiber Telescopic Range Pole, topo shoe, and GNSS adapter rod)  
+103530-HH  
+Tripod - Heavy Duty Fiberglass, Dual Clamp  
+A  
+B  
+C  
+D  
+E  
+F  
+G  
+H  
+A  
+H  
+C  
+D  
+E  
+G  
+B  
+Requires a minimum of Siteworks v1.50  
+F  
+
+-----
+
+-----
+
+# SPS - Optical (SPS Total Stations)
+
+  
+MT1000-HH  
+  
+Trimble MultiTrack Target, including 7.4V Li-Ion battery  
+  
+Maintain target lock with confidence using Trimble Active Tracking technology and selecting from 8 different channels. This target can also work as a passive 360 prism.  
+Includes 7.4 Li-ion battery (same as R780 battery).  
+  
+Trimble standard target  
+height 135 mm.  
+  
+â€¢ Prism constant: +10 mm  
+  
+  
+AT360-HH  
+  
+Trimble Active Track 360 Target, including 7.4V Li-Ion battery  
+  
+Maintain target lock with confidence using Trimble Active Tracking technology and selecting from 8 different channels. Target has 360 foil and a single ring of LEDs for Active Tracking. Includes 7.4 Liâ€‘Ion battery (same as R780 & MT1000).   
+  
+Trimble standard target height 135 mm.  
+  
+â€¢ Prism constant: +22 mm  
+  
+  
+  
+571204312-HH  
+  
+Prism - 360 Degrees Mini prism 0.5'' (12.7mm) for RMT 606 / 604  
+  
+This mini 360 prism is a 0.5â€ (12.7 mm) surveying prism with a built-in leveling bubble and â…â€ thread.  
+  
+â€¢ Prism constant: +2 mm  
+59009025-HH  
+  
+Mini rod including extension  
+  
+Mini rod extension for 360 Prism or Target ID including 0.040 m 5/8 thread adapter. Total height of mini rod 0.115 m.  
+  
+187311  
+  
+Mini Prism Kit  
+  
+Contains 1â€ (25.4 mm)  
+prism with sighting arrows, 4x 300 mm sectional poles and 50 mm points, miniâ€‘pole/ pole adapter, and padded carry case.  
+  
+â€¢ Prism constant: -17 mm  
+  
+SPS4200-2  
+  
+Backsight Target Kit  
+  
+Contains case, traverse prism, prism base (with level and optical plummets)  
+and tribrach (with no plummet). The prism base with level has a lever arm with bottom notch measurement that enables accurate height measurements and removes the need to remeasure when pairing with an S-series or SX instruments.  
+  
+  
+  
+58020002-HH  
+  
+Prism - 360 Prism incl height adapter to standard rod, prism const: 0.002m  
+  
+This 360 prism is compatible with all optical instruments and also supports all GNSS receivers for integrated surveying with a built-in 5/8 th thread. A leveling bubble is also included, built into the 5/8th thread. Perpendicular markings on the prism cap simplify offset measurements. Includes height adapter to Trimble standard target height (135 mm). Height adapter is used in conjunction with the telescoping rod.  
+  
+â€¢ Prism constant: +2 mm.  
+  
+â€¢ Integrated survey offset of 34 mm.  
+  
+
+-----
+
+-----
+
+# SPS - Software (Trimble Siteworks)
+
+  
+SCS900-20  
+  
+Siteworks/SCS900 Standard  
+  
+SCS900-22  
+  
+ Siteworks/SCS900 Roading Module  
+  
+SCS900-23  
+  
+Siteworks/SCS900 Advanced Measurement Module  
+  
+SITEWORKS-MG  
+  
+Siteworks Machine Guidance Module  
+SCS900-22  
+  
+Roading Stakeout and Measurement Siteworks Module  
+  
+\-Stake corridor features, custom features, custom segments  
+\-Stake catch points on corridors  
+\-Stake location on corridors  
+\-Enter/ Edit corridors  
+\-Load and use .pro design files  
+  
+  
+  
+SCS900-23  
+  
+Advanced Measurement Siteworks Module  
+  
+\-Feature Coding (FXL)  
+\-Measure functions: measure offset points and lines, extend, close, and curve lines  
+\-Measure a control network with total station  
+\-Measure a traverse with total station  
+\-Connect to an SX12 scanning total station (Windows Only Currently)  
+\-Export LAS/ LAZ Point cloud data collected with SX12  
+\-Create avoidance zones  
+  
+  
+SITEWORKS-MG  
+  
+Machine Guidance Siteworks Module  
+  
+\-Requires the purchase of the Siteworks Machine Guidance Hardware kit (PN: 132563-100)  
+\-Connect to the necessary sensors and hardware to enable Machine Guidance  
+\-Uses Siteworks on a machine to obtain bucket and attachment cutting edge positions  
+SITEWORKS-B2W  
+  
+Siteworks B2W Integration Module  
+  
+The B2W Track Quantity Request integration also requires the Siteworks device to be licensed and claimed in a WorksManager account. Additionally, the B2W account must be on a TC1 subscription. Please refer to the B2W documentation for account requirements and more information on the B2W components of the integration.  
+  
+SITEWORKS-SE  
+  
+Siteworks SE Starter Edition  
+  
+Trimble Siteworks SE is a simplified version of the Trimble Siteworks Standard software, intended for users who do not require the full construction surveyor feature set and tools of the Siteworks Standard and are interested in a lower-cost version of Siteworks that only connects to GNSS.  
+  
+Click HERE for more  
+https://help.fieldsystems.trimble.com/siteworks/en/modules.htm   
+
+-----
+
+-----
+
+-----
+
+-----
+
+-----
+
+-----
+
+-----
+
+-----
+
+  
+  
+  
+  
+  
+  
+  
+
+# Trimble Earthworks - Common
+
+  
+LR  
+Laser Receivers  
+MT Machine Target  
+GS  
+Grade Sensors  
+TD  
+Touch Display  
+MS  
+Machine GNSS Receivers  
+SNR Machine Radio  
+SNM Machine Modem  
+EC  
+Electronic Controller  
+https://community.trimble.com/distributors/viewdocument/trimble-earthworks-and-cat-grade-for-dozers-excavators-motor-graders-wheel-loaders-scrapers-soil-compactors-and-compact-machines-version-2-24-x-release-package?CommunityKey=e9935f5b-0bcb-495b-89b4-7f51a9575c58\&tab=librarydocuments     
+
+-----
+
+-----
+
+# Trimble Earthworks - Common
+
+  
+95520-10  
+  
+FRU - Sensor Module, GS520  
+  
+GS520 Inertial Measurement Unit (IMU)  
+  
+205510-11  
+  
+Kit - GS510, Grading and WL Only  
+  
+GS510 Inertial Measurement Unit (IMU)  
+  
+Changes to GS514 on June 15, 2026  
+95521-10  
+  
+FRU - Sensor Module, GS521  
+  
+GS521 Inertial Measurement Unit (IMU)  
+  
+Minimum Trimble Earthworks firmware version = v2.21.x  
+  
+Click HERE for more  
+79722-00  
+  
+FRU - Sensor, RS400, Rotation, Trimble  
+  
+79722-50  
+  
+FRU - Sensor, RS400, Rotation, Cat Yellow  
+  
+222540-00  
+  
+FRU - 10" Touch Display, TD540-W w/Wi-Fi  
+  
+300520-00 is no longer available. 222540-00 is the replacement  
+  
+Adapter cable 150878-002 adapts a TD520 display cable to a TD540 connector  
+  
+Adapter cable 150884-002 adapts a TD540 display cable to a TD520 connector  
+520435-10  
+  
+FRU - Electronic Controller, EC520-W w/IMU and Wi-Fi  
+  
+  
+  
+520435-10 replaced 200435-10  
+
+-----
+
+-----
+
+# Trimble Earthworks - Common
+
+  
+59701-62  
+  
+Kit - Machine Target, MT910 W/Shock Mount and Adaptor, Black  
+  
+Includes a case (97529-11) and 16 pin adapter cable (89950-05)  
+  
+Universal Total Station (UTS) Machine Target  
+LR410  
+  
+LR410 LASER RECEIVER  
+  
+79173-50  
+  
+FRU - Laser Receiver LR410 CAT  
+79533-00  
+  
+FRU - Sonic Tracer, ST400  
+  
+79533-50  
+  
+FRU - Sonic Tracer, ST400 CAT  
+100441-10  
+  
+FRU - Valve Module, VM510 w/Fasteners  
+500451-00  
+  
+FRU - Laser Catcher, LC451  
+  
+500451-50  
+  
+FRU - Laser Catcher, LC451, CAT  
+  
+Excavator stick laser catcher  
+50999-10  
+  
+FRU - CAN Audible Alarm, AA510, Trimble  
+108500-10  
+  
+FRU - CAN Interface Module, CI510  
+  
+132520-10  
+  
+FRU - CAN Interface Module, CI520  
+  
+
+-----
+
+-----
+
+# Trimble Earthworks - MS Receivers
+
+  
+400996-00  
+  
+FRU - GNSS Receiver, Autonomous/SBAS/DGPS GPS-only, Mast Mount Bracket, MS996, Trimble  
+  
+Mast or Cab  
+  
+400996-15  
+  
+FRU - GNSS Receiver, Autonomous/SBAS/DGPS GPS-only, Mast Mount Bracket, MS996, Black  
+  
+Mast or Cab  
+400956-10  
+  
+FRU - GNSS Receiver, Autonomous/SBAS/DGPS GPS-only, MS956 w/ Hardware, Trimble  
+  
+92955-10 is no longer available and has been replaced by 400956-10.  
+130300-60 is removed in the configuration process. Purchase 130300-60 to get Full RTK for 400956-10.  
+  
+Requires Zephyr 3 Rugged Antenna  
+400976-05  
+  
+FRU - GNSS Receiver, Mast Mount Bracket, MS976, Trimble  
+  
+  
+Cab Only  
+400976-15  
+  
+FRU - GNSS Receiver, Mast Mount Bracket, MS976, Black  
+  
+  
+  
+Cab Only  
+400976-00  
+  
+FRU - GNSS Receiver, MS976, Trimble  
+  
+  
+  
+  
+  
+Cab Only  
+400976-10  
+  
+FRU - GNSS Receiver, MS976, Black  
+  
+  
+  
+  
+Cab Only  
+
+-----
+
+-----
+
+# Trimble Earthworks - Coil Cables
+
+  
+0395-9450  
+CABLE, J1939, MS980, MS990, COILED  
+Typical: MS Receivers and MT910  
+10 pin quick disconnect machine connection  
+Strain relief w/ clip and lanyard  
+16 pin receiver connection  
+0794-2350  
+Cable, Coil, 10-6 Quick Disconnect  
+Typical: ST400/ LR410  
+150445-030  
+CABLE, 6 COND. 14/18 AWG. 10 PIN QCK. DISC. COIL 6 SOC 90, STRAIN RELIEVED  
+Typical: EM415  
+0312-0990  
+CABLE,COIL 6 PIN 90 DEG., 6 SOC  
+Typical: EM415 to MT910 directly (no 89950-05 6 pin to 16 pin MT adapter cable)  
+6 pin connection for EM415, ST400, or LR410  
+311-4864  
+Cable, Cat, 6 Cond Coil, 10-Pin Quick, 6 Soc 90 with strain relief  
+311-4862  
+CABLE DZR, CAT, J1939, MS980, COILED WITH EXTRA STRAIN RELIEF  
+Typical: Blade-Mount Dozers  
+89950-05  
+Cable - MT9x0 Adapter, 16 pin BAY, 6 soc TH  
+  
+Included with PN: 59701-62  
+  
+A  
+B  
+C  
+D  
+A  
+A  
+B  
+B  
+B  
+B  
+B  
+C  
+C  
+C  
+C  
+D  
+D  
+D  
+D  
+D  
+A  
+D  
+
+-----
+
+-----
+
+# Trimble Earthworks - Machine Radios
+
+  
+130500-30  
+  
+FRU - Radio, SNR930, On-Machine, US/CAN/AUS/NZ  
+  
+900 MHz Only  
+  
+97007-30 is no longer available. 130500-30 is the replacement  
+  
+130500-80  
+  
+ FRU - Radio, SNR930, On-Machine, US/CAN/AUS/NZ, Cat   
+130500-34  
+  
+FRU - Radio, SNR934, On-Machine, +2.4 GHZ, US/CAN/AUS/NZ  
+  
+900 MHz + 2.4 GHz  
+  
+130500-84  
+  
+ FRU - Radio, SNR934, On-Machine, 900MHZ +2.4 GHZ, US/CAN/AUS/NZ, CAT  
+  
+  
+  
+  
+130500-20  
+  
+FRU - Radio, SNR430, On-Machine, 403-473 MHz  
+  
+  
+450 MHz Only  
+  
+  
+130500-70  
+  
+FRU - Radio, SNR430, On-Machine, 403-473 MHZ, Cat   
+  
+130500-24  
+  
+FRU - Radio, SNR434, On-Machine, 403-473 MHZ, + 2.4 GHZ  
+  
+450 MHz + 2.4 GHz  
+  
+  
+130500-74  
+  
+FRU - Radio, SNR434, On-Machine, 403-473 MHZ + 2.4 GHZ, Cat  
+  
+130500-44  
+  
+FRU - Radio, SNR2434, On-Machine, 2.4 GHZ  
+  
+  
+2.4 GHz Only  
+  
+  
+130500-94  
+  
+FRU - Radio, SNR2434, On-Machine, 2.4 GHZ, Cat  
+66540-10  
+  
+ANTENNA 900/2400 MHZ RP TNC WATER RESISTANT  
+  
+Works with 900 MHz and 2.4 GHz radio frequencies. Should have green bands on the tip.  
+  
+Antenna are included with the FRU Radio Part Number  
+  
+44085-60  
+  
+Antenna 5in Whip - TNC 410-470MHz Radio  
+  
+Works with 450 MHz radio frequencies. Should have yellow bands on the tip.  
+  
+Antenna are included with the FRU Radio Part Number  
+  
+
+-----
+
+-----
+
+  
+
+# Trimble Earthworks - SNM941
+
+  
+104941-00  
+  
+SNM941, Connected Site Gateway, No SIM, Americas  
+  
+SNM Only, does not include SIM Card or 4-In-1 Antenna  
+112057-50  
+  
+Kit - SNM941 4-In-1 Antenna, 5m & Mounting Bracket  
+  
+112057-00  
+  
+ Kit - SNM941 4-In-1 Antenna, 0.6m & Mounting Bracket  
+  
+  
+  
+109536  
+  
+Bracket - SNR Radio and/or SNM94X \[Blue\]  
+  
+109530-00  
+  
+Bracket - SNM 94X Shock Mount, Stacked Adapter W/ Hardware \[Red\]  
+Kit - SNM941 4-In-1 Antenna, 0.6m & Mounting Bracket pictured here  
+  
+SIM Card required for connectivity  
+  
+201641-46  
+  
+Harness - SNM94X, Machine Control, 4.6m  
+  
+201641-16  
+  
+Harness - SNM94X, Machine Control, 1.6m  
+  
+  
+  
+https://community.trimble.com/distributors/viewdocument/snm941-information-package?CommunityKey=e9935f5b-0bcb-495b-89b4-7f51a9575c58\&tab=librarydocuments      
+
+-----
+
+-----
+
+# Trimble Earthworks - Switches
+
+  
+150825-025  
+  
+Control Switch, T-Handle, Autos, Convenience  
+160015-535  
+  
+Kit- Add On, Remote Convenience Switch  
+
+-----
+
+-----
+
+# Trimble Earthworks - MS Mounting
+
+  
+81069-XX  
+  
+81069-00  
+SV MAST & PACKAGING; ALUMINIUM TRIMBLE YELLOW  
+  
+81069-10  
+SV MAST & PACKAGING; STEEL; TRIMBLE YELLOW  
+  
+81069-20  
+MAST-FIXED, STEEL CAT YELLOW  
+  
+81069-30  
+MAST-FIXED, ALUMINUM CAT YELLOW  
+111961-06  
+  
+Mast - Fixed, 0.6m, Trimble, w/ Hardware  
+  
+111961-09  
+  
+Mast - Fixed, 0.9m, Trimble, w/ Hardware  
+75698-00  
+  
+Bracket - Roof Mount, with Hardware  
+151501-30  
+  
+  
+
+-----
+
+-----
+
+# Trimble Earthworks - Grader Fixed
+
+  
+74705-10|Kit - Install, Trimble Ready, Dual Fixed Mast, GCS900 Trimble  
+  
+84705-10|Kit - Install, Grader, Dual Fixed Mast, AccuGrade Cat  
+71100-00  
+Bracket - SV Angled Mast Riser Trimble  
+  
+248-1502  
+ANGLE RISER CAT  
+  
+  
+81069-00  
+SV MAST & PACKAGING; ALUMINUM; TRIMBLE  
+  
+81069-30  
+MAST-FIXED, ALUMINUM CAT  
+  
+  
+0791-1740  
+MAST MOUNT BASE KITS, TRIMBLE  
+  
+0791-1741  
+MAST MOUNT BASE KITS, CAT  
+  
+  
+  
+Kit Pictured  
+0395-9450  
+CABLE, J1939, MS980, MS990, COILED  
+
+-----
+
+-----
+
+# Trimble Earthworks - Electric Mast
+
+  
+400415-00  
+FRU - Electric Mast, EM415, Trimble  
+  
+400415-50  
+FRU - Electric Mast, EM415, Cat  
+M4  
+Heavy Duty Shock Mount, Trimble  
+  
+234-9970  
+CAT M4 SHOCK MOUNT ASSY  
+  
+  
+  
+  
+57784-81  
+KIT, EM MAST ADAPTER, STRAIN RELIEF  
+  
+Required for mounting GNSS Receivers and/ or Machine Targets  
+  
+  
+0791-1740  
+MAST MOUNT BASE KITS, TRIMBLE  
+  
+0791-1741  
+MAST MOUNT BASE KITS, CAT  
+  
+  
+  
+0790-4241  
+RISER,MOTORGRADER MAST MOUNT, TRIMBLE  
+  
+0790-4242  
+RISER,MOTORGRADER MAST MOUNT, ACCUGRADE, CAT  
+  
+86404-00  
+Riser - Mast, Short, Black w/ Hardware  
+  
+0312-0990  
+CABLE,COIL 6 PIN 90 DEG., 6 SOC  
+  
+  
+150441-030  
+CABLE, 6 COND. 14/18 AWG. 10 PIN QCK. DISC. COIL 6 SOC 90  
+  
+150445-030  
+CABLE, 6 COND. 14/18 AWG. 10 PIN QCK. DISC. COIL 6 SOC 90, STRAIN RELIEVED  
+  
+  
+89950-05  
+Cable - MT9x0 Adapter, 16 pin BAY, 6 soc TH  
+  
+Included with PN: 59701-62  
+
+-----
+
+-----
+
+# Trimble Earthworks - Lasers
+
+  
+HH-GL622N  
+GL622N Dual Grade Laser Package w/RC602N Remote; HL760 Receiver  
+  
+GL622N LASER W RC602N REMOTE, HL760 RECEIVER, CLAMP, NIMH & UNIVERSAL CHARGER  
+HH-LR50W  
+LR50 Wireless with RD20 remote display  
+  
+LR50 LASER RECEIVER WITH UNV CHRGR, RADIO & REMOTE DISPLAY  
+HH-RDM1  
+Mount, Suction Cup, RD20, HH  
+HH-DM20  
+Mast Mount, Dozer, HH  
+  
+0794-2320  
+Plate, Mast Mounting  
+  
+HH-MM1  
+Magnetic Mast Mount, Excavator, HH  
+66491-05  
+Kit - Sensor, Dual LR410 Laser Receivers, GCS Trimble  
+  
+86491-05  
+Kit - Sensor, Dual LR410 Laser Receivers, AccuGrade Cat  
+0794-2350  
+Cable, Coil, 10-6 Quick Disconnect  
+150445-030  
+CABLE, 6 COND. 14/18 AWG. 10 PIN QCK. DISC. COIL 6 SOC 90, STRAIN RELIEVED  
+0312-0990  
+CABLE,COIL 6 PIN 90 DEG., 6 SOC  
+LR410-1  
+Kit - Sensor, Single LR410 Laser Receiver, GCS Trimble  
+  
+86491-04  
+Kit - Sensor, Single LR410 Laser Receiver, AccuGrade Cat  
+210500-00  
+MM3, Trimble Manual Mast English/ Metric  
+
+-----
+
+-----
+
+# Trimble Earthworks - Sonics
+
+  
+66481-10  
+Kit - Mount, Single Tracer Pole  
+  
+66481-20  
+Kit - Mount, Dual Tracer Pole  
+  
+  
+0355-8960  
+BASE,TRACER CLAMP,CASTING  
+  
+0355-8550S  
+BRKT,TRACER ARM  
+  
+0791-2220  
+BRKT,WELD-ON MAST MOUNTING  
+  
+0395-0880  
+KIT - GCS MG TRACER ADD-ON  
+  
+Includes: Tracer Pole (1), Tracer Arm (1), Base Clamp Casting (1), Base Clamp ASSY (1), and 10-6 Quick Connect Coil Cable (1) Does not include Sonic Tracer itself.  
+  
+  
+  
+  
+59701-90  
+Kit - Sensor, Single ST400 Sonic Tracer, GCS Trimble  
+  
+86492-04  
+Kit - Sensor, Single ST400 Sonic Tracer, AccuGrade Cat  
+59701-91  
+Kit - Sensor, Dual ST400 Sonic Tracers, GCS Trimble  
+  
+86492-05  
+Kit - Sensor, Dual ST400 Sonic Tracers, AccuGrade Cat  
+67945-05  
+Kit - Sensor, LR410 Laser Receiver, ST400 Sonic Tracer, GCS Trimble  
+  
+87945-05  
+Kit - Sensor, LR410 Laser Receiver, ST400 Sonic Tracer, AccuGrade Cat  
+
+-----
+
+-----
+
+# Trimble Earthworks - Zephyr 3 Rugged
+
+  
+125000-20  
+  
+FRU - Antenna - Zephyr 3 Rugged, Trimble  
+  
+125000-30  
+  
+Antenna - GNSS, Zephyr 3 Rugged with 5/8" mtg bracket  
+125000-10  
+  
+Antenna - GNSS, Zephyr 3 Rugged with mast mtg bracket  
+115315-05  
+  
+Mast - Fixed, 0.468m, Rugged Zephyr, w/ Hardware  
+  
+Black  
+119337-06  
+  
+Mast - Fixed, 0.6m, Rugged Zephyr, Trimble, w/ Hardware  
+  
+Trimble Yellow  
+119337-09  
+  
+Mast - Fixed, 0.9m, Rugged Zephyr, Trimble, w/ Hardware  
+  
+Trimble Yellow  
+144041-00  
+  
+Bracket - Guard Rail Mount, RZ3 w/ Hardware  
+  
+  
+  
+Bracket and hardware only, rugged zephyr not included with PN  
+58957-02|              Cable - GPS, 1.6m, TNC/TNC Rt. Angle  
+58957-04|              Cable - GPS, 4.0m, TNC/TNC Rt. Angle  
+58957-05-HH|            Cable, GPS, 5m, TNC/TNC Rt. Angle  
+58957-075|            Cable - GPS, 7.5m, TNC/TNC Rt. Angle  
+58957-10|               Cable - GPS, 10m, TNC/TNC Rt. Angle  
+58957-15|   Cable â€“ GPS, 15m LMR-200 TNC/TNC RIGHT  
+58957-30|      Cable - GPS, 30m, TNC/TNC RIGHT ANGLE   
+
+-----
+
+-----
+
+# Trimble Earthworks - ZR3 Examples
+
+  
+177265-10  
+  
+Bracket - GNSS Mount  
+  
+
+-----
+
+-----
+
+# Trimble Earthworks - BX992
+
+  
+108567-10M  
+  
+Assembly BX992 Marine  
+  
+160015-992  
+  
+Kit - Add-on, Generic, HEX, BX992, Earthworks, V3.0  
+  
+IS132309-11  
+  
+Option - GLN/GAL/BeiDou, Precise Rover, BD992-MS, BX992 Earthworks (Licensing)  
+  
+\-All Constellations  
+\-xFill  
+  
+57167  
+  
+Adapter - DB26 to USB, Ethernet and Power  
+  
+  
+  
+107000-HH  
+  
+Power supply, 110-240V 100W, power supply for smart charger  
+  
+78651-HH  
+  
+Power Cord Kit - USA, EU, UK, AUS with C7 Connector  
+  
+https://community.trimble.com/distributors/viewdocument/bx992-for-earthworks?CommunityKey=e9935f5b-0bcb-495b-89b4-7f51a9575c58\&tab=librarydocuments    
+
+-----
+
+-----
+
+# Trimble Earthworks - Display Mounts
+
+  
+Bracket - Display, Magnetic Mount  
+Magnet for Magnetic Mount, 3 Pack  
+Mount - RAM Ratchet Clamp + Ball, w/ Hardware  
+58440-10  
+110262-35  
+110262-00  
+50549-00  
+Bracket - Controller, Suction Cup Mount w/ 1.5'' Ball  
+101808  
+Bracket - RAM Post Hand Rail Mount  
+597-1269  
+Display mounting Post  
+2501-0453  
+RAM MOUNT,1 1/2 D. BALL,2 1/2D. BASE  
+5200-39-052-HH  
+QUICK RELEASE TO RAM 1.5"  
+134694-00-HH  
+1.5 inch Ram Ball to Quick Release for T70 and TSC710  
+A  
+B  
+C  
+D  
+E  
+F  
+G  
+H  
+I  
+F  
+E  
+D  
+G  
+A  
+B  
+C  
+I  
+H  
+
+-----
+
+-----
+
+# Trimble Earthworks - Submersible
+
+  
+https://community.trimble.com/distributors/communities/community-home/librarydocuments/viewdocument?DocumentKey=cb819fbe-2157-41f2-b82a-f7d21d268099\&CommunityKey=e9935f5b-0bcb-495b-89b4-7f51a9575c58\&tab=librarydocuments     
+Kit - Housing Parts, Excavator, 20m Submersible GS5XX  
+SubKit - Fittings, Excavator, 20m Submersible, GS5XX  
+Weld Plate, Submersible - 2 Pack  
+170856-02  
+160015-509  
+160015-510  
+170850-06  
+Housing - GS52X, Submersible Raised Lid  
+170855-06  
+Housing - GS52X, Submersible Flat Lid  
+99930  
+Hose - 1/2", 25M, with Couplings  
+150417-300  
+Cable - 30M, 4 Pin Recp - 5 Soc M12 Recp  
+150473-020  
+Cable - Extension, Gel, 2M, 4 Pin Recp,4 Soc Plug  
+160015-506  
+Kit - Add-on,Two Piece Boom or Single Boom, Generic, Excavator, V3.0  
+A  
+B  
+C  
+D  
+E  
+F  
+G  
+H  
+I  
+D  
+E  
+I  
+C  
+F  
+A  
+B  
+
+-----
+
+-----
+
+# Trimble Earthworks - Swing Boom
+
+  
+https://community.trimble.com/distributors/viewdocument/product-bulletin-trimble-earthworks-grade-control-platform-excavator-swing-boom-sensor?CommunityKey=e9935f5b-0bcb-495b-89b4-7f51a9575c58\&tab=librarydocuments\&mkt\_tok=MTY4LUNSSi01ODYAAAGiM7sD9DCgDQqDvF\_6fhL0mo4K\_zvQTpmh9w\_N\_8Z4AfKaf6GhfxrabKppVM562YpWWGkBBUr2RjBBd6m0XBAr1r-EMVtnDL6MyqidGahCg3hqFA    
+133088-00  
+  
+FRU, ANGLE SENSOR, RS510  
+  
+133812-100  
+  
+KIT-Install, RS510 Mounting, HEX Generic  
+  
+150473-040  
+  
+Cable - Extension, Gel, 4M, 4 Pin Recp,4 Soc Plug  
+  
+The dynamic swing boom configuration requires Trimble Earthworks version 2.24.1 and 3D Trimble Earthworks Licensing  
+  
+
+-----
+
+-----
+
+# Trimble Roadworks - Pavers
+
+  
+https://community.trimble.com/distributors/viewdocument/trimble-roadworks-and-cat-grade-for-asphalt-pavers-and-mills-cold-planers-trimble-roadworks-and-cat-compact-for-asphalt-compactors-version-2-24-x-release-package?CommunityKey=e9935f5b-0bcb-495b-89b4-7f51a9575c58\&tab=librarydocuments     
+
+-----
+
+-----
+
+# Trimble Roadworks - Mills & Planers
+
+  
+https://community.trimble.com/distributors/viewdocument/trimble-roadworks-and-cat-grade-for-asphalt-pavers-and-mills-cold-planers-trimble-roadworks-and-cat-compact-for-asphalt-compactors-version-2-24-x-release-package?CommunityKey=e9935f5b-0bcb-495b-89b4-7f51a9575c58\&tab=librarydocuments     
+
+-----
+
+-----
+
+# Trimble Roadworks - Compactors
+
+  
+https://community.trimble.com/distributors/viewdocument/trimble-roadworks-and-cat-grade-for-asphalt-pavers-and-mills-cold-planers-trimble-roadworks-and-cat-compact-for-asphalt-compactors-version-2-24-x-release-package?CommunityKey=e9935f5b-0bcb-495b-89b4-7f51a9575c58\&tab=librarydocuments     
+
+-----
+
+-----
+
+# Trimble Roadworks - Common
+
+  
+72429-01  
+  
+FRU - Angle Sensor, AS200, V5.200  
+  
+Reads and maintains the constant slope of the body or screed of the machine during operation.  
+  
+  
+  
+  
+  
+79701-00  
+  
+FRU - Angle Sensor, AS450  
+74711-01  
+  
+Kit - Install, Asphalt Paver, Trimble Ready, Sonic Sensor w/o Brackets, PCS  
+  
+Use ultrasound to maintain a benched elevation between the sensor and matched surface.  
+  
+  
+  
+  
+72431-01  
+  
+FRU - Contact Sensor, CS200 V4.300 w/ Attachments, Trimble  
+  
+Mechanically trace a surface with the surface beam or a stringline with the wand sensing tube.  
+  
+84420-10  
+  
+FRU - Sensor Module, GS420  
+  
+400320-10  
+  
+FRU - Compaction Sensor CM320 w/ Adaptor Cable  
+  
+The CM320 compaction sensor is an accelerometer based sensor that provides unitless readings that gives an indication of the stiffness of the material being compacted. The CM320 does not require an in-field calibration.  
+  
+55557-00  
+  
+FRU - Infrared Sensor, IS310  
+  
+Infrared temperature sensor.  
+https://community.trimble.com/distributors/viewdocument/trimble-roadworks-and-cat-grade-for-asphalt-pavers-and-mills-cold-planers-trimble-roadworks-and-cat-compact-for-asphalt-compactors-version-2-24-x-release-package?CommunityKey=e9935f5b-0bcb-495b-89b4-7f51a9575c58\&tab=librarydocuments     
+95521-10  
+  
+FRU - Sensor Module, GS521  
+  
+GS521 Inertial Measurement Unit (IMU)  
+  
+Minimum Trimble Roadworks firmware version = v2.23.x  
+  
+Click HERE for more  
+
+-----
+
+-----
+
+# Trimble Groundworks
+
+  
+https://community.trimble.com/viewdocument/groundworks-sales-training-20-dayt?CommunityKey=8fe52312-7779-432f-9cb1-28d16ff1da5e\&tab=librarydocuments   
+
+-----
+
+-----
+
+# Trimble Groundworks
+
+  
+https://community.trimble.com/viewdocument/groundworks-sales-training-20-dayt?CommunityKey=8fe52312-7779-432f-9cb1-28d16ff1da5e\&tab=librarydocuments   
+
+-----
+
+-----
+
+GW-MPS566-2-50  
+  
+GNSS Heading Receiver - MPS566-2, Dual Band UHF  
+  
+Used with Zephyr 3 Rugged Antennas  
+  
+  
+CAN to ETH converter  
+6 port Eth switch IP66  
+Power Conditioner - Rugged Isolated 24 Vdc for machine electronic  
+92299-90  
+92299-85  
+92299-80  
+92303-10  
+Sensor - TS900 Dual Axis Tilt Sensor  
+93057  
+Bracket - Dual GNSS Antenna Mast Mount Bracket, 1.35m Spacing  
+130021  
+Cable - TMC, Power   
+131637-030  
+Cable - TMC, Axiomatic, CAN/ETH/Power 3m  
+B  
+C  
+D  
+F  
+H  
+132339-005  
+Cable Ethernet- 0.5m, M12A-8P(M) to M12A-8P(M) \[Additional Lengths Available\]  
+A  
+B  
+C  
+D  
+E  
+F  
+TABV12-101-I7-GW  
+VERSO 12 Touch Display w/Groundworks software, 4G (Americas), 11th GEN i7 \[Not compatible with JB900 cabling\]  
+A  
+G  
+H  
+I  
+
+# Trimble Groundworks - Common
+
+  
+92311-75  
+Sensor - IO900, I/O Box (6 Inputs / 2 Outputs)  
+J  
+J  
+132343  
+Cable - PWR and SIG, 3.0 M, 26-PIN\_TO\_SAE\_AND\_M12\_A-CODE\_8-PIN  
+K  
+K  
+https://community.trimble.com/viewdocument/groundworks-sales-training-20-dayt?CommunityKey=8fe52312-7779-432f-9cb1-28d16ff1da5e\&tab=librarydocuments   
+89073-00  
+G  
+Cable - Splitter, 0.25m, SAE to SAE/SAE  
+L  
+I  
+Cable - Harness, TMC Cutter Dredge  
+160702-030  
+E  
+M  
+M  
+L  
+
+-----
+
+-----
+
+MAR-MPS566-2-50  
+  
+GNSS Heading Receiver - MPS566-2, Dual Band UHF  
+  
+Used with Zephyr 3 Rugged Antennas  
+  
+  
+CAN to ETH converter  
+6 port Eth switch IP66  
+Power Conditioner - Rugged Isolated 24 Vdc for machine electronic  
+92299-90  
+92299-85  
+92299-80  
+107783-11-HH  
+Angle Sensor - LR970B  
+133500-01  
+Kit - Multi-turn Sensors for Cable Drums   
+130021  
+Cable - TMC, Power   
+131637-030  
+Cable - TMC, Axiomatic, CAN/ETH/Power 3m  
+B  
+C  
+D  
+F  
+G  
+H  
+132339-005  
+Cable Ethernet- 0.5m, M12A-8P(M) to M12A-8P(M)   
+A  
+B  
+
+# Trimble Marine - Common
+
+  
+C  
+D  
+E  
+E  
+F  
+133500-03  
+Kit - Proximity Sensors for Barge Heading (Slew ring)   
+133500-02  
+Kit - Proximity Sensors for Cable Drums  
+A  
+G  
+H  
+I  
+I  
+https://community.trimble.com/distributors/viewdocument/trimble-marine-construction-systems-1?CommunityKey=e9935f5b-0bcb-495b-89b4-7f51a9575c58\&tab=librarydocuments   
+TMC (Trimble Marine Construction) components and software are available to authorized dealers only.  
+
+-----
+
+-----
+
+-----
+
+-----
+
+-----
+
+-----
+
+-----
+
+-----
+
+-----
+
+-----
+
+-----
+
+-----
+
+-----

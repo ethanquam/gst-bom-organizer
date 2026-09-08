@@ -21,6 +21,7 @@ This is an unofficial internal helper, not a Trimble product. Use a private repo
 1. In File Explorer, go to this folder: `GST Optimization`.
 2. Double-click `index.html`.
 3. It should open in Chrome or Edge.
+4. Choose **Machines** or **Site Positioning** in the header before you paste or load a sample. The profile updates hints, sample data, and configuration field order.
 
 If it does not open in a browser:
 
@@ -80,6 +81,7 @@ The last configuration, list, and notes stay in this browser if you refresh. Cli
 
 ## What the buttons do
 
+- **Machines / Site Positioning** — switches GST workflow profile. Changes paste hints, sample list, and how configuration fields sort on **Organize list**. Your parts table and exports stay the same.
 - **Configuration summary** — paste the GST sidebar block (`Application:`, `Manufacturer:`, `Factory Fit Level:`, and so on). **Organize list** sorts fields into GST order.
 - **Organize list** — turns configuration paste and parts paste into editable fields and columns.
 - **Load sample list** — drops in the fake demo list and sample notes.

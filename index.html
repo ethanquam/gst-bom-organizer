@@ -23,13 +23,15 @@
           height="36"
         />
         <div class="header-copy">
-          <h1>GST BOM Organizer</h1>
+          <h1>GST BOM Organizer <span class="beta-label">(Beta)</span></h1>
           <p class="subtitle">
-            Paste configuration, notes, and parts from the Guided Selling Tool. GST cannot go back — capture notes as you go.
+            Paste configuration, notes, and parts from GST (Guided Selling Tool) into a clean BOM (Bill of Materials). GST cannot go back — capture notes as you go.
           </p>
         </div>
       </div>
-      <p id="save-note" class="save-note" hidden>Saved in this browser</p>
+      <div class="header-actions">
+        <p id="save-note" class="save-note" hidden>Saved in this browser</p>
+      </div>
     </header>
 
     <main class="layout" id="app-layout">
@@ -37,31 +39,31 @@
         <div class="paste-panel" id="paste-panel">
           <div class="paste-panel-toolbar">
             <span class="paste-panel-title">GST input</span>
-            <button type="button" id="btn-hide-inputs" class="btn btn-compact" title="Hide input panel">Hide inputs ◀</button>
+            <button type="button" id="btn-hide-inputs" class="btn btn-gold" title="Hide input panel">Hide inputs ◀</button>
           </div>
           <div class="paste-stack">
             <div class="paste-block" id="paste-block-config">
               <div class="pane-head">
                 <h2 id="config-paste-heading">1. Paste configuration summary</h2>
-                <p class="hint">
-                  From the final GST screen, copy the configuration block on the right (product type, manufacturer,
-                  factory fit, model, serial, options). Each line is <strong>Label:</strong> then the value.
-                  Click <strong>Organize list</strong> to sort fields into GST order.
+                <p class="hint" id="config-paste-hint">
+                  From the final GST screen, copy the configuration block on the right. Each line is
+                  <strong>Label:</strong> then the value. Click <strong>Organize list</strong> — field order is chosen
+                  automatically for Machines or Site Positioning.
                 </p>
               </div>
               <textarea
                 id="config-paste-box"
                 spellcheck="false"
-                placeholder="Application:	Trimble Earthworks - Excavator&#10;Manufacturer:	Caterpillar&#10;Factory Fit Level:	Cat Grade 2D Assist (Basic 2D)"
+                placeholder="Application:	Trimble Earthworks - Excavator&#10;Manufacturer:	Caterpillar&#10;Factory Fit Level:	Cat Grade 2D Assist (Basic 2D)&#10;&#10;—or—&#10;&#10;Product Line:	GNSS Receiver&#10;Receiver Model:	R780&#10;Receiver Configuration:	:R780 Model 2 450/900Mhz Radio&#10;Accessory Package Option:	No Accessory Package"
               ></textarea>
             </div>
             <div class="paste-block" id="paste-block-notes">
               <div class="pane-head">
                 <h2 id="notes-heading">2. Paste configuration notes</h2>
-                <p class="hint">
+                <p class="hint" id="notes-paste-hint">
                   Copy GST notes as you work through each step (serial range, factory fit warnings, licensing, SNM941
                   compliance, and so on). GST has no back button — if you miss a note, you start over. Web links stay as
-                  real addresses. Hold Ctrl and click a link to open it.
+                  real addresses. Hold Ctrl- or ⌘-click a link to open it.
                 </p>
               </div>
               <div
@@ -79,7 +81,8 @@
               <div class="pane-head">
                 <h2 id="paste-heading">3. Paste parts table</h2>
                 <p class="hint">
-                  In GST, select the parts table, copy it (Ctrl+C), then click in this box and paste (Ctrl+V).
+                  In GST, <strong>select / highlight the parts table</strong>, copy it (Ctrl+C or ⌘C), then click in
+                  this box and paste (Ctrl+V or ⌘V).
                 </p>
               </div>
               <textarea
@@ -91,8 +94,7 @@
           </div>
           <div class="button-row">
             <button type="button" id="btn-organize" class="btn primary">Organize list</button>
-            <button type="button" id="btn-sample" class="btn">Load sample list</button>
-            <button type="button" id="btn-clear" class="btn danger">Clear</button>
+            <button type="button" id="btn-clear" class="btn danger" data-table-action="clear">Clear</button>
           </div>
         </div>
       </section>
@@ -112,7 +114,7 @@
             </button>
             <div class="config-summary-labels">
               <h2 class="config-summary-title">Configuration</h2>
-              <p class="hint config-summary-hint">Edit fields below. Organize list sorts into GST order.</p>
+              <p class="hint config-summary-hint" id="config-summary-hint">Edit fields below. Organize list sorts into GST order.</p>
               <p class="hint config-summary-preview" id="config-summary-preview" hidden></p>
             </div>
             <button type="button" id="btn-add-config-field" class="btn">Add field</button>
@@ -123,26 +125,23 @@
           <div>
             <h2 id="table-heading">4. Clean list</h2>
             <p id="row-count" class="hint">No lines yet. Paste a list, then click Organize list.</p>
-            <p class="hint table-reorder-hint">Drag any row or column header to reorder. A gold highlight shows where it will land.</p>
+            <p class="hint table-reorder-hint">Drag any row or column header to reorder. Drag a column edge to resize. A gold highlight shows where a reorder will land.</p>
           </div>
           <div class="button-row wrap table-toolbar">
-            <button type="button" id="btn-show-inputs" class="btn" hidden title="Show GST input panel">Show GST inputs</button>
-            <div class="zoom-wrap" aria-label="Table zoom">
-              <button type="button" id="btn-zoom-out" class="btn btn-icon" title="Zoom out" aria-label="Zoom out">−</button>
-              <span id="zoom-label" class="zoom-label">100%</span>
-              <button type="button" id="btn-zoom-in" class="btn btn-icon" title="Zoom in" aria-label="Zoom in">+</button>
-              <button type="button" id="btn-zoom-reset" class="btn btn-compact" title="Reset zoom">Reset</button>
-            </div>
+            <button type="button" id="btn-show-inputs" class="btn btn-gold" data-table-action="show-inputs" hidden title="Show GST input panel">Show GST inputs</button>
             <div class="columns-wrap">
-              <button type="button" id="btn-columns" class="btn" disabled>Columns</button>
+              <button type="button" id="btn-columns" class="btn" data-table-action="columns" disabled>Columns</button>
               <div id="columns-menu" class="columns-menu" hidden>
                 <button type="button" class="columns-show-all" id="btn-show-all">Show All</button>
                 <div class="columns-menu-list" id="columns-menu-list"></div>
               </div>
             </div>
-            <button type="button" id="btn-add-row" class="btn" disabled>Add row</button>
+            <button type="button" id="btn-add-row" class="btn" data-table-action="add-row" disabled>Add row</button>
+            <button type="button" id="btn-auto-sort" class="btn btn-group" data-table-action="auto-group" disabled title="Group lines by store-style categories (receivers, option keys, antennas, cables, software, and more)">Auto-group</button>
+            <button type="button" id="btn-add-group-header" class="btn btn-group" data-table-action="add-group-header" disabled title="Insert an editable group header row">Add group header</button>
+            <button type="button" class="btn danger" data-table-action="clear">Clear</button>
             <div class="export-wrap">
-              <button type="button" id="btn-export" class="btn primary" disabled>Export</button>
+              <button type="button" id="btn-export" class="btn primary" data-table-action="export" disabled>Export list</button>
               <div id="export-menu" class="export-menu" hidden>
                 <button type="button" class="export-option" data-export-preset="excel">Excel / Sheets</button>
                 <button type="button" class="export-option" data-export-preset="word">Word / Docs</button>
@@ -161,6 +160,17 @@
             <p id="empty-table" class="empty-table">The clean table will show up here.</p>
           </div>
         </div>
+        <div class="list-footer">
+          <div class="button-row wrap table-toolbar table-toolbar-footer">
+            <button type="button" class="btn btn-gold" data-table-action="show-inputs" hidden title="Show GST input panel">Show GST inputs</button>
+            <button type="button" class="btn" data-table-action="columns" disabled>Columns</button>
+            <button type="button" class="btn" data-table-action="add-row" disabled>Add row</button>
+            <button type="button" class="btn btn-group" data-table-action="auto-group" disabled title="Group lines by store-style categories (receivers, option keys, antennas, cables, software, and more)">Auto-group</button>
+            <button type="button" class="btn btn-group" data-table-action="add-group-header" disabled title="Insert an editable group header row">Add group header</button>
+            <button type="button" class="btn danger" data-table-action="clear">Clear</button>
+            <button type="button" class="btn primary" data-table-action="export" disabled>Export list</button>
+          </div>
+        </div>
         <div id="copy-output-wrap" class="copy-output-wrap" hidden>
           <div class="pane-head copy-output-head">
             <button
@@ -176,7 +186,8 @@
             <div class="copy-output-labels">
               <h2 id="copy-output-heading">5. Copy organized text</h2>
               <p class="hint">
-                Configuration, notes, and parts in one block. Select all (Ctrl+A) and copy, or click
+                Configuration, notes, and parts in one block. Select all (Ctrl+A or ⌘A) and copy (Ctrl+C or
+                ⌘C), or click
                 <strong>Copy all</strong>, then paste into your quoting tool or email.
               </p>
             </div>
@@ -193,6 +204,8 @@
       </section>
     </main>
 
+    <script src="data/trimble-components-catalog.js"></script>
+    <script src="data/group-data.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
