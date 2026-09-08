@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GST BOM Organizer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400;1,600&display=swap"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-brand">
+        <img
+          class="brand-logo"
+          src="brand/trimble-logo-white.png"
+          alt="Trimble"
+          width="160"
+          height="36"
+        />
+        <div class="header-copy">
+          <h1>GST BOM Organizer</h1>
+          <p class="subtitle">
+            Paste configuration, notes, and parts from the Guided Selling Tool. GST cannot go back — capture notes as you go.
+          </p>
+        </div>
+      </div>
+      <p id="save-note" class="save-note" hidden>Saved in this browser</p>
+    </header>
+
+    <main class="layout" id="app-layout">
+      <section class="pane pane-paste" id="pane-paste">
+        <div class="paste-panel" id="paste-panel">
+          <div class="paste-panel-toolbar">
+            <span class="paste-panel-title">GST input</span>
+            <button type="button" id="btn-hide-inputs" class="btn btn-compact" title="Hide input panel">Hide inputs ◀</button>
+          </div>
+          <div class="paste-stack">
+            <div class="paste-block" id="paste-block-config">
+              <div class="pane-head">
+                <h2 id="config-paste-heading">1. Paste configuration summary</h2>
+                <p class="hint">
+                  From the final GST screen, copy the configuration block on the right (product type, manufacturer,
+                  factory fit, model, serial, options). Each line is <strong>Label:</strong> then the value.
+                  Click <strong>Organize list</strong> to sort fields into GST order.
+                </p>
+              </div>
+              <textarea
+                id="config-paste-box"
+                spellcheck="false"
+                placeholder="Application:	Trimble Earthworks - Excavator&#10;Manufacturer:	Caterpillar&#10;Factory Fit Level:	Cat Grade 2D Assist (Basic 2D)"
+              ></textarea>
+            </div>
+            <div class="paste-block" id="paste-block-notes">
+              <div class="pane-head">
+                <h2 id="notes-heading">2. Paste configuration notes</h2>
+                <p class="hint">
+                  Copy GST notes as you work through each step (serial range, factory fit warnings, licensing, SNM941
+                  compliance, and so on). GST has no back button — if you miss a note, you start over. Web links stay as
+                  real addresses. Hold Ctrl and click a link to open it.
+                </p>
+              </div>
+              <div
+                id="notes-box"
+                class="notes-box is-empty"
+                contenteditable="true"
+                spellcheck="true"
+                role="textbox"
+                aria-multiline="true"
+                aria-labelledby="notes-heading"
+                data-placeholder="Paste quote notes here…"
+              ></div>
+            </div>
+            <div class="paste-block" id="paste-block-parts">
+              <div class="pane-head">
+                <h2 id="paste-heading">3. Paste parts table</h2>
+                <p class="hint">
+                  In GST, select the parts table, copy it (Ctrl+C), then click in this box and paste (Ctrl+V).
+                </p>
+              </div>
+              <textarea
+                id="paste-box"
+                spellcheck="false"
+                placeholder="Paste the GST parts table here…"
+              ></textarea>
+            </div>
+          </div>
+          <div class="button-row">
+            <button type="button" id="btn-organize" class="btn primary">Organize list</button>
+            <button type="button" id="btn-sample" class="btn">Load sample list</button>
+            <button type="button" id="btn-clear" class="btn danger">Clear</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="pane pane-table pane-list" aria-labelledby="table-heading">
+        <div id="config-summary" class="config-summary" hidden>
+          <div class="config-summary-head">
+            <button
+              type="button"
+              class="section-collapse-btn"
+              id="btn-toggle-config-summary"
+              aria-expanded="true"
+              aria-controls="config-body"
+              title="Collapse configuration"
+            >
+              <span class="section-chevron" aria-hidden="true">▼</span>
+            </button>
+            <div class="config-summary-labels">
+              <h2 class="config-summary-title">Configuration</h2>
+              <p class="hint config-summary-hint">Edit fields below. Organize list sorts into GST order.</p>
+              <p class="hint config-summary-preview" id="config-summary-preview" hidden></p>
+            </div>
+            <button type="button" id="btn-add-config-field" class="btn">Add field</button>
+          </div>
+          <div id="config-body" class="config-body"></div>
+        </div>
+        <div class="pane-head pane-head-row">
+          <div>
+            <h2 id="table-heading">4. Clean list</h2>
+            <p id="row-count" class="hint">No lines yet. Paste a list, then click Organize list.</p>
+            <p class="hint table-reorder-hint">Drag any row or column header to reorder. A gold highlight shows where it will land.</p>
+          </div>
+          <div class="button-row wrap table-toolbar">
+            <button type="button" id="btn-show-inputs" class="btn" hidden title="Show GST input panel">Show GST inputs</button>
+            <div class="zoom-wrap" aria-label="Table zoom">
+              <button type="button" id="btn-zoom-out" class="btn btn-icon" title="Zoom out" aria-label="Zoom out">−</button>
+              <span id="zoom-label" class="zoom-label">100%</span>
+              <button type="button" id="btn-zoom-in" class="btn btn-icon" title="Zoom in" aria-label="Zoom in">+</button>
+              <button type="button" id="btn-zoom-reset" class="btn btn-compact" title="Reset zoom">Reset</button>
+            </div>
+            <div class="columns-wrap">
+              <button type="button" id="btn-columns" class="btn" disabled>Columns</button>
+              <div id="columns-menu" class="columns-menu" hidden>
+                <button type="button" class="columns-show-all" id="btn-show-all">Show All</button>
+                <div class="columns-menu-list" id="columns-menu-list"></div>
+              </div>
+            </div>
+            <button type="button" id="btn-add-row" class="btn" disabled>Add row</button>
+            <div class="export-wrap">
+              <button type="button" id="btn-export" class="btn primary" disabled>Export</button>
+              <div id="export-menu" class="export-menu" hidden>
+                <button type="button" class="export-option" data-export-preset="excel">Excel / Sheets</button>
+                <button type="button" class="export-option" data-export-preset="word">Word / Docs</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
+        <div class="list-workspace" id="list-workspace">
+          <div class="table-wrap" id="table-wrap">
+            <table id="bom-table">
+              <thead></thead>
+              <tbody></tbody>
+              <tfoot></tfoot>
+            </table>
+            <p id="empty-table" class="empty-table">The clean table will show up here.</p>
+          </div>
+        </div>
+        <div id="copy-output-wrap" class="copy-output-wrap" hidden>
+          <div class="pane-head copy-output-head">
+            <button
+              type="button"
+              class="section-collapse-btn"
+              id="btn-toggle-copy-output"
+              aria-expanded="true"
+              aria-controls="copy-output-box"
+              title="Collapse copy text"
+            >
+              <span class="section-chevron" aria-hidden="true">▼</span>
+            </button>
+            <div class="copy-output-labels">
+              <h2 id="copy-output-heading">5. Copy organized text</h2>
+              <p class="hint">
+                Configuration, notes, and parts in one block. Select all (Ctrl+A) and copy, or click
+                <strong>Copy all</strong>, then paste into your quoting tool or email.
+              </p>
+            </div>
+            <button type="button" id="btn-copy-all" class="btn primary">Copy all</button>
+          </div>
+          <textarea
+            id="copy-output-box"
+            class="copy-output-box"
+            readonly
+            spellcheck="false"
+            aria-labelledby="copy-output-heading"
+          ></textarea>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
