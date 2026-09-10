@@ -14,7 +14,9 @@ To share with Trimble staff only—not as a public site—use **Cloudflare Pages
 
 Full setup: **[docs/cloudflare-access-setup.md](docs/cloudflare-access-setup.md)**
 
-This is an unofficial internal helper, not a Trimble product. Use a private repo and an Access-protected hostname.
+**Email access gate (Netlify + Google Apps Script):** **[docs/access-gate-setup.md](docs/access-gate-setup.md)** — auto-approve `@trimble.com`, manual approval for others. Gate activates after you set `appsScriptUrl` in `access-config.js`.
+
+This is an unofficial internal helper, not a Trimble product. Use a private repo and controlled access (email gate or Cloudflare Access).
 
 ## Open the page locally
 

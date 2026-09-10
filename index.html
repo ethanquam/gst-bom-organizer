@@ -210,8 +210,57 @@
       </section>
     </main>
 
-    <script src="data/trimble-components-catalog.js"></script>
-    <script src="data/group-data.js"></script>
-    <script src="app.js"></script>
+    <div id="access-gate" class="access-gate" hidden>
+      <div class="access-gate-dialog" role="dialog" aria-modal="true" aria-labelledby="access-gate-title">
+        <h2 id="access-gate-title" class="access-gate-title">Verify access</h2>
+        <p id="access-gate-message" class="access-gate-message">
+          Enter your work email to open this tool.
+        </p>
+        <p id="access-gate-error" class="access-gate-error" hidden></p>
+
+        <div id="access-step-email" class="access-gate-step">
+          <label class="access-label" for="access-email">Work email</label>
+          <input
+            type="email"
+            id="access-email"
+            class="access-input"
+            autocomplete="email"
+            placeholder="you@trimble.com"
+          />
+          <button type="button" id="access-btn-request" class="btn primary access-btn">Request access</button>
+        </div>
+
+        <div id="access-step-code" class="access-gate-step" hidden>
+          <p class="access-hint">Code sent to <strong id="access-email-display"></strong></p>
+          <label class="access-label" for="access-code">6-digit code</label>
+          <input
+            type="text"
+            id="access-code"
+            class="access-input access-input-code"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            maxlength="6"
+            placeholder="000000"
+          />
+          <div class="access-gate-actions">
+            <button type="button" id="access-btn-verify" class="btn primary access-btn">Verify code</button>
+            <button type="button" id="access-btn-resend" class="btn">Resend code</button>
+            <button type="button" id="access-btn-change-email" class="btn">Change email</button>
+          </div>
+        </div>
+
+        <div id="access-step-pending" class="access-gate-step" hidden>
+          <p class="access-hint">
+            Non-Trimble addresses need manual approval. You will receive email when access is granted.
+          </p>
+          <button type="button" id="access-btn-change-email-pending" class="btn">
+            Use a different email
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="access-config.js"></script>
+    <script src="access-gate.js"></script>
   </body>
 </html>

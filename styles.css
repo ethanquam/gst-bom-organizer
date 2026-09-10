@@ -73,6 +73,116 @@ body {
   font-weight: 600;
 }
 
+body.access-pending #app-layout {
+  visibility: hidden;
+}
+
+body.access-locked #app-layout {
+  pointer-events: none;
+  user-select: none;
+  visibility: visible;
+}
+
+.access-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(37, 42, 46, 0.55);
+}
+
+.access-gate.is-busy {
+  cursor: wait;
+}
+
+.access-gate-dialog {
+  width: min(100%, 26rem);
+  padding: 1.35rem 1.5rem 1.5rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow: 0 12px 40px rgba(37, 42, 46, 0.18);
+}
+
+.access-gate-title {
+  margin: 0 0 0.5rem;
+  font-size: var(--type-subhead);
+  font-weight: 600;
+  letter-spacing: var(--track-heading);
+  color: var(--ink);
+}
+
+.access-gate-message {
+  margin: 0 0 1rem;
+  font-size: var(--type-body);
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.access-gate-error {
+  margin: 0 0 0.85rem;
+  padding: 0.55rem 0.7rem;
+  font-size: var(--type-body);
+  color: #da212c;
+  background: #fff5f6;
+  border-left: 3px solid #da212c;
+}
+
+.access-gate-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.access-label {
+  font-size: var(--type-body);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.access-input {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  font-family: var(--font);
+  font-size: var(--type-body);
+  letter-spacing: var(--track-body);
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.access-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 0;
+  border-color: var(--accent);
+}
+
+.access-input-code {
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-align: center;
+}
+
+.access-hint {
+  margin: 0;
+  font-size: var(--type-body);
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.access-gate-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.access-btn {
+  align-self: flex-start;
+}
+
 .app-header {
   display: flex;
   justify-content: space-between;
