@@ -94,6 +94,13 @@ body.access-locked #app-layout {
   background: rgba(37, 42, 46, 0.55);
 }
 
+/* display:flex above overrides the browser [hidden] rule — keep this. */
+.access-gate[hidden],
+.access-gate-step[hidden],
+.access-gate-error[hidden] {
+  display: none !important;
+}
+
 .access-gate.is-busy {
   cursor: wait;
 }

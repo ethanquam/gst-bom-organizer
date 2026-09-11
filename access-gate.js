@@ -65,6 +65,14 @@
   function jsonp(action, params) {
     var c = cfg();
     return new Promise(function (resolve, reject) {
+      if (!c.appsScriptUrl || !/^https?:\/\//i.test(c.appsScriptUrl)) {
+        reject(
+          new Error(
+            "Access service is not configured yet. Set appsScriptUrl in access-config.js (see docs/access-gate-setup.md)."
+          )
+        );
+        return;
+      }
       var callbackName =
         "gstAccessCb_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
       var url = new URL(c.appsScriptUrl);
