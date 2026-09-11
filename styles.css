@@ -138,6 +138,16 @@ body.access-locked #app-layout {
   color: var(--muted);
 }
 
+.access-gate-expiry {
+  margin: -0.35rem 0 1rem;
+  padding: 0.55rem 0.7rem;
+  font-size: var(--type-body);
+  line-height: 1.45;
+  color: var(--ink);
+  background: var(--stage);
+  border-left: 3px solid var(--accent);
+}
+
 .access-gate-error {
   margin: 0 0 0.85rem;
   padding: 0.55rem 0.7rem;

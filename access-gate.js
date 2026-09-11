@@ -115,6 +115,7 @@
     return {
       gate: document.getElementById("access-gate"),
       message: document.getElementById("access-gate-message"),
+      expiry: document.getElementById("access-gate-expiry"),
       error: document.getElementById("access-gate-error"),
       emailStep: document.getElementById("access-step-email"),
       codeStep: document.getElementById("access-step-code"),
@@ -137,6 +138,72 @@
     if (ui.btnVerify) ui.btnVerify.disabled = busy;
     if (ui.btnResend) ui.btnResend.disabled = busy;
     if (ui.gate) ui.gate.classList.toggle("is-busy", busy);
+  }
+
+  function grantDays() {
+    var days = Number(cfg().accessGrantDays);
+    return days > 0 ? days : 28;
+  }
+
+  function formatAccessDate(isoOrDate) {
+    var date = isoOrDate instanceof Date ? isoOrDate : new Date(isoOrDate);
+    if (isNaN(date.getTime())) return "";
+    try {
+      return date.toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    } catch (err) {
+      return date.toISOString().slice(0, 10);
+    }
+  }
+
+  function estimatedExpiryDate() {
+    var date = new Date();
+    date.setDate(date.getDate() + grantDays());
+    return date;
+  }
+
+  function setExpiryNote(text) {
+    var ui = els();
+    if (!ui.expiry) return;
+    if (!text) {
+      ui.expiry.hidden = true;
+      ui.expiry.textContent = "";
+      return;
+    }
+    ui.expiry.hidden = false;
+    ui.expiry.textContent = text;
+  }
+
+  function expiryNoteForVerify() {
+    var days = grantDays();
+    var until = formatAccessDate(estimatedExpiryDate());
+    return (
+      "After you verify, access lasts " +
+      days +
+      " days" +
+      (until ? " (until about " + until + ")" : "") +
+      "."
+    );
+  }
+
+  function expiryNoteForPending() {
+    var days = grantDays();
+    return (
+      "If approved, access lasts " +
+      days +
+      " days from when you verify your login code."
+    );
+  }
+
+  function expiryNoteForStart(expired) {
+    var days = grantDays();
+    if (expired) {
+      return "Verify again for another " + days + " days of access.";
+    }
+    return "Approved access lasts " + days + " days from verification.";
   }
 
   function showError(text) {
@@ -208,6 +275,7 @@
     lockApp();
     showError("");
     showStep("email");
+    setExpiryNote(expiryNoteForStart(state.expiredNotice));
 
     if (ui.message) {
       if (state.expiredNotice) {
@@ -298,6 +366,7 @@
           if (ui.message) {
             ui.message.textContent = "Enter the 6-digit code sent to your email.";
           }
+          setExpiryNote(expiryNoteForVerify());
           return;
         }
 
@@ -307,6 +376,7 @@
             ui.message.textContent =
               "Your request was sent for approval. You will receive email when access is granted.";
           }
+          setExpiryNote(expiryNoteForPending());
           return;
         }
 
@@ -369,6 +439,7 @@
         if (els().message) {
           els().message.textContent = "A new code was sent to your email.";
         }
+        setExpiryNote(expiryNoteForVerify());
       })
       .catch(function (err) {
         showError(err.message || "Could not resend code.");
@@ -386,6 +457,7 @@
     function goChangeEmail() {
       showStep("email");
       showError("");
+      setExpiryNote(expiryNoteForStart(false));
       if (ui.message) ui.message.textContent = "Enter your work email to continue.";
       if (ui.emailInput) ui.emailInput.focus();
     }
