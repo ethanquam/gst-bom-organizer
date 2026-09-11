@@ -6,7 +6,7 @@
     /* Paste your deployed Apps Script /exec URL after setup (see docs/access-gate-setup.md). */
     appsScriptUrl: "",
 
-    appUrl: "https://gstbomorganizer.netlify.app",
+    appUrl: "https://ethanquam.github.io/gst-bom-organizer/",
     appName: "GST BOM Organizer",
     sessionKey: "gst-app-access-v1",
     accessGrantDays: 28,

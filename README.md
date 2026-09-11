@@ -4,19 +4,19 @@ This is a local web page for cleaning up bill of materials lists copied from Tri
 
 Nothing leaves your computer when you use the local copy. There is no login on `index.html` opened from your PC.
 
-## Host internally (Cloudflare Pages + Access)
+## Host on GitHub Pages (recommended)
 
-To share with Trimble staff only—not as a public site—use **Cloudflare Pages** with **Cloudflare Access (Zero Trust)**:
+Same pattern as Dynamic Converter: push to `main` → GitHub Actions publishes the site.
 
-- Allow **`@trimble.com`** emails (or a named list)
-- One-time PIN or Trimble **Microsoft / Entra** SSO
-- Static hosting; no app server
+**Live URL:** https://ethanquam.github.io/gst-bom-organizer/
 
-Full setup: **[docs/cloudflare-access-setup.md](docs/cloudflare-access-setup.md)**
+Setup notes: **[docs/github-pages-setup.md](docs/github-pages-setup.md)**
 
-**Email access gate (Netlify + Google Apps Script):** **[docs/access-gate-setup.md](docs/access-gate-setup.md)** — auto-approve `@trimble.com`, manual approval for others. Gate activates after you set `appsScriptUrl` in `access-config.js`.
+**Email access gate:** **[docs/access-gate-setup.md](docs/access-gate-setup.md)** — auto-approve `@trimble.com`, manual approval for others. Gate activates after you set `appsScriptUrl` in `access-config.js`.
 
-This is an unofficial internal helper, not a Trimble product. Use a private repo and controlled access (email gate or Cloudflare Access).
+Optional later: Cloudflare Access if IT grants Zero Trust — **[docs/cloudflare-access-setup.md](docs/cloudflare-access-setup.md)**.
+
+This is an unofficial internal helper, not a Trimble product. Use the email gate (or Cloudflare Access) to control who can use the live site.
 
 ## Open the page locally
 

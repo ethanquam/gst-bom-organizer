@@ -1,15 +1,17 @@
 # Email access gate (Google Apps Script)
 
-This adds an email + 6-digit code gate in front of the GST BOM Organizer on Netlify. Trimble addresses (`@trimble.com`, including subdomains) are auto-approved; other domains email **ethan_quam@trimble.com** for Grant/Deny.
+This adds an email + 6-digit code gate in front of the GST BOM Organizer on **GitHub Pages**. Trimble addresses (`@trimble.com`, including subdomains) are auto-approved; other domains email **ethan_quam@trimble.com** for Grant/Deny.
 
-**Local use** (`file://`, `localhost`) skips the gate. On Netlify, the gate turns on after you set `appsScriptUrl` in `access-config.js`.
+**Local use** (`file://`, `localhost`) skips the gate. On GitHub Pages, the gate turns on after you set `appsScriptUrl` in `access-config.js`.
+
+**Live URL:** https://ethanquam.github.io/gst-bom-organizer/
 
 ---
 
 ## What you need
 
 - Trimble Google Workspace account (for Apps Script + Gmail)
-- Netlify site: `https://gstbomorganizer.netlify.app`
+- GitHub Pages site (same pattern as Dynamic Converter)
 - ~20 minutes
 
 ---
@@ -30,7 +32,7 @@ This adds an email + 6-digit code gate in front of the GST BOM Organizer on Netl
 4. Edit `CONFIG` at the top:
    - `SPREADSHEET_ID` — your sheet ID
    - `RECIPIENT_EMAIL` — `ethan_quam@trimble.com`
-   - `APP_URL` — `https://gstbomorganizer.netlify.app`
+   - `APP_URL` — `https://ethanquam.github.io/gst-bom-organizer/`
 5. **Save** the project (name it e.g. `GST BOM Access`).
 
 ---
@@ -53,7 +55,7 @@ This adds an email + 6-digit code gate in front of the GST BOM Organizer on Netl
 appsScriptUrl: "https://script.google.com/macros/s/AKfycb.../exec",
 ```
 
-3. Commit and push — Netlify redeploys automatically.
+3. Commit and push to **`main`** — GitHub Actions redeploys Pages automatically.
 
 The gate is **off** until `appsScriptUrl` is set, so you can deploy safely first.
 
@@ -61,7 +63,7 @@ The gate is **off** until `appsScriptUrl` is set, so you can deploy safely first
 
 ## Step 5 — Test
 
-1. Open the Netlify URL in a **private/incognito** window.
+1. Open https://ethanquam.github.io/gst-bom-organizer/ in a **private/incognito** window.
 2. Enter a `@trimble.com` address → you should receive a 6-digit code within a minute.
 3. Enter the code → the BOM tool loads.
 4. Test a personal email → you should see “pending approval” and receive a Grant/Deny email at `ethan_quam@trimble.com`.
@@ -101,10 +103,10 @@ Grant/Deny emails include a **revoke** link for each user. You can also delete t
 
 | Issue | Fix |
 |-------|-----|
-| Gate never appears | Set `appsScriptUrl` in `access-config.js` and redeploy |
+| Gate never appears | Set `appsScriptUrl` in `access-config.js` and push to `main` |
 | “Could not reach access service” | Redeploy script as **Anyone**; use `/exec` URL |
 | No email received | Check spam; confirm MailApp is allowed for your Workspace account |
-| Code always invalid | Server/client clock skew is rare; request a new code (30 min TTL) |
+| Code always invalid | Request a new code (30 min TTL) |
 | Tool loads without gate locally | Expected — gate is skipped on `file://` and localhost |
 
 ---

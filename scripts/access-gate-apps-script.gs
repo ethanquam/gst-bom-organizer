@@ -7,7 +7,7 @@
 var CONFIG = {
   SPREADSHEET_ID: "PASTE_SHEET_ID_HERE",
   RECIPIENT_EMAIL: "ethan_quam@trimble.com",
-  APP_URL: "https://gstbomorganizer.netlify.app",
+  APP_URL: "https://ethanquam.github.io/gst-bom-organizer/",
   APP_NAME: "GST BOM Organizer",
   AUTO_APPROVE_DOMAINS: ["trimble.com"],
   ACCESS_GRANT_DAYS: 28,
