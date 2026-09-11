@@ -73,6 +73,16 @@ body {
   font-weight: 600;
 }
 
+.beta-disclaimer a {
+  color: #da212c;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.beta-disclaimer a:hover {
+  color: #a81922;
+}
+
 body.access-pending #app-layout {
   visibility: hidden;
 }
