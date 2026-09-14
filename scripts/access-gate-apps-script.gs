@@ -70,13 +70,19 @@ function handleHttp_(e, asHtmlCallback) {
 function htmlCallback_(callbackName, result) {
   var name = String(callbackName || "").replace(/[^\w$]/g, "");
   if (!name) name = "gstAccessCb";
-  var payload = JSON.stringify(result).replace(/</g, "\\u003c");
+  var envelope = JSON.stringify({
+    source: "gst-bom-access",
+    callback: name,
+    payload: result,
+  }).replace(/</g, "\\u003c");
   return HtmlService.createHtmlOutput(
-    "<!DOCTYPE html><html><body><script>try{parent." +
-      name +
-      "(" +
-      payload +
-      ");}catch(e){}</script></body></html>"
+    "<!DOCTYPE html><html><head><meta charset='utf-8'></head><body><script>" +
+      "var msg=" +
+      envelope +
+      ";" +
+      "try{if(window.parent&&window.parent!==window){window.parent.postMessage(msg,'*');}}" +
+      "catch(e){}" +
+      "</script><p>OK</p></body></html>"
   )
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
     .setSandboxMode(HtmlService.SandboxMode.IFRAME);
@@ -89,9 +95,9 @@ function handleJsonAction(action, params) {
     case "access_verify":
       return accessVerify(params.email, params.code);
     case "access_set_password":
-      return accessSetPassword(params.email, params.setupToken, params.password);
+      return accessSetPassword(params.email, params.setupToken, passwordFromParams_(params));
     case "access_login":
-      return accessLogin(params.email, params.password);
+      return accessLogin(params.email, passwordFromParams_(params));
     case "access_check":
       return accessCheck(params.email, params.revalidate === "1");
     case "access_resend_code":
@@ -99,6 +105,20 @@ function handleJsonAction(action, params) {
     default:
       return { status: "error", message: "Unknown action: " + action };
   }
+}
+
+function passwordFromParams_(params) {
+  if (params && params.password) return String(params.password);
+  if (params && params.p) {
+    try {
+      var raw = String(params.p).replace(/-/g, "+").replace(/_/g, "/");
+      while (raw.length % 4) raw += "=";
+      return Utilities.newBlob(Utilities.base64Decode(raw)).getDataAsString("UTF-8");
+    } catch (err) {
+      return "";
+    }
+  }
+  return "";
 }
 
 function accessStart(emailRaw, reset) {

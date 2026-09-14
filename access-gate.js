@@ -84,7 +84,11 @@
     });
   }
 
-  /* Passwords go via POST iframe so they are not blocked in the page URL. */
+  function encodePasswordParam(password) {
+    return btoa(unescape(encodeURIComponent(String(password || ""))));
+  }
+
+  /* Passwords go via POST iframe; response uses postMessage (cross-origin safe). */
   function formPost(action, params) {
     var c = cfg();
     return new Promise(function (resolve, reject) {
@@ -95,22 +99,38 @@
       var callbackName = "gstAccessCb_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
       var iframe = document.createElement("iframe");
       var form = document.createElement("form");
-      var timer = window.setTimeout(function () {
-        cleanup();
-        reject(new Error("Request timed out. Try again."));
-      }, 25000);
+      var settled = false;
 
       function cleanup() {
-        window.clearTimeout(timer);
-        delete window[callbackName];
+        window.removeEventListener("message", onMessage);
         if (form.parentNode) form.parentNode.removeChild(form);
         if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
       }
 
-      window[callbackName] = function (data) {
+      function finish(err, data) {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timer);
         cleanup();
-        resolve(data || {});
-      };
+        if (err) reject(err);
+        else resolve(data || {});
+      }
+
+      function onMessage(event) {
+        var msg = event && event.data;
+        if (!msg || msg.source !== "gst-bom-access" || msg.callback !== callbackName) return;
+        finish(null, msg.payload);
+      }
+
+      var timer = window.setTimeout(function () {
+        finish(
+          new Error(
+            "Request timed out. In Apps Script use Deploy → Manage deployments → Edit → New version, then try again."
+          )
+        );
+      }, 45000);
+
+      window.addEventListener("message", onMessage);
 
       iframe.name = callbackName + "_frame";
       iframe.title = "access";
@@ -118,6 +138,7 @@
       form.method = "POST";
       form.action = c.appsScriptUrl;
       form.target = iframe.name;
+      form.acceptCharset = "UTF-8";
       form.style.display = "none";
 
       function addField(name, value) {
@@ -427,7 +448,7 @@
     }
     setBusy(true);
     showError("");
-    formPost("access_login", { email: email, password: password })
+    jsonp("access_login", { email: email, p: encodePasswordParam(password) })
       .then(function (result) {
         if (!result || result.status !== "ok") {
           throw new Error((result && result.message) || "Incorrect email or password.");
@@ -461,10 +482,10 @@
     }
     setBusy(true);
     showError("");
-    formPost("access_set_password", {
+    jsonp("access_set_password", {
       email: email,
       setupToken: state.setupToken,
-      password: password,
+      p: encodePasswordParam(password),
     })
       .then(function (result) {
         if (!result || result.status !== "ok") {
