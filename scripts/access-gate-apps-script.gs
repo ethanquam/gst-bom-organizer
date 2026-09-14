@@ -10,8 +10,10 @@ var CONFIG = {
   APP_URL: "https://ethanquam.github.io/gst-bom-organizer/",
   APP_NAME: "GST BOM Organizer",
   AUTO_APPROVE_DOMAINS: ["trimble.com"],
-  ACCESS_GRANT_DAYS: 28,
+  ACCESS_GRANT_DAYS: 3650,
   ACCESS_CODE_MINUTES: 30,
+  SETUP_TOKEN_MINUTES: 30,
+  MIN_PASSWORD_LENGTH: 8,
 };
 
 var SHEETS = {
@@ -53,9 +55,13 @@ function doGet(e) {
 function handleJsonAction(action, params) {
   switch (action) {
     case "access_start":
-      return accessStart(params.email);
+      return accessStart(params.email, params.reset === "1");
     case "access_verify":
       return accessVerify(params.email, params.code);
+    case "access_set_password":
+      return accessSetPassword(params.email, params.setupToken, params.password);
+    case "access_login":
+      return accessLogin(params.email, params.password);
     case "access_check":
       return accessCheck(params.email, params.revalidate === "1");
     case "access_resend_code":
@@ -65,16 +71,20 @@ function handleJsonAction(action, params) {
   }
 }
 
-function accessStart(emailRaw) {
+function accessStart(emailRaw, reset) {
   var email = normalizeEmail(emailRaw);
   if (!isValidEmail(email)) {
     return { status: "error", message: "Invalid email address." };
   }
 
-  logEvent("access_start", email, "");
+  logEvent("access_start", email, reset ? "reset" : "");
 
   var approved = getApprovedUser(email);
-  if (approved && isFuture(approved.expiresAt)) {
+  if (approved && userHasPassword(approved) && !reset) {
+    return { status: "use_password" };
+  }
+
+  if (approved) {
     sendAccessCode(email, approved.grantType || "existing");
     return { status: "verify_code" };
   }
@@ -82,6 +92,10 @@ function accessStart(emailRaw) {
   if (isAutoApproveEmail(email)) {
     sendAccessCode(email, "auto");
     return { status: "verify_code" };
+  }
+
+  if (reset) {
+    return { status: "error", message: "No approved account found for password reset." };
   }
 
   var pending = findOpenRequest(email);
@@ -122,9 +136,58 @@ function accessVerify(emailRaw, codeRaw) {
     grantType = "manual";
   }
 
-  var expiresAt = grantAccess(email, grantType);
+  grantAccess(email, grantType);
+  var setupToken = issueSetupToken(email);
   logEvent("access_verify_ok", email, grantType);
-  return { status: "ok", email: email, expiresAt: expiresAt, grantType: grantType };
+  return { status: "set_password", email: email, setupToken: setupToken, grantType: grantType };
+}
+
+function accessSetPassword(emailRaw, setupTokenRaw, passwordRaw) {
+  var email = normalizeEmail(emailRaw);
+  var setupToken = String(setupTokenRaw || "");
+  var password = String(passwordRaw || "");
+  if (!isValidEmail(email)) {
+    return { status: "error", message: "Invalid email." };
+  }
+  if (password.length < CONFIG.MIN_PASSWORD_LENGTH) {
+    return { status: "error", message: "Password must be at least " + CONFIG.MIN_PASSWORD_LENGTH + " characters." };
+  }
+
+  var approved = getApprovedUser(email);
+  if (!approved) {
+    return { status: "error", message: "Account not approved." };
+  }
+  if (String(approved.setupToken || "") !== setupToken || !isFuture(approved.setupTokenExpires)) {
+    return { status: "error", message: "Setup expired. Request a new email code." };
+  }
+
+  var salt = Utilities.getUuid().replace(/-/g, "");
+  var hash = hashPassword_(password, salt);
+  savePassword_(email, salt, hash);
+  clearSetupToken_(email);
+  grantAccess(email, approved.grantType || "manual");
+  logEvent("access_set_password", email, "");
+  return { status: "ok", email: email };
+}
+
+function accessLogin(emailRaw, passwordRaw) {
+  var email = normalizeEmail(emailRaw);
+  var password = String(passwordRaw || "");
+  if (!isValidEmail(email) || password.length < CONFIG.MIN_PASSWORD_LENGTH) {
+    return { status: "error", message: "Incorrect email or password." };
+  }
+
+  var approved = getApprovedUser(email);
+  if (!approved || !userHasPassword(approved)) {
+    return { status: "error", message: "Incorrect email or password." };
+  }
+  if (!passwordsMatch_(password, approved.passwordSalt, approved.passwordHash)) {
+    logEvent("access_login_failed", email, "");
+    return { status: "error", message: "Incorrect email or password." };
+  }
+
+  logEvent("access_login_ok", email, "");
+  return { status: "ok", email: email, grantType: approved.grantType || "" };
 }
 
 function accessCheck(emailRaw, revalidate) {
@@ -301,10 +364,8 @@ function sendApprovedWelcomeEmail(email, expiresAt) {
     body:
       "Your access to " +
       CONFIG.APP_NAME +
-      " was approved.\n\nA 6-digit login code was sent in a separate email. Open:\n" +
-      CONFIG.APP_URL +
-      "\n\nAccess expires: " +
-      expiresAt,
+      " was approved.\n\nOpen the app and enter your email. You will receive a one-time code, then create a password for future visits:\n" +
+      CONFIG.APP_URL,
   });
 }
 
@@ -324,9 +385,34 @@ function sendDeniedEmail(email) {
 function ensureSheets() {
   var ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
   ensureSheet(ss, SHEETS.REQUESTS, ["email", "token", "status", "requestedAt"]);
-  ensureSheet(ss, SHEETS.APPROVED, ["email", "expiresAt", "grantType", "approvedAt"]);
+  ensureSheet(ss, SHEETS.APPROVED, [
+    "email",
+    "expiresAt",
+    "grantType",
+    "approvedAt",
+    "passwordSalt",
+    "passwordHash",
+    "setupToken",
+    "setupTokenExpires",
+  ]);
+  ensureApprovedPasswordColumns_();
   ensureSheet(ss, SHEETS.CODES, ["email", "code", "expiresAt", "used", "grantType", "createdAt"]);
   ensureSheet(ss, SHEETS.EVENTS, ["timestamp", "action", "email", "detail"]);
+}
+
+function ensureApprovedPasswordColumns_() {
+  var sheet = getSheet(SHEETS.APPROVED);
+  if (!sheet) return;
+  var lastCol = Math.max(sheet.getLastColumn(), 1);
+  var headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
+  var needed = ["passwordSalt", "passwordHash", "setupToken", "setupTokenExpires"];
+  var i;
+  for (i = 0; i < needed.length; i++) {
+    if (headers.indexOf(needed[i]) === -1) {
+      sheet.getRange(1, headers.length + 1).setValue(needed[i]);
+      headers.push(needed[i]);
+    }
+  }
 }
 
 function ensureSheet(ss, name, headers) {
@@ -381,9 +467,15 @@ function getApprovedUser(email) {
 function upsertApprovedUser(email, expiresAt, grantType) {
   var sheet = getSheet(SHEETS.APPROVED);
   var rows = readRows(SHEETS.APPROVED);
+  var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  var col = function (name) {
+    return headers.indexOf(name) + 1;
+  };
   for (var i = 0; i < rows.length; i++) {
     if (normalizeEmail(rows[i].email) === email) {
-      sheet.getRange(rows[i].rowIndex, 2, 1, 3).setValues([[expiresAt, grantType, new Date().toISOString()]]);
+      if (col("expiresAt")) sheet.getRange(rows[i].rowIndex, col("expiresAt")).setValue(expiresAt);
+      if (col("grantType")) sheet.getRange(rows[i].rowIndex, col("grantType")).setValue(grantType);
+      if (col("approvedAt")) sheet.getRange(rows[i].rowIndex, col("approvedAt")).setValue(new Date().toISOString());
       return;
     }
   }
@@ -392,7 +484,78 @@ function upsertApprovedUser(email, expiresAt, grantType) {
     expiresAt: expiresAt,
     grantType: grantType,
     approvedAt: new Date().toISOString(),
+    passwordSalt: "",
+    passwordHash: "",
+    setupToken: "",
+    setupTokenExpires: "",
   });
+}
+
+function userHasPassword(approved) {
+  return !!(approved && String(approved.passwordHash || "").trim());
+}
+
+function issueSetupToken(email) {
+  var token = Utilities.getUuid();
+  var expires = new Date();
+  expires.setMinutes(expires.getMinutes() + CONFIG.SETUP_TOKEN_MINUTES);
+  var sheet = getSheet(SHEETS.APPROVED);
+  var rows = readRows(SHEETS.APPROVED);
+  var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  var tokenCol = headers.indexOf("setupToken") + 1;
+  var expCol = headers.indexOf("setupTokenExpires") + 1;
+  for (var i = 0; i < rows.length; i++) {
+    if (normalizeEmail(rows[i].email) === email) {
+      if (tokenCol) sheet.getRange(rows[i].rowIndex, tokenCol).setValue(token);
+      if (expCol) sheet.getRange(rows[i].rowIndex, expCol).setValue(expires.toISOString());
+      return token;
+    }
+  }
+  return token;
+}
+
+function clearSetupToken_(email) {
+  var sheet = getSheet(SHEETS.APPROVED);
+  var rows = readRows(SHEETS.APPROVED);
+  var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  var tokenCol = headers.indexOf("setupToken") + 1;
+  var expCol = headers.indexOf("setupTokenExpires") + 1;
+  for (var i = 0; i < rows.length; i++) {
+    if (normalizeEmail(rows[i].email) === email) {
+      if (tokenCol) sheet.getRange(rows[i].rowIndex, tokenCol).setValue("");
+      if (expCol) sheet.getRange(rows[i].rowIndex, expCol).setValue("");
+      return;
+    }
+  }
+}
+
+function savePassword_(email, salt, hash) {
+  var sheet = getSheet(SHEETS.APPROVED);
+  var rows = readRows(SHEETS.APPROVED);
+  var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  var saltCol = headers.indexOf("passwordSalt") + 1;
+  var hashCol = headers.indexOf("passwordHash") + 1;
+  for (var i = 0; i < rows.length; i++) {
+    if (normalizeEmail(rows[i].email) === email) {
+      if (saltCol) sheet.getRange(rows[i].rowIndex, saltCol).setValue(salt);
+      if (hashCol) sheet.getRange(rows[i].rowIndex, hashCol).setValue(hash);
+      return;
+    }
+  }
+}
+
+function hashPassword_(password, salt) {
+  var raw = Utilities.computeDigest(
+    Utilities.DigestAlgorithm.SHA_256,
+    salt + "|" + password,
+    Utilities.Charset.UTF_8
+  );
+  return Utilities.base64EncodeWebSafe(raw);
+}
+
+function passwordsMatch_(password, salt, hash) {
+  if (!salt || !hash) return false;
+  return hashPassword_(password, String(salt)) === String(hash);
 }
 
 function removeApprovedUser(email) {

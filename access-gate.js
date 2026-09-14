@@ -1,4 +1,4 @@
-/* GST BOM Organizer — email + code access gate (client). */
+/* GST BOM Organizer — access gate (email code once → password, then email+password). */
 (function () {
   "use strict";
 
@@ -11,8 +11,9 @@
   var state = {
     step: "email",
     email: "",
-    expiredNotice: false,
+    setupToken: "",
     busy: false,
+    resetMode: false,
   };
 
   function cfg() {
@@ -21,9 +22,7 @@
 
   function isGateActive() {
     var c = cfg();
-    if (c.enabled === false) return false;
-    if (!c.appsScriptUrl) return false;
-    return true;
+    return c.enabled !== false && !!c.appsScriptUrl;
   }
 
   function isLocalDev() {
@@ -36,45 +35,20 @@
     return String(value || "").trim().toLowerCase();
   }
 
-  function readSession() {
-    var c = cfg();
-    try {
-      var raw = localStorage.getItem(c.sessionKey || "gst-app-access-v1");
-      if (!raw) return null;
-      return JSON.parse(raw);
-    } catch (err) {
-      return null;
-    }
-  }
-
-  function writeSession(session) {
-    var c = cfg();
-    localStorage.setItem(c.sessionKey || "gst-app-access-v1", JSON.stringify(session));
-  }
-
   function clearSession() {
-    var c = cfg();
-    localStorage.removeItem(c.sessionKey || "gst-app-access-v1");
-  }
-
-  function sessionValid(session) {
-    if (!session || !session.email || !session.expiresAt) return false;
-    return Date.parse(session.expiresAt) > Date.now();
+    try {
+      localStorage.removeItem((cfg().sessionKey || "gst-app-access-v1"));
+    } catch (err) {}
   }
 
   function jsonp(action, params) {
     var c = cfg();
     return new Promise(function (resolve, reject) {
       if (!c.appsScriptUrl || !/^https?:\/\//i.test(c.appsScriptUrl)) {
-        reject(
-          new Error(
-            "Access service is not configured yet. Set appsScriptUrl in access-config.js (see docs/access-gate-setup.md)."
-          )
-        );
+        reject(new Error("Access service is not configured yet."));
         return;
       }
-      var callbackName =
-        "gstAccessCb_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
+      var callbackName = "gstAccessCb_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
       var url = new URL(c.appsScriptUrl);
       url.searchParams.set("action", action);
       url.searchParams.set("callback", callbackName);
@@ -83,29 +57,24 @@
           url.searchParams.set(key, String(params[key]));
         }
       });
-
       var script = document.createElement("script");
       var timer = window.setTimeout(function () {
         cleanup();
         reject(new Error("Request timed out. Try again."));
       }, 25000);
-
       function cleanup() {
         window.clearTimeout(timer);
         delete window[callbackName];
         if (script.parentNode) script.parentNode.removeChild(script);
       }
-
       window[callbackName] = function (data) {
         cleanup();
         resolve(data || {});
       };
-
       script.onerror = function () {
         cleanup();
         reject(new Error("Could not reach the access service."));
       };
-
       script.src = url.toString();
       document.head.appendChild(script);
     });
@@ -120,102 +89,49 @@
       emailStep: document.getElementById("access-step-email"),
       codeStep: document.getElementById("access-step-code"),
       pendingStep: document.getElementById("access-step-pending"),
+      passwordStep: document.getElementById("access-step-password"),
+      setPasswordStep: document.getElementById("access-step-set-password"),
       emailInput: document.getElementById("access-email"),
       codeInput: document.getElementById("access-code"),
+      passwordInput: document.getElementById("access-password"),
+      newPasswordInput: document.getElementById("access-new-password"),
+      confirmPasswordInput: document.getElementById("access-confirm-password"),
       emailDisplay: document.getElementById("access-email-display"),
+      passwordEmailDisplay: document.getElementById("access-password-email-display"),
+      setPasswordEmailDisplay: document.getElementById("access-set-password-email-display"),
       btnRequest: document.getElementById("access-btn-request"),
       btnVerify: document.getElementById("access-btn-verify"),
       btnResend: document.getElementById("access-btn-resend"),
+      btnLogin: document.getElementById("access-btn-login"),
+      btnSetPassword: document.getElementById("access-btn-set-password"),
+      btnForgot: document.getElementById("access-btn-forgot"),
       btnChangeEmail: document.getElementById("access-btn-change-email"),
       btnChangeEmailPending: document.getElementById("access-btn-change-email-pending"),
+      btnChangeEmailPassword: document.getElementById("access-btn-change-email-password"),
     };
   }
 
   function setBusy(busy) {
     state.busy = busy;
     var ui = els();
-    if (ui.btnRequest) ui.btnRequest.disabled = busy;
-    if (ui.btnVerify) ui.btnVerify.disabled = busy;
-    if (ui.btnResend) ui.btnResend.disabled = busy;
+    ["btnRequest", "btnVerify", "btnResend", "btnLogin", "btnSetPassword", "btnForgot"].forEach(function (key) {
+      if (ui[key]) ui[key].disabled = busy;
+    });
     if (ui.gate) ui.gate.classList.toggle("is-busy", busy);
-  }
-
-  function grantDays() {
-    var days = Number(cfg().accessGrantDays);
-    return days > 0 ? days : 28;
-  }
-
-  function formatAccessDate(isoOrDate) {
-    var date = isoOrDate instanceof Date ? isoOrDate : new Date(isoOrDate);
-    if (isNaN(date.getTime())) return "";
-    try {
-      return date.toLocaleDateString(undefined, {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    } catch (err) {
-      return date.toISOString().slice(0, 10);
-    }
-  }
-
-  function estimatedExpiryDate() {
-    var date = new Date();
-    date.setDate(date.getDate() + grantDays());
-    return date;
   }
 
   function setExpiryNote(text) {
     var ui = els();
     if (!ui.expiry) return;
-    if (!text) {
-      ui.expiry.hidden = true;
-      ui.expiry.textContent = "";
-      return;
-    }
-    ui.expiry.hidden = false;
-    ui.expiry.textContent = text;
-  }
-
-  function expiryNoteForVerify() {
-    var days = grantDays();
-    var until = formatAccessDate(estimatedExpiryDate());
-    return (
-      "After you verify, access lasts " +
-      days +
-      " days" +
-      (until ? " (until about " + until + ")" : "") +
-      "."
-    );
-  }
-
-  function expiryNoteForPending() {
-    var days = grantDays();
-    return (
-      "If approved, access lasts " +
-      days +
-      " days from when you verify your login code."
-    );
-  }
-
-  function expiryNoteForStart(expired) {
-    var days = grantDays();
-    if (expired) {
-      return "Verify again for another " + days + " days of access.";
-    }
-    return "Approved access lasts " + days + " days from verification.";
+    ui.expiry.hidden = !text;
+    ui.expiry.textContent = text || "";
   }
 
   function showError(text) {
     var ui = els();
     if (!ui.error) return;
-    if (!text) {
-      ui.error.hidden = true;
-      ui.error.textContent = "";
-      return;
-    }
-    ui.error.hidden = false;
-    ui.error.textContent = text;
+    ui.error.hidden = !text;
+    ui.error.textContent = text || "";
   }
 
   function showStep(step) {
@@ -224,6 +140,13 @@
     if (ui.emailStep) ui.emailStep.hidden = step !== "email";
     if (ui.codeStep) ui.codeStep.hidden = step !== "code";
     if (ui.pendingStep) ui.pendingStep.hidden = step !== "pending";
+    if (ui.passwordStep) ui.passwordStep.hidden = step !== "password";
+    if (ui.setPasswordStep) ui.setPasswordStep.hidden = step !== "set_password";
+  }
+
+  function markReady() {
+    document.body.classList.remove("access-pending");
+    document.body.classList.add("access-ready");
   }
 
   function lockApp() {
@@ -258,84 +181,70 @@
     }, Promise.resolve());
   }
 
-  function grantAccess(result) {
-    writeSession({
-      email: result.email,
-      expiresAt: result.expiresAt,
-      grantType: result.grantType || "auto",
-    });
+  function finishLogin() {
+    clearSession();
     unlockApp();
     return loadAppScripts();
   }
 
-  function openGate(options) {
+  function openGate() {
     var ui = els();
     var c = cfg();
-    state.expiredNotice = !!(options && options.expired);
+    clearSession();
     lockApp();
     showError("");
+    state.resetMode = false;
+    state.setupToken = "";
     showStep("email");
-    setExpiryNote(expiryNoteForStart(state.expiredNotice));
-
+    setExpiryNote("New users verify email once and create a password. Return visits use email + password.");
     if (ui.message) {
-      if (state.expiredNotice) {
-        ui.message.textContent =
-          "Your access expired. Verify again to continue. BOM data saved in this browser is unchanged.";
-      } else {
-        ui.message.textContent =
-          "Enter your work email to open " + (c.appName || "this tool") + ".";
-      }
+      ui.message.textContent = "Enter your work email to open " + (c.appName || "this tool") + ".";
     }
-
     if (ui.emailInput) {
-      ui.emailInput.value = state.email || (readSession() && readSession().email) || "";
+      ui.emailInput.value = state.email || "";
       ui.emailInput.focus();
     }
   }
 
-  function revalidateSession(session) {
-    return jsonp("access_check", {
-      email: session.email,
-      revalidate: "1",
-    }).then(function (result) {
-      if (result && result.status === "ok") {
-        if (result.expiresAt) {
-          writeSession({
-            email: session.email,
-            expiresAt: result.expiresAt,
-            grantType: result.grantType || session.grantType,
-          });
-        }
-        return true;
-      }
-      clearSession();
-      return false;
-    });
+  function goChangeEmail() {
+    var ui = els();
+    state.resetMode = false;
+    state.setupToken = "";
+    showStep("email");
+    showError("");
+    setExpiryNote("New users verify email once and create a password. Return visits use email + password.");
+    if (ui.message) ui.message.textContent = "Enter your work email to continue.";
+    if (ui.emailInput) ui.emailInput.focus();
   }
 
-  function startWithSession() {
-    var session = readSession();
-    if (!sessionValid(session)) {
-      if (session && session.email) {
-        openGate({ expired: true });
-      } else {
-        openGate();
-      }
-      return;
+  function showPasswordStep(email) {
+    var ui = els();
+    state.email = email;
+    showStep("password");
+    setExpiryNote("Access stays active until an admin revokes it.");
+    if (ui.message) ui.message.textContent = "Enter your password to continue.";
+    if (ui.passwordEmailDisplay) ui.passwordEmailDisplay.textContent = email;
+    if (ui.passwordInput) {
+      ui.passwordInput.value = "";
+      ui.passwordInput.focus();
     }
+  }
 
-    revalidateSession(session)
-      .then(function (ok) {
-        if (ok) {
-          unlockApp();
-          return loadAppScripts();
-        }
-        openGate({ expired: true });
-      })
-      .catch(function () {
-        unlockApp();
-        return loadAppScripts();
-      });
+  function showSetPasswordStep(email, setupToken) {
+    var ui = els();
+    state.email = email;
+    state.setupToken = setupToken || "";
+    showStep("set_password");
+    setExpiryNote("Choose a password of at least 8 characters. You will use it for future visits.");
+    if (ui.message) {
+      ui.message.textContent = state.resetMode
+        ? "Choose a new password for your account."
+        : "Create a password to finish setup.";
+    }
+    if (ui.setPasswordEmailDisplay) ui.setPasswordEmailDisplay.textContent = email;
+    if (ui.newPasswordInput) ui.newPasswordInput.value = "";
+    if (ui.confirmPasswordInput) ui.confirmPasswordInput.value = "";
+    if (ui.newPasswordInput) ui.newPasswordInput.focus();
   }
 
   function onRequestAccess() {
@@ -345,17 +254,19 @@
       showError("Enter a valid work email address.");
       return;
     }
-
     setBusy(true);
     showError("");
     state.email = email;
-
-    jsonp("access_start", { email: email })
+    jsonp("access_start", { email: email, reset: state.resetMode ? "1" : "" })
       .then(function (result) {
         if (!result || result.status === "error") {
           throw new Error((result && result.message) || "Could not start access request.");
         }
-
+        if (result.status === "use_password") {
+          state.resetMode = false;
+          showPasswordStep(email);
+          return;
+        }
         if (result.status === "verify_code") {
           showStep("code");
           if (ui.emailDisplay) ui.emailDisplay.textContent = email;
@@ -363,27 +274,23 @@
             ui.codeInput.value = "";
             ui.codeInput.focus();
           }
-          if (ui.message) {
-            ui.message.textContent = "Enter the 6-digit code sent to your email.";
-          }
-          setExpiryNote(expiryNoteForVerify());
+          if (ui.message) ui.message.textContent = "Enter the 6-digit code sent to your email.";
+          setExpiryNote(
+            state.resetMode
+              ? "After you verify, you will set a new password."
+              : "After you verify, you will create a password for future logins."
+          );
           return;
         }
-
         if (result.status === "pending") {
           showStep("pending");
           if (ui.message) {
             ui.message.textContent =
               "Your request was sent for approval. You will receive email when access is granted.";
           }
-          setExpiryNote(expiryNoteForPending());
+          setExpiryNote("After approval, verify your email once and create a password.");
           return;
         }
-
-        if (result.status === "approved" && result.expiresAt) {
-          return grantAccess(result);
-        }
-
         throw new Error("Unexpected response from access service.");
       })
       .catch(function (err) {
@@ -399,7 +306,7 @@
     var email = normalizeEmail(state.email || (ui.emailDisplay && ui.emailDisplay.textContent));
     var code = String((ui.codeInput && ui.codeInput.value) || "").replace(/\s+/g, "");
     if (!email) {
-      showStep("email");
+      goChangeEmail();
       showError("Enter your email first.");
       return;
     }
@@ -407,16 +314,14 @@
       showError("Enter the 6-digit code from your email.");
       return;
     }
-
     setBusy(true);
     showError("");
-
     jsonp("access_verify", { email: email, code: code })
       .then(function (result) {
-        if (!result || result.status !== "ok") {
+        if (!result || (result.status !== "set_password" && result.status !== "ok")) {
           throw new Error((result && result.message) || "Invalid or expired code.");
         }
-        return grantAccess(result);
+        showSetPasswordStep(result.email || email, result.setupToken || "");
       })
       .catch(function (err) {
         showError(err.message || "Verification failed.");
@@ -427,7 +332,7 @@
   }
 
   function onResendCode() {
-    var email = normalizeEmail(state.email || (els().emailDisplay && els().emailDisplay.textContent));
+    var email = normalizeEmail(state.email);
     if (!email) return;
     setBusy(true);
     showError("");
@@ -436,10 +341,7 @@
         if (!result || result.status !== "ok") {
           throw new Error((result && result.message) || "Could not resend code.");
         }
-        if (els().message) {
-          els().message.textContent = "A new code was sent to your email.";
-        }
-        setExpiryNote(expiryNoteForVerify());
+        if (els().message) els().message.textContent = "A new code was sent to your email.";
       })
       .catch(function (err) {
         showError(err.message || "Could not resend code.");
@@ -449,35 +351,116 @@
       });
   }
 
+  function onLogin() {
+    var ui = els();
+    var email = normalizeEmail(state.email || (ui.passwordEmailDisplay && ui.passwordEmailDisplay.textContent));
+    var password = String((ui.passwordInput && ui.passwordInput.value) || "");
+    if (!email) {
+      goChangeEmail();
+      return;
+    }
+    if (password.length < 8) {
+      showError("Enter your password (at least 8 characters).");
+      return;
+    }
+    setBusy(true);
+    showError("");
+    jsonp("access_login", { email: email, password: password })
+      .then(function (result) {
+        if (!result || result.status !== "ok") {
+          throw new Error((result && result.message) || "Incorrect email or password.");
+        }
+        return finishLogin();
+      })
+      .catch(function (err) {
+        showError(err.message || "Login failed.");
+      })
+      .then(function () {
+        setBusy(false);
+      });
+  }
+
+  function onSetPassword() {
+    var ui = els();
+    var email = normalizeEmail(state.email || (ui.setPasswordEmailDisplay && ui.setPasswordEmailDisplay.textContent));
+    var password = String((ui.newPasswordInput && ui.newPasswordInput.value) || "");
+    var confirm = String((ui.confirmPasswordInput && ui.confirmPasswordInput.value) || "");
+    if (password.length < 8) {
+      showError("Password must be at least 8 characters.");
+      return;
+    }
+    if (password !== confirm) {
+      showError("Passwords do not match.");
+      return;
+    }
+    if (!state.setupToken) {
+      showError("Setup expired. Request a new email code.");
+      return;
+    }
+    setBusy(true);
+    showError("");
+    jsonp("access_set_password", {
+      email: email,
+      setupToken: state.setupToken,
+      password: password,
+    })
+      .then(function (result) {
+        if (!result || result.status !== "ok") {
+          throw new Error((result && result.message) || "Could not save password.");
+        }
+        state.resetMode = false;
+        state.setupToken = "";
+        return finishLogin();
+      })
+      .catch(function (err) {
+        showError(err.message || "Could not save password.");
+      })
+      .then(function () {
+        setBusy(false);
+      });
+  }
+
+  function onForgotPassword() {
+    state.resetMode = true;
+    showError("");
+    var ui = els();
+    if (ui.message) ui.message.textContent = "We will email a code so you can set a new password.";
+    setExpiryNote("Password reset uses a one-time email code.");
+    if (ui.emailInput && state.email) ui.emailInput.value = state.email;
+    onRequestAccess();
+  }
+
   function bindUi() {
     var ui = els();
     if (ui.btnRequest) ui.btnRequest.addEventListener("click", onRequestAccess);
     if (ui.btnVerify) ui.btnVerify.addEventListener("click", onVerifyCode);
     if (ui.btnResend) ui.btnResend.addEventListener("click", onResendCode);
-    function goChangeEmail() {
-      showStep("email");
-      showError("");
-      setExpiryNote(expiryNoteForStart(false));
-      if (ui.message) ui.message.textContent = "Enter your work email to continue.";
-      if (ui.emailInput) ui.emailInput.focus();
-    }
+    if (ui.btnLogin) ui.btnLogin.addEventListener("click", onLogin);
+    if (ui.btnSetPassword) ui.btnSetPassword.addEventListener("click", onSetPassword);
+    if (ui.btnForgot) ui.btnForgot.addEventListener("click", onForgotPassword);
     if (ui.btnChangeEmail) ui.btnChangeEmail.addEventListener("click", goChangeEmail);
     if (ui.btnChangeEmailPending) ui.btnChangeEmailPending.addEventListener("click", goChangeEmail);
-    if (ui.codeInput) {
-      ui.codeInput.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") onVerifyCode();
-      });
-    }
+    if (ui.btnChangeEmailPassword) ui.btnChangeEmailPassword.addEventListener("click", goChangeEmail);
     if (ui.emailInput) {
-      ui.emailInput.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") onRequestAccess();
+      ui.emailInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") onRequestAccess();
       });
     }
-  }
-
-  function markReady() {
-    document.body.classList.remove("access-pending");
-    document.body.classList.add("access-ready");
+    if (ui.codeInput) {
+      ui.codeInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") onVerifyCode();
+      });
+    }
+    if (ui.passwordInput) {
+      ui.passwordInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") onLogin();
+      });
+    }
+    if (ui.confirmPasswordInput) {
+      ui.confirmPasswordInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") onSetPassword();
+      });
+    }
   }
 
   function init() {
@@ -493,7 +476,7 @@
       });
       return;
     }
-    startWithSession();
+    openGate();
   }
 
   if (document.readyState === "loading") {

@@ -1,6 +1,6 @@
 # Email access gate (Google Apps Script)
 
-This adds an email + 6-digit code gate in front of the GST BOM Organizer on **GitHub Pages**. Trimble addresses (`@trimble.com`, including subdomains) are auto-approved; other domains email **ethan_quam@trimble.com** for Grant/Deny.
+**Flow:** email → (new users) one-time code → create password → later visits use **email + password**. Trimble `@trimble.com` auto-approves; other domains need admin Grant/Deny.
 
 **Local use** (`file://`, `localhost`) skips the gate. On GitHub Pages, the gate turns on after you set `appsScriptUrl` in `access-config.js`.
 

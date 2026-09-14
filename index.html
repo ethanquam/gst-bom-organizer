@@ -230,7 +230,24 @@
             autocomplete="email"
             placeholder="you@trimble.com"
           />
-          <button type="button" id="access-btn-request" class="btn primary access-btn">Request access</button>
+          <button type="button" id="access-btn-request" class="btn primary access-btn">Continue</button>
+        </div>
+
+        <div id="access-step-password" class="access-gate-step" hidden>
+          <p class="access-hint">Signing in as <strong id="access-password-email-display"></strong></p>
+          <label class="access-label" for="access-password">Password</label>
+          <input
+            type="password"
+            id="access-password"
+            class="access-input"
+            autocomplete="current-password"
+            minlength="8"
+          />
+          <div class="access-gate-actions">
+            <button type="button" id="access-btn-login" class="btn primary access-btn">Sign in</button>
+            <button type="button" id="access-btn-forgot" class="btn">Forgot password</button>
+            <button type="button" id="access-btn-change-email-password" class="btn">Change email</button>
+          </div>
         </div>
 
         <div id="access-step-code" class="access-gate-step" hidden>
@@ -250,6 +267,27 @@
             <button type="button" id="access-btn-resend" class="btn">Resend code</button>
             <button type="button" id="access-btn-change-email" class="btn">Change email</button>
           </div>
+        </div>
+
+        <div id="access-step-set-password" class="access-gate-step" hidden>
+          <p class="access-hint">Account: <strong id="access-set-password-email-display"></strong></p>
+          <label class="access-label" for="access-new-password">New password</label>
+          <input
+            type="password"
+            id="access-new-password"
+            class="access-input"
+            autocomplete="new-password"
+            minlength="8"
+          />
+          <label class="access-label" for="access-confirm-password">Confirm password</label>
+          <input
+            type="password"
+            id="access-confirm-password"
+            class="access-input"
+            autocomplete="new-password"
+            minlength="8"
+          />
+          <button type="button" id="access-btn-set-password" class="btn primary access-btn">Save password &amp; open</button>
         </div>
 
         <div id="access-step-pending" class="access-gate-step" hidden>

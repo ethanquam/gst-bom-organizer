@@ -9,7 +9,7 @@
     appUrl: "https://ethanquam.github.io/gst-bom-organizer/",
     appName: "GST BOM Organizer",
     sessionKey: "gst-app-access-v1",
-    accessGrantDays: 28,
+    accessGrantDays: 3650,
     accessCodeMinutes: 30,
     autoApproveDomains: ["trimble.com"],
 
