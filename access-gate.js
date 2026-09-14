@@ -174,14 +174,16 @@
       pendingStep: document.getElementById("access-step-pending"),
       passwordStep: document.getElementById("access-step-password"),
       setPasswordStep: document.getElementById("access-step-set-password"),
+      loginForm: document.getElementById("access-login-form"),
+      setPasswordForm: document.getElementById("access-set-password-form"),
       emailInput: document.getElementById("access-email"),
       codeInput: document.getElementById("access-code"),
       passwordInput: document.getElementById("access-password"),
+      loginUsername: document.getElementById("access-login-username"),
+      setUsername: document.getElementById("access-set-username"),
       newPasswordInput: document.getElementById("access-new-password"),
       confirmPasswordInput: document.getElementById("access-confirm-password"),
       emailDisplay: document.getElementById("access-email-display"),
-      passwordEmailDisplay: document.getElementById("access-password-email-display"),
-      setPasswordEmailDisplay: document.getElementById("access-set-password-email-display"),
       btnRequest: document.getElementById("access-btn-request"),
       btnVerify: document.getElementById("access-btn-verify"),
       btnResend: document.getElementById("access-btn-resend"),
@@ -306,7 +308,7 @@
     showStep("password");
     setExpiryNote("Access stays active until an admin revokes it.");
     if (ui.message) ui.message.textContent = "Enter your password to continue.";
-    if (ui.passwordEmailDisplay) ui.passwordEmailDisplay.textContent = email;
+    if (ui.loginUsername) ui.loginUsername.value = email;
     if (ui.passwordInput) {
       ui.passwordInput.value = "";
       ui.passwordInput.focus();
@@ -324,7 +326,7 @@
         ? "Choose a new password for your account."
         : "Create a password to finish setup.";
     }
-    if (ui.setPasswordEmailDisplay) ui.setPasswordEmailDisplay.textContent = email;
+    if (ui.setUsername) ui.setUsername.value = email;
     if (ui.newPasswordInput) ui.newPasswordInput.value = "";
     if (ui.confirmPasswordInput) ui.confirmPasswordInput.value = "";
     if (ui.newPasswordInput) ui.newPasswordInput.focus();
@@ -434,9 +436,12 @@
       });
   }
 
-  function onLogin() {
+  function onLogin(event) {
+    if (event && event.preventDefault) event.preventDefault();
     var ui = els();
-    var email = normalizeEmail(state.email || (ui.passwordEmailDisplay && ui.passwordEmailDisplay.textContent));
+    var email = normalizeEmail(
+      state.email || (ui.loginUsername && ui.loginUsername.value)
+    );
     var password = String((ui.passwordInput && ui.passwordInput.value) || "");
     if (!email) {
       goChangeEmail();
@@ -463,9 +468,12 @@
       });
   }
 
-  function onSetPassword() {
+  function onSetPassword(event) {
+    if (event && event.preventDefault) event.preventDefault();
     var ui = els();
-    var email = normalizeEmail(state.email || (ui.setPasswordEmailDisplay && ui.setPasswordEmailDisplay.textContent));
+    var email = normalizeEmail(
+      state.email || (ui.setUsername && ui.setUsername.value)
+    );
     var password = String((ui.newPasswordInput && ui.newPasswordInput.value) || "");
     var confirm = String((ui.confirmPasswordInput && ui.confirmPasswordInput.value) || "");
     if (password.length < 8) {
@@ -518,8 +526,8 @@
     if (ui.btnRequest) ui.btnRequest.addEventListener("click", onRequestAccess);
     if (ui.btnVerify) ui.btnVerify.addEventListener("click", onVerifyCode);
     if (ui.btnResend) ui.btnResend.addEventListener("click", onResendCode);
-    if (ui.btnLogin) ui.btnLogin.addEventListener("click", onLogin);
-    if (ui.btnSetPassword) ui.btnSetPassword.addEventListener("click", onSetPassword);
+    if (ui.loginForm) ui.loginForm.addEventListener("submit", onLogin);
+    if (ui.setPasswordForm) ui.setPasswordForm.addEventListener("submit", onSetPassword);
     if (ui.btnForgot) ui.btnForgot.addEventListener("click", onForgotPassword);
     if (ui.btnChangeEmail) ui.btnChangeEmail.addEventListener("click", goChangeEmail);
     if (ui.btnChangeEmailPending) ui.btnChangeEmailPending.addEventListener("click", goChangeEmail);
@@ -532,16 +540,6 @@
     if (ui.codeInput) {
       ui.codeInput.addEventListener("keydown", function (e) {
         if (e.key === "Enter") onVerifyCode();
-      });
-    }
-    if (ui.passwordInput) {
-      ui.passwordInput.addEventListener("keydown", function (e) {
-        if (e.key === "Enter") onLogin();
-      });
-    }
-    if (ui.confirmPasswordInput) {
-      ui.confirmPasswordInput.addEventListener("keydown", function (e) {
-        if (e.key === "Enter") onSetPassword();
       });
     }
   }

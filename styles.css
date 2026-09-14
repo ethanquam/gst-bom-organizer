@@ -157,10 +157,15 @@ body.access-locked #app-layout {
   border-left: 3px solid #da212c;
 }
 
-.access-gate-step {
+.access-gate-form {
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+}
+
+.access-input[readonly] {
+  background: var(--stage);
+  color: var(--ink);
 }
 
 .access-label {
