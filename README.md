@@ -4,23 +4,26 @@ This is a local web page for cleaning up bill of materials lists copied from Tri
 
 Nothing leaves your computer when you use the local copy. There is no login on `index.html` opened from your PC.
 
-## Host internally (Cloudflare Pages + Access)
+## Host on GitHub Pages (recommended)
 
-To share with Trimble staff only—not as a public site—use **Cloudflare Pages** with **Cloudflare Access (Zero Trust)**:
+Same pattern as Dynamic Converter: push to `main` → GitHub Actions publishes the site.
 
-- Allow **`@trimble.com`** emails (or a named list)
-- One-time PIN or Trimble **Microsoft / Entra** SSO
-- Static hosting; no app server
+**Live URL:** https://ethanquam.github.io/gst-bom-organizer/
 
-Full setup: **[docs/cloudflare-access-setup.md](docs/cloudflare-access-setup.md)**
+Setup notes: **[docs/github-pages-setup.md](docs/github-pages-setup.md)**
 
-This is an unofficial internal helper, not a Trimble product. Use a private repo and an Access-protected hostname.
+**Email access gate:** **[docs/access-gate-setup.md](docs/access-gate-setup.md)** — auto-approve `@trimble.com`, manual approval for others. Gate activates after you set `appsScriptUrl` in `access-config.js`.
+
+Optional later: Cloudflare Access if IT grants Zero Trust — **[docs/cloudflare-access-setup.md](docs/cloudflare-access-setup.md)**.
+
+This is an unofficial internal helper, not a Trimble product. Use the email gate (or Cloudflare Access) to control who can use the live site.
 
 ## Open the page locally
 
 1. In File Explorer, go to this folder: `GST Optimization`.
 2. Double-click `index.html`.
 3. It should open in Chrome or Edge.
+4. Choose **Machines** or **Site Positioning** in the header before you paste or load a sample. The profile updates hints, sample data, and configuration field order.
 
 If it does not open in a browser:
 
@@ -80,6 +83,7 @@ The last configuration, list, and notes stay in this browser if you refresh. Cli
 
 ## What the buttons do
 
+- **Machines / Site Positioning** — switches GST workflow profile. Changes paste hints, sample list, and how configuration fields sort on **Organize list**. Your parts table and exports stay the same.
 - **Configuration summary** — paste the GST sidebar block (`Application:`, `Manufacturer:`, `Factory Fit Level:`, and so on). **Organize list** sorts fields into GST order.
 - **Organize list** — turns configuration paste and parts paste into editable fields and columns.
 - **Load sample list** — drops in the fake demo list and sample notes.

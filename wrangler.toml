@@ -1,0 +1,7 @@
+# Cloudflare Pages — static GST BOM Organizer (no build step).
+# Deploy: npx wrangler pages deploy . --project-name=gst-bom-organizer
+# Or connect this repo in the Cloudflare dashboard (recommended).
+
+name = "gst-bom-organizer"
+compatibility_date = "2024-09-01"
+pages_build_output_dir = "."

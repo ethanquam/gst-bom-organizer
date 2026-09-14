@@ -3,43 +3,64 @@
 
   var STORAGE_KEY = "gst-bom-organizer-v1";
 
-  var SAMPLE_NOTES =
-    "Note: If you do not know the serial number, please quote as Generic Base Kit.\n" +
-    "You must know your correct factory fit level before proceeding with quote.\n" +
-    "Post APU 2021 model: Cat Grade 2D Assist requires 603-3385 Grade Control Indicate System Installation Status SEA option for upgrade to 2D Advanced/3D. Contact your local Cat dealer for activation.\n" +
-    "Note: Refer to online SNM941 Certifications for Country Compliance Information to select the correct PN# with your order.\n" +
-    "Training sample only — not a real quote.";
+  var WORKFLOW_PROFILES = {
+    machines: {
+      id: "machines",
+      label: "Machines",
+      configLabelOrder: [
+        "application",
+        "manufacturer",
+        "factory fit level",
+        "mount type",
+        "machine model",
+        "model",
+        "build number",
+        "automatics",
+      ],
+      configFieldPlaceholder: "Application",
+      configPastePlaceholder:
+        "Application:\tTrimble Earthworks - Excavator\nManufacturer:\tCaterpillar\nFactory Fit Level:\tCat Grade 2D Assist (Basic 2D)",
+      configPasteHint:
+        "From the final GST screen, copy the configuration block on the right (application, manufacturer, factory fit, model, serial, options). Each line is <strong>Label:</strong> then the value. Click <strong>Organize list</strong> to sort fields into GST machine order.",
+      notesHint:
+        "Copy GST notes as you work through each step (serial range, factory fit warnings, licensing, SNM941 compliance, and so on). GST has no back button — if you miss a note, you start over. Web links stay as real addresses. Hold Ctrl- or ⌘-click a link to open it.",
+      configSummaryHint: "Edit fields below. Organize list sorts into GST machine order.",
+    },
+    sitePositioning: {
+      id: "sitePositioning",
+      label: "Site Positioning",
+      configLabelOrder: [
+        "product line",
+        "data collector type",
+        "receiver model",
+        "receiver configuration",
+        "optical options",
+        "total station product type",
+        "accessory package option",
+        "software option",
+        "software maintenance",
+        "siteworks machine guidance hardware",
+      ],
+      configFieldPlaceholder: "Product Line",
+      configPastePlaceholder:
+        "Product Line:\tGNSS Receiver\nReceiver Model:\tR780\nReceiver Configuration:\t:R780 Model 2 450/900Mhz Radio\nAccessory Package Option:\tNo Accessory Package",
+      configPasteHint:
+        "From the final GST screen, copy the configuration summary (product line, receiver or collector model, optical or software options, accessory package). Each line is <strong>Label:</strong> then the value. Click <strong>Organize list</strong> to sort fields into GST site-positioning order.",
+      notesHint:
+        "Copy GST notes as you work through each step. Site Positioning often uses <strong>Next</strong> between steps — capture notes before you advance. GST has no back button. Web links stay as real addresses. Hold Ctrl- or ⌘-click a link to open it.",
+      configSummaryHint: "Edit fields below. Organize list sorts into GST site-positioning order.",
+    },
+  };
 
-  var SAMPLE_CONFIG =
-    "Serial Number:\tRAZ\n" +
-    "Automatics:\tFALSE\n" +
-    "SNM941:\tSNM941 - Connected Site Gateway - No SIM - Americas\n" +
-    "Machine Model:\t323\n" +
-    "Factory Fit Level:\tCat Grade 2D Assist (Basic 2D)\n" +
-    "Manufacturer:\tCaterpillar\n" +
-    "Application:\tTrimble Earthworks - Excavator\n" +
-    "Build Number:\t07F\n";
-
-  var GST_CONFIG_LABEL_ORDER = [
-    "application",
-    "manufacturer",
-    "factory fit level",
-    "mount type",
-    "machine model",
-    "model",
-    "build number",
-    "automatics",
-  ];
-
-  var SAMPLE_PASTE =
-    "Quantity\tPart Number\tDescription\tPrice\tComment\n" +
-    "1\t990011-101\tKit - Base, Sample Dozer, Grade Control, Demo Only\t0.00\tTraining sample only\n" +
-    "1\t990022-210\tDisplay - Field Tablet, 10 in, Training Unit\t0.00\t\n" +
-    "2\t990033-015\tCable - Display, 15 m, Sample\t0.00\t\n" +
-    "1\t990044-008\tReceiver - GNSS, Dual Antenna, Not For Sale\t0.00\t\n" +
-    "4\t990055-003\tSensor - Slope, Machine Body, Training\t0.00\t\n" +
-    "1\t990066-440\tRadio - 450 MHz, Example Region\t0.00\t\n" +
-    "1\t990077-012\tHarness - Valve, Generic Sample Machine\t0.00\t";
+  var WORKFLOW_NEUTRAL = {
+    configPastePlaceholder:
+      "Application:\tTrimble Earthworks - Excavator\nManufacturer:\tCaterpillar\nFactory Fit Level:\tCat Grade 2D Assist (Basic 2D)\n\n—or—\n\nProduct Line:\tGNSS Receiver\nReceiver Model:\tR780\nReceiver Configuration:\t:R780 Model 2 450/900Mhz Radio\nAccessory Package Option:\tNo Accessory Package",
+    configPasteHint:
+      "From the final GST screen, copy the configuration block on the right. Each line is <strong>Label:</strong> then the value. Click <strong>Organize list</strong> — field order is chosen automatically for Machines or Site Positioning.",
+    notesHint:
+      "Copy GST notes as you work through each step. GST has no back button — if you miss a note, you start over. Web links stay as real addresses. Hold Ctrl- or ⌘-click a link to open it.",
+    configSummaryHint: "Edit fields below. Organize list sorts fields into GST order automatically.",
+  };
 
   var COLUMN_ALIASES = {
     qty: ["quantity", "qty", "qty.", "qnty", "count"],
@@ -116,14 +137,14 @@
     pasteBox: document.getElementById("paste-box"),
     notesBox: document.getElementById("notes-box"),
     organize: document.getElementById("btn-organize"),
-    sample: document.getElementById("btn-sample"),
-    clear: document.getElementById("btn-clear"),
     hidePrices: document.getElementById("hide-prices"),
     columnsBtn: document.getElementById("btn-columns"),
     columnsMenu: document.getElementById("columns-menu"),
     columnsList: document.getElementById("columns-menu-list"),
     showAll: document.getElementById("btn-show-all"),
     addRow: document.getElementById("btn-add-row"),
+    autoSort: document.getElementById("btn-auto-sort"),
+    addGroupHeader: document.getElementById("btn-add-group-header"),
     exportBtn: document.getElementById("btn-export"),
     exportMenu: document.getElementById("export-menu"),
     configSummary: document.getElementById("config-summary"),
@@ -141,10 +162,6 @@
     configSummaryPreview: document.getElementById("config-summary-preview"),
     btnToggleCopyOutput: document.getElementById("btn-toggle-copy-output"),
     listWorkspace: document.getElementById("list-workspace"),
-    btnZoomIn: document.getElementById("btn-zoom-in"),
-    btnZoomOut: document.getElementById("btn-zoom-out"),
-    btnZoomReset: document.getElementById("btn-zoom-reset"),
-    zoomLabel: document.getElementById("zoom-label"),
     table: document.getElementById("bom-table"),
     thead: document.querySelector("#bom-table thead"),
     tbody: document.querySelector("#bom-table tbody"),
@@ -153,7 +170,132 @@
     rowCount: document.getElementById("row-count"),
     toast: document.getElementById("toast"),
     saveNote: document.getElementById("save-note"),
+    configPasteHint: document.getElementById("config-paste-hint"),
+    notesPasteHint: document.getElementById("notes-paste-hint"),
+    configSummaryHint: document.getElementById("config-summary-hint"),
   };
+
+  var columnsMenuAnchor = null;
+  var exportMenuAnchor = null;
+
+  function workflowSignalScore(label, value, workflowId) {
+    var key = String(label || "").trim().toLowerCase();
+    var text = (key + " " + String(value || "")).toLowerCase();
+    var order = WORKFLOW_PROFILES[workflowId].configLabelOrder;
+    var score = 0;
+    var i;
+    for (i = 0; i < order.length; i++) {
+      if (key === order[i]) score += 12;
+      else if (key.indexOf(order[i]) >= 0) score += 6;
+    }
+    if (workflowId === "sitePositioning") {
+      if (/product line|receiver model|data collector|total station|optical options|accessory package/.test(text)) {
+        score += 2;
+      }
+      if (/\b(r780|r750|da2|tsc710|tsc7|sps|siteworks|gnss receiver|total station)\b/.test(text)) score += 2;
+    }
+    if (workflowId === "machines") {
+      if (/earthworks|accugrade|cat grade|factory fit|machine model|mount type/.test(text)) score += 2;
+      if (/\b(dozer|excavator|motor grader|wheel loader|soil compactor)\b/.test(text)) score += 2;
+      if (/1600\d{2}-/.test(text)) score += 3;
+      if (/\bkit\s*-\s*base\b/.test(text)) score += 1;
+    }
+    return score;
+  }
+
+  function detectWorkflowFromConfigFields(fields) {
+    var machines = 0;
+    var site = 0;
+    var i;
+    for (i = 0; i < fields.length; i++) {
+      machines += workflowSignalScore(fields[i].label, fields[i].value, "machines");
+      site += workflowSignalScore(fields[i].label, fields[i].value, "sitePositioning");
+    }
+    if (site > machines) return "sitePositioning";
+    if (machines > site) return "machines";
+    return null;
+  }
+
+  function detectWorkflowFromText(text) {
+    var machines = 0;
+    var site = 0;
+    var blob = String(text || "");
+    if (!blob.trim()) return null;
+    machines += workflowSignalScore("application", blob, "machines");
+    machines += workflowSignalScore("factory fit level", blob, "machines");
+    machines += workflowSignalScore("machine model", blob, "machines");
+    site += workflowSignalScore("product line", blob, "sitePositioning");
+    site += workflowSignalScore("receiver model", blob, "sitePositioning");
+    site += workflowSignalScore("data collector type", blob, "sitePositioning");
+    site += workflowSignalScore("total station product type", blob, "sitePositioning");
+    if (site > machines) return "sitePositioning";
+    if (machines > site) return "machines";
+    return null;
+  }
+
+  function detectWorkflowFromRows() {
+    var machines = 0;
+    var site = 0;
+    var i;
+    var desc;
+    var part;
+    for (i = 0; i < state.rows.length; i++) {
+      if (isGroupHeaderRow(state.rows[i])) continue;
+      desc = rowTextByRole(state.rows[i], "description");
+      part = rowTextByRole(state.rows[i], "part");
+      machines += workflowSignalScore("", desc + " " + part, "machines");
+      site += workflowSignalScore("", desc + " " + part, "sitePositioning");
+    }
+    if (site > machines) return "sitePositioning";
+    if (machines > site) return "machines";
+    return null;
+  }
+
+  function hasWorkflowSignals() {
+    if (detectWorkflowFromConfigFields(state.configFields)) return true;
+    if (detectWorkflowFromRows()) return true;
+    if (detectWorkflowFromText(els.configPasteBox ? els.configPasteBox.value : "")) return true;
+    if (detectWorkflowFromText(els.pasteBox ? els.pasteBox.value : "")) return true;
+    return false;
+  }
+
+  function resolveWorkflowId() {
+    return (
+      detectWorkflowFromConfigFields(state.configFields) ||
+      detectWorkflowFromRows() ||
+      detectWorkflowFromText(els.configPasteBox ? els.configPasteBox.value : "") ||
+      detectWorkflowFromText(els.pasteBox ? els.pasteBox.value : "") ||
+      "machines"
+    );
+  }
+
+  function syncWorkflowFromInput() {
+    var next = resolveWorkflowId();
+    var changed = state.workflow !== next;
+    state.workflow = next;
+    applyWorkflowProfile();
+    return changed;
+  }
+
+  function tableActionButtons(action) {
+    return document.querySelectorAll('[data-table-action="' + action + '"]');
+  }
+
+  function setTableActionDisabled(action, disabled) {
+    var buttons = tableActionButtons(action);
+    var i;
+    for (i = 0; i < buttons.length; i++) {
+      buttons[i].disabled = disabled;
+    }
+  }
+
+  function setShowGstInputsButtonsVisible(visible) {
+    var buttons = tableActionButtons("show-inputs");
+    var i;
+    for (i = 0; i < buttons.length; i++) {
+      buttons[i].hidden = !visible;
+    }
+  }
 
   var state = {
     rows: [],
@@ -161,19 +303,41 @@
     extraKeys: [],
     hidePrices: false,
     configFields: [],
+    workflow: "machines",
     inputHidden: false,
     configSummaryCollapsed: false,
     copyOutputCollapsed: false,
-    tableZoom: 100,
+    columnWidths: {},
   };
 
-  var TABLE_ZOOM_MIN = 60;
-  var TABLE_ZOOM_MAX = 140;
-  var TABLE_ZOOM_STEP = 10;
-  var fitTableColumnsTimer = null;
+  var COLUMN_SLOT_ACTIONS = "__actions__";
+  var COLUMN_SLOT_LINE_TOTAL = "__lineTotal__";
+  var columnResizeTimer = null;
+
+  function tableWrapInnerWidth(wrap) {
+    var width = wrap.clientWidth;
+    if (width < 160) return width;
+    // Stay inside the pane when scrollbars or sub-pixel rounding appear.
+    return Math.max(160, width - 2);
+  }
 
   var toastTimer = null;
   var nextId = 1;
+
+  function getWorkflowProfile() {
+    return WORKFLOW_PROFILES[state.workflow] || WORKFLOW_PROFILES.machines;
+  }
+
+  function applyWorkflowProfile() {
+    var profile = getWorkflowProfile();
+    var hints = hasWorkflowSignals() ? profile : WORKFLOW_NEUTRAL;
+    if (els.configPasteHint) els.configPasteHint.innerHTML = hints.configPasteHint;
+    if (els.notesPasteHint) els.notesPasteHint.innerHTML = hints.notesHint;
+    if (els.configSummaryHint) els.configSummaryHint.textContent = hints.configSummaryHint;
+    if (els.configPasteBox) els.configPasteBox.placeholder = WORKFLOW_NEUTRAL.configPastePlaceholder;
+    document.body.classList.toggle("workflow-site-positioning", profile.id === "sitePositioning");
+    document.body.classList.toggle("workflow-machines", profile.id === "machines");
+  }
 
   function newId() {
     return "r" + nextId++;
@@ -454,6 +618,98 @@
     return { id: newId(), values: values };
   }
 
+  function isGroupHeaderRow(row) {
+    return !!(row && row.rowType === "groupHeader");
+  }
+
+  function groupHeaderRow(label) {
+    var row = emptyRow();
+    var descIdx = columnIndexByRole("description");
+    row.rowType = "groupHeader";
+    if (descIdx >= 0) row.values[descIdx] = label || "";
+    return row;
+  }
+
+  function countDataRows(rows) {
+    var total = 0;
+    var i;
+    for (i = 0; i < rows.length; i++) {
+      if (!isGroupHeaderRow(rows[i])) total++;
+    }
+    return total;
+  }
+
+  function autoSortGroupKey(item) {
+    if (item.autoGroup) return item.autoGroup;
+    return "unknown";
+  }
+
+  function autoSortGroupLabel(key) {
+    var labels = {
+      kits: "Kits",
+      gnss_receiver: "GNSS Receiver(s)",
+      option_keys: "Receiver options & upgrades",
+      gnss_antenna: "GNSS antennas",
+      radios_uhf: "Radios & UHF",
+      power_charging: "Power & charging",
+      cables: "Cables",
+      mounts_brackets: "Mounts & brackets",
+      data_collector: "Data collectors",
+      accessories: "Accessories",
+      optical: "Optical / total station",
+      sensors: "Sensors",
+      components: "Components",
+      software: "Software",
+      licenses: "Licenses",
+      protection_plans: "Protection plans",
+      cases_transport: "Cases & transport",
+      install: "Install / labor / freight",
+      unknown: "Unknown",
+    };
+    return labels[key] || key;
+  }
+
+  function autoGroupSortOrder(groupKey) {
+    var order = {
+      kits: 5,
+      gnss_receiver: 10,
+      option_keys: 20,
+      gnss_antenna: 30,
+      radios_uhf: 40,
+      power_charging: 50,
+      cables: 60,
+      mounts_brackets: 70,
+      data_collector: 80,
+      accessories: 82,
+      optical: 85,
+      sensors: 88,
+      components: 90,
+      software: 100,
+      licenses: 105,
+      protection_plans: 110,
+      cases_transport: 120,
+      install: 125,
+      unknown: 999,
+    };
+    return order[groupKey] != null ? order[groupKey] : 999;
+  }
+
+  function buildRowsWithGroupHeaders(decorated) {
+    var output = [];
+    var currentKey = null;
+    var i;
+    var key;
+    for (i = 0; i < decorated.length; i++) {
+      key = autoSortGroupKey(decorated[i]);
+      if (key !== currentKey) {
+        output.push(groupHeaderRow(autoSortGroupLabel(key)));
+        currentKey = key;
+      }
+      output.push(decorated[i].row);
+    }
+    return output;
+  }
+
   function ensureDefaultColumns() {
     if (state.columns.length) return;
     var i;
@@ -617,6 +873,7 @@
       cols.push({
         index: i,
         key: String(i),
+        colId: col.id || String(i),
         role: col.role,
         label: label,
         className: meta ? meta.className : "col-extra",
@@ -650,6 +907,515 @@
     state.rows.splice(toIndex, 0, row);
   }
 
+  function columnIndexByRole(role) {
+    var i;
+    for (i = 0; i < state.columns.length; i++) {
+      if (state.columns[i].role === role) return i;
+    }
+    return -1;
+  }
+
+  function rowTextByRole(row, role) {
+    var index = columnIndexByRole(role);
+    if (index < 0) return "";
+    return String(getCellValue(row, String(index)) || "").trim();
+  }
+
+  function bomGroupData() {
+    return window.GST_BOM_GROUP || null;
+  }
+
+  var trimbleCatalogPartIndex = null;
+
+  function normalizePartForLookup(part) {
+    return String(part || "")
+      .toUpperCase()
+      .replace(/\s+/g, "");
+  }
+
+  function trimbleCatalogLookupKeys(part) {
+    var normalized = normalizePartForLookup(part);
+    var keys = [normalized];
+    var stripped;
+    if (!normalized) return keys;
+    stripped = normalized.replace(/(-HH|-GEO|-BLK)+$/i, "");
+    if (stripped && stripped !== normalized) keys.push(stripped);
+    return keys;
+  }
+
+  function ensureTrimbleCatalogIndex() {
+    var catalog;
+    var entries;
+    var i;
+    var entry;
+    var key;
+    if (trimbleCatalogPartIndex) return trimbleCatalogPartIndex;
+    trimbleCatalogPartIndex = {};
+    catalog = window.TRIMBLE_COMPONENTS_CATALOG;
+    if (!catalog || !catalog.entries) return trimbleCatalogPartIndex;
+    entries = catalog.entries;
+    for (i = 0; i < entries.length; i++) {
+      entry = entries[i];
+      key = normalizePartForLookup(entry.part);
+      if (key && !trimbleCatalogPartIndex[key]) trimbleCatalogPartIndex[key] = entry;
+    }
+    return trimbleCatalogPartIndex;
+  }
+
+  function trimbleCatalogEntryForPart(part) {
+    var index;
+    var keys;
+    var i;
+    if (!part) return null;
+    index = ensureTrimbleCatalogIndex();
+    keys = trimbleCatalogLookupKeys(part);
+    for (i = 0; i < keys.length; i++) {
+      if (index[keys[i]]) return index[keys[i]];
+    }
+    return null;
+  }
+
+  function catalogCategoryForPart(part) {
+    var entry = trimbleCatalogEntryForPart(part);
+    return entry && entry.category ? entry.category : null;
+  }
+
+  function bomCategorySortOrder(categoryKey) {
+    var data = bomGroupData();
+    var categories;
+    var i;
+    if (!data || !data.categories) return 999;
+    categories = data.categories;
+    for (i = 0; i < categories.length; i++) {
+      if (categories[i].key === categoryKey) return categories[i].sortOrder;
+    }
+    return 999;
+  }
+
+  function rowMatchesGroupRule(row, rule) {
+    var part = rowTextByRole(row, "part").toUpperCase();
+    var desc = rowTextByRole(row, "description");
+    var pattern = rule.pattern || "";
+    if (rule.matchType === "description_prefix") return desc.indexOf(pattern) === 0;
+    if (rule.matchType === "description_contains") return desc.indexOf(pattern) >= 0;
+    if (rule.matchType === "part_prefix") return part.indexOf(pattern.toUpperCase()) === 0;
+    return false;
+  }
+
+  function classifyRowCategory(row) {
+    var data = bomGroupData();
+    var rules;
+    var part = rowTextByRole(row, "part");
+    var catalogCategory;
+    var i;
+    catalogCategory = catalogCategoryForPart(part);
+    if (catalogCategory) return catalogCategory;
+    if (!data || !data.rules) return "misc";
+    rules = data.rules.slice().sort(function (a, b) {
+      return a.priority - b.priority;
+    });
+    for (i = 0; i < rules.length; i++) {
+      if (rowMatchesGroupRule(row, rules[i])) return rules[i].category;
+    }
+    return "misc";
+  }
+
+  function isEarthworksLicenseRow(row, category) {
+    var part;
+    var desc;
+    if (category !== "software") return false;
+    part = rowTextByRole(row, "part").toUpperCase().replace(/\s+/g, "");
+    desc = rowTextByRole(row, "description");
+    if (/^160\d{3}-/.test(part)) return true;
+    if (/^(Core|Module)\s+(Bundle|License)\b/i.test(desc)) return true;
+    if (/License Bundle|Core License/i.test(desc)) return true;
+    return false;
+  }
+
+  function licenseFamilyKey(part) {
+    var normalized = String(part || "").toUpperCase().replace(/\s+/g, "");
+    if (/^160\d{3}-/.test(normalized)) return normalized.slice(0, 7);
+    return "";
+  }
+
+  function licensePartSortKey(part) {
+    return String(part || "").toUpperCase().replace(/\s+/g, "");
+  }
+
+  function isTripodOrBipodLine(desc) {
+    var text = String(desc || "");
+    return /\bTripod\b/i.test(text) || /\bBipod\b/i.test(text);
+  }
+
+  function isFruGnssReceiverUnit(desc, partUp) {
+    var text = String(desc || "");
+    if (/FRU\s*-\s*GNSS\s+Receiver/i.test(text)) return true;
+    if (/^400(956|976|996)-/i.test(partUp)) return true;
+    return false;
+  }
+
+  function isMsGnssReceiverReference(desc, partUp) {
+    var text = String(desc || "");
+    if (/\bMS9\d{2}\b/i.test(text) && /GNSS\s+Receiver|Smart\s+Antenna/i.test(text)) return true;
+    if (/\bMS9\d{2}\b/i.test(partUp)) return true;
+    return false;
+  }
+
+  function isReceiverOptionsLine(desc, partUp) {
+    var text = String(desc || "");
+    var part = String(partUp || "").toUpperCase().replace(/\s+/g, "");
+    if (/^130300-/.test(part)) return true;
+    if (/Option\s*(Key|Combo)/i.test(text) && /\bMS9\d{2}\b/i.test(text)) return true;
+    if (/^Option\s*-/i.test(text) && /Licensing|Precise Rover|GLN|BeiDou|RTK|Full RTK/i.test(text)) return true;
+    return false;
+  }
+
+  function isSpsGnssReceiverPart(partUp, desc) {
+    var text = String(desc || "");
+    if (/CON-R(780|750)/i.test(partUp)) return true;
+    if (/CON-R(780|750)/i.test(text)) return true;
+    return false;
+  }
+
+  function isRadioFrequencyAntenna(desc, partUp) {
+    var text = String(desc || "");
+    if (isSpsGnssReceiverPart(partUp, text)) return false;
+    if (/Smart\s+Antenna/i.test(text)) return false;
+    if (!/Antenna/i.test(text)) return false;
+    if (/^Antenna\s*-\s*GNSS/i.test(text)) return false;
+    if (/Zephyr\s*3/i.test(text) && /GNSS|GPS/i.test(text)) return false;
+    return /\bRP\b|TNC|RP-TNC|MHz|GHz|\bMhz\b|\bGhz\b/i.test(text);
+  }
+
+  function isGnssReceiverAccessory(desc, partUp) {
+    var text = String(desc || "");
+    if (isFruGnssReceiverUnit(text, partUp)) return false;
+    if (isMsGnssReceiverReference(text, partUp)) return false;
+    if (/Battery|Charger|Cable|Case|Pouch|Power Bank|Quicklock|Quick Lock|Adapter Kit|Power supply|Power Cord|Tripod|Monopole|Transport/i.test(text)) {
+      return true;
+    }
+    if (/\bBracket\b/i.test(text) || /\bMount\b/i.test(text)) return true;
+    if (/Kit\s*-\s*(Battery|External|Antenna|Mount)/i.test(text)) return true;
+    if (/^CON-R/i.test(partUp)) return false;
+    if (/Harness|Extender|Splitter|Terminator/i.test(text)) return true;
+    return false;
+  }
+
+  function isPrimaryGnssReceiver(desc, partUp) {
+    var text = String(desc || "");
+    if (!text && !partUp) return false;
+    if (isReceiverOptionsLine(text, partUp)) return false;
+    if (isSpsGnssReceiverPart(partUp, text)) return true;
+    if (isFruGnssReceiverUnit(text, partUp)) return true;
+    if (isGnssReceiverAccessory(text, partUp)) return false;
+    if (/^Antenna\s*-/i.test(text)) return false;
+    if (isRadioFrequencyAntenna(text, partUp)) return false;
+    if (/^CON-R/i.test(partUp)) return true;
+    if (/^109695/i.test(partUp)) return true;
+    if (/\bDA2\b/i.test(text) || /\bCatalyst\b/i.test(text)) return true;
+    if (/^Receiver\s*-\s*GNSS/i.test(text)) return true;
+    if (/GNSS\s+Receiver/i.test(text)) return true;
+    if (/Smart\s+Antenna/i.test(text) && !/\bKit\b/i.test(text)) return true;
+    if (isMsGnssReceiverReference(text, partUp)) return true;
+    if (/^400(956|976|996)-/i.test(partUp)) return true;
+    return false;
+  }
+
+  function isGnssAntennaLine(desc, partUp) {
+    var text = String(desc || "");
+    if (isRadioFrequencyAntenna(text, partUp)) return false;
+    if (/^Antenna\s*-\s*GNSS/i.test(text)) return true;
+    if (/Zephyr\s*3/i.test(text) && /Antenna|GNSS/i.test(text)) return true;
+    if (/^Antenna\s*-/i.test(text) && /GNSS|GPS|Zephyr|GA830/i.test(text)) return true;
+    if (/^(105000|115000|125000|44830)-/i.test(partUp)) return true;
+    if (/\bFRU\b/i.test(text) && /Antenna/i.test(text) && !/Receiver/i.test(text)) return true;
+    return false;
+  }
+
+  function isOpticalLine(desc, partUp, section) {
+    var text = String(desc || "");
+    if (section && /optical/i.test(section)) {
+      if (/^Instrument\s*-/i.test(text)) return true;
+      if (/Prism|Target|Total Station|MultiTrack|Active Track/i.test(text)) return true;
+      if (/^SPS\d{3}/i.test(partUp) || /^SX12/i.test(partUp)) return true;
+    }
+    if (/^Instrument\s*-/i.test(text)) return true;
+    if (/^SPS\d{3}/i.test(partUp) || /^SX12/i.test(partUp)) return true;
+    if (/Robotic\s+UTS|Total Station/i.test(text) && !/GNSS/i.test(text)) return true;
+    if (/^Prism\s*-|^Target\s*-|MultiTrack Target|Active Track 360/i.test(text)) return true;
+    return false;
+  }
+
+  function isRadiosUhfLine(desc, partUp, category, section) {
+    var text = String(desc || "");
+    if (isSpsGnssReceiverPart(partUp, text)) return false;
+    if (/^TDL\d|^TDL450|^TDL510/i.test(partUp)) return true;
+    if (/^EM1[02]\d|^EM940|^EM130/i.test(partUp)) return true;
+    if (/^SNM94|^SNR\d|^SNR\d/i.test(partUp)) return true;
+    if (category === "radio") return true;
+    if (section && /radio|tdl|empower/i.test(section) && /radio|tdl|empower|uhf/i.test(text)) return true;
+    if (/^Radio\s*-/i.test(text)) return true;
+    if (/\bUHF\b/i.test(text) && /Kit|Antenna|Radio|Coaxial/i.test(text)) return true;
+    if (/Kit\s*-\s*.*(UHF|Coaxial|Radio Antenna)/i.test(text)) return true;
+    if (/TDL\d|Connected Site Gateway|On-Machine/i.test(text)) return true;
+    if (/Antenna.*(900\s*MHz|450\s*MHz|410-470|UHF|Whip)/i.test(text) && !/GNSS|Zephyr|GPS|Smart\s+Antenna/i.test(text)) return true;
+    if (isRadioFrequencyAntenna(text, partUp)) return true;
+    return false;
+  }
+
+  function isPowerChargingLine(desc, partUp) {
+    var text = String(desc || "");
+    if (/^GNSS-AC-/i.test(partUp)) return true;
+    if (/Power supply|Power Cord|Charger|Vehicle Adapter/i.test(text)) return true;
+    if (/Dual Slot Battery|Battery Pack|Battery Charger/i.test(text)) return true;
+    if (/^10[19]000|^78651|^106090|^101000|^51694|^124395/i.test(partUp)) return true;
+    if (/Kit\s*-\s*Battery/i.test(text)) return true;
+    if (/USB.*Charg|AC Wall Charger|AC Power/i.test(text)) return true;
+    return false;
+  }
+
+  function isDataCollectorAccessory(desc, partUp) {
+    var text = String(desc || "");
+    if (
+      /Bracket|Mount|Clamp|Protector|Stylus|Strap|Bumper|Dock|Cover|Film|Charger|Battery|Cable|Case|Accessory|Pole Mount|Quick Release|Cam Lock|Shoulder|Carry|Replacements|Transport Case|Hand Strap|Screen Protector|Office Dock|Power Supply|Charge and Sync|Adapter Plate|Magnetic plate|tether|tips\b/i.test(
+        text
+      )
+    ) {
+      return true;
+    }
+    if (/^132\d{3}|^125\d{3}|^121\d{3}|^140\d{3}|^131\d{3}|^119\d{3}|^133919/i.test(partUp) && !/controller|Tablet/i.test(text)) {
+      return true;
+    }
+    return false;
+  }
+
+  function isPrimaryDataCollector(desc, partUp) {
+    var text = String(desc || "");
+    if (isDataCollectorAccessory(text, partUp)) return false;
+    if (/^TSC710-\d|^TSC510-\d|^TSC7-\d/i.test(partUp)) return true;
+    if (/^TDC601$/i.test(partUp)) return true;
+    if (/^TDC6-/i.test(partUp) && /controller|handheld|Android/i.test(text)) return true;
+    if (/^114050/i.test(partUp) && /Tablet/i.test(text)) return true;
+    if (/Trimble TSC\d{3} controller/i.test(text)) return true;
+    if (/\d+\s*inch controller/i.test(text) && !/Bracket|Mount|Case/i.test(text)) return true;
+    if (/T70 Controller/i.test(text) && !/Bracket|Adapter/i.test(text)) return true;
+    return false;
+  }
+
+  function isCasesTransportLine(desc) {
+    var text = String(desc || "");
+    if (/Transport Case/i.test(text)) return true;
+    if (/^Case\s*-/i.test(text)) return true;
+    if (/Carry Case|Hardshell Transportation/i.test(text)) return true;
+    return false;
+  }
+
+  function isProtectionPlanLine(partUp, desc) {
+    var text = String(desc || "");
+    if (/^(TPP-|EWHCC-|EW-CC-|ADH-?CC-|ADHCC-)/i.test(partUp)) return true;
+    if (/Trimble Protected|TPP\s*-/i.test(text)) return true;
+    return false;
+  }
+
+  function isOptionKeysLine(partUp, desc) {
+    var text = String(desc || "");
+    if (/^(PB-|PR-|MAR-)/i.test(partUp)) return true;
+    if (/^130300-/i.test(partUp)) return true;
+    if (/CCFS/i.test(text)) return true;
+    if (/Upgrade\s*-\s*R\d/i.test(text)) return true;
+    if (isReceiverOptionsLine(text, partUp)) return true;
+    return false;
+  }
+
+  function isGnssFamilyAccessory(desc, partUp, section) {
+    if (isPrimaryGnssReceiver(desc, partUp)) return false;
+    if (isGnssAntennaLine(desc, partUp) || isRadioFrequencyAntenna(desc, partUp)) return false;
+    if (isGnssReceiverAccessory(desc, partUp)) return true;
+    if (section && /gnss receiver/i.test(section)) return true;
+    return false;
+  }
+
+  function isDataCollectorFamilyAccessory(desc, partUp, section) {
+    if (isPrimaryDataCollector(desc, partUp)) return false;
+    if (section && /data collector/i.test(section)) return true;
+    if (isDataCollectorAccessory(desc, partUp)) return true;
+    if (/^TSC|^TDC|^T110|^T70\b/i.test(partUp) && !isPrimaryDataCollector(desc, partUp)) return true;
+    return false;
+  }
+
+  function catalogCategoryToAutoGroup(catalogEntry) {
+    var category = catalogEntry.category;
+    var section = String(catalogEntry.section || "").toLowerCase();
+    var desc = String(catalogEntry.description || "");
+    var partUp = normalizePartForLookup(catalogEntry.part);
+    if (section.indexOf("software") >= 0) return "software";
+    if (section.indexOf("optical") >= 0) return "optical";
+    if (isPrimaryDataCollector(desc, partUp)) return "data_collector";
+    if (isPrimaryGnssReceiver(desc, partUp)) return "gnss_receiver";
+    if (isGnssAntennaLine(desc, partUp)) return "gnss_antenna";
+    if (isRadioFrequencyAntenna(desc, partUp)) return "radios_uhf";
+    if (isRadiosUhfLine(desc, partUp, category, section)) return "radios_uhf";
+    if (isPowerChargingLine(desc, partUp)) return "power_charging";
+    if (category === "cabling" || category === "harness" || /\bCable\b/i.test(desc) || /\bHarness\b/i.test(desc)) {
+      return "cables";
+    }
+    if (isTripodOrBipodLine(desc)) return "accessories";
+    if (category === "bracket" || /\bBracket\b/i.test(desc) || /\bMount\b/i.test(desc)) return "mounts_brackets";
+    if (category === "kit" || /\bKit\b/i.test(desc)) return "kits";
+    if (isDataCollectorFamilyAccessory(desc, partUp, section)) return "accessories";
+    if (isGnssFamilyAccessory(desc, partUp, section)) return "accessories";
+    if (category === "radio") return "radios_uhf";
+    if (category === "sensor") return "sensors";
+    if (category === "fru") return "components";
+    if (category === "software") return "software";
+    if (category === "display") return "accessories";
+    if (category === "gnss") return "accessories";
+    return "";
+  }
+
+  function bomCategoryToAutoGroup(category, desc, partUp) {
+    if (category === "display") {
+      if (isPrimaryDataCollector(desc, partUp)) return "data_collector";
+      return "accessories";
+    }
+    if (category === "gnss") {
+      if (isPrimaryGnssReceiver(desc, partUp)) return "gnss_receiver";
+      if (isGnssAntennaLine(desc, partUp)) return "gnss_antenna";
+      return "accessories";
+    }
+    if (category === "cabling" || category === "harness") return "cables";
+    if (category === "bracket") {
+      if (isTripodOrBipodLine(desc)) return "accessories";
+      return "mounts_brackets";
+    }
+    if (category === "radio") return "radios_uhf";
+    if (category === "kit") return "kits";
+    if (category === "sensor") return "sensors";
+    if (category === "fru") return "components";
+    if (category === "software") return "software";
+    if (category === "install") return "install";
+    if (category === "training") return "unknown";
+    return "";
+  }
+
+  function resolveAutoSortGroup(row, category, isLicense) {
+    var part = rowTextByRole(row, "part");
+    var desc = rowTextByRole(row, "description");
+    var partUp = normalizePartForLookup(part);
+    var catalogEntry = trimbleCatalogEntryForPart(part);
+    var section = catalogEntry && catalogEntry.section ? catalogEntry.section.toLowerCase() : "";
+    var fromCatalog;
+
+    if (isLicense) return "licenses";
+    if (isProtectionPlanLine(partUp, desc)) return "protection_plans";
+    if (isOptionKeysLine(partUp, desc)) return "option_keys";
+    if (isCasesTransportLine(desc)) return "cases_transport";
+    if (isPrimaryGnssReceiver(desc, partUp)) return "gnss_receiver";
+    if (isGnssAntennaLine(desc, partUp)) return "gnss_antenna";
+    if (isOpticalLine(desc, partUp, section)) return "optical";
+    if (isRadiosUhfLine(desc, partUp, category, section)) return "radios_uhf";
+    if (isPowerChargingLine(desc, partUp)) return "power_charging";
+    if (isPrimaryDataCollector(desc, partUp)) return "data_collector";
+    if (category === "software" || /^SCS900|^SITEWORKS|^TSV-/i.test(partUp)) return "software";
+    if (/^Software\s*-/i.test(desc)) return "software";
+    if (/\bKit\b/i.test(desc) || category === "kit") return "kits";
+    if (/\bCable\b/i.test(desc) || /\bHarness\b/i.test(desc) || category === "cabling" || category === "harness") {
+      return "cables";
+    }
+    if (isTripodOrBipodLine(desc)) return "accessories";
+    if (isDataCollectorFamilyAccessory(desc, partUp, section) || isGnssFamilyAccessory(desc, partUp, section)) {
+      return "accessories";
+    }
+    if (
+      /\bBracket\b/i.test(desc) ||
+      /\bMount\b/i.test(desc) ||
+      /\bTribrach\b/i.test(desc) ||
+      category === "bracket"
+    ) {
+      return "mounts_brackets";
+    }
+    if (/^Sensor\s*-/i.test(desc) || category === "sensor") return "sensors";
+    if (/\bFRU\b/i.test(desc) || category === "fru") return "components";
+    if (category === "install") return "install";
+    if (catalogEntry) {
+      fromCatalog = catalogCategoryToAutoGroup(catalogEntry);
+      if (fromCatalog) return fromCatalog;
+    }
+    fromCatalog = bomCategoryToAutoGroup(category, desc, partUp);
+    if (fromCatalog) return fromCatalog;
+    return "unknown";
+  }
+
+  function autoSortCleanList() {
+    var decorated;
+    var licenseCount;
+    var groupedCount;
+    var headerCount;
+    var dataRows;
+    var i;
+    dataRows = countDataRows(state.rows);
+    if (!dataRows) return { licenseCount: 0, groupedCount: 0, headerCount: 0 };
+    decorated = state.rows.filter(function (row) {
+      return !isGroupHeaderRow(row);
+    }).map(function (row, index) {
+      var part = rowTextByRole(row, "part");
+      var desc = rowTextByRole(row, "description");
+      var category = classifyRowCategory(row);
+      var isLicense = isEarthworksLicenseRow(row, category);
+      var autoGroup = resolveAutoSortGroup(row, category, isLicense);
+      return {
+        row: row,
+        index: index,
+        category: category,
+        autoGroup: autoGroup,
+        sortOrder: autoGroupSortOrder(autoGroup),
+        isLicense: isLicense,
+        licenseFamily: licenseFamilyKey(part),
+        partKey: licensePartSortKey(part),
+        descKey: desc.toLowerCase(),
+      };
+    });
+    decorated.sort(function (a, b) {
+      if (a.sortOrder !== b.sortOrder) return a.sortOrder - b.sortOrder;
+      if (a.autoGroup && b.autoGroup && a.autoGroup === b.autoGroup) {
+        if (a.descKey !== b.descKey) return a.descKey < b.descKey ? -1 : 1;
+        if (a.partKey !== b.partKey) return a.partKey < b.partKey ? -1 : 1;
+        return a.index - b.index;
+      }
+      if (a.isLicense && b.isLicense) {
+        if (a.licenseFamily && b.licenseFamily && a.licenseFamily !== b.licenseFamily) {
+          return a.licenseFamily < b.licenseFamily ? -1 : 1;
+        }
+        if (a.partKey !== b.partKey) return a.partKey < b.partKey ? -1 : 1;
+        if (a.descKey !== b.descKey) return a.descKey < b.descKey ? -1 : 1;
+        return a.index - b.index;
+      }
+      if (a.autoGroup === "unknown" && b.autoGroup === "unknown") {
+        if (bomCategorySortOrder(a.category) !== bomCategorySortOrder(b.category)) {
+          return bomCategorySortOrder(a.category) - bomCategorySortOrder(b.category);
+        }
+        if (a.descKey !== b.descKey) return a.descKey < b.descKey ? -1 : 1;
+        if (a.partKey !== b.partKey) return a.partKey < b.partKey ? -1 : 1;
+        return a.index - b.index;
+      }
+      return a.index - b.index;
+    });
+    licenseCount = 0;
+    groupedCount = 0;
+    for (i = 0; i < decorated.length; i++) {
+      if (decorated[i].isLicense) licenseCount++;
+      if (decorated[i].autoGroup && decorated[i].autoGroup !== "unknown") groupedCount++;
+    }
+    headerCount = 0;
+    for (i = 0; i < decorated.length; i++) {
+      if (i === 0 || autoSortGroupKey(decorated[i]) !== autoSortGroupKey(decorated[i - 1])) headerCount++;
+    }
+    state.rows = buildRowsWithGroupHeaders(decorated);
+    renderTable();
+    saveState();
+    return { licenseCount: licenseCount, groupedCount: groupedCount, headerCount: headerCount };
+  }
+
   function getCellValue(row, colKey) {
     var index = Number(colKey);
     if (!row.values) return "";
@@ -662,47 +1428,20 @@
     row.values[index] = value;
   }
 
-  function roleSelectHtml(col) {
-    var html = '<select class="col-role" data-col-index="' + col.index + '" aria-label="Set column type">';
-    html += '<option value="extra"' + (col.role === "extra" ? " selected" : "") + ">Not set</option>";
-    var i;
-    var role;
-    for (i = 0; i < GST_ROLES.length; i++) {
-      role = GST_ROLES[i];
-      html +=
-        '<option value="' +
-        role.key +
-        '"' +
-        (col.role === role.key ? " selected" : "") +
-        ">" +
-        escapeHtml(role.headerLabel || role.label) +
-        "</option>";
+  function columnHeaderLabel(col) {
+    var meta = roleMeta(col.role);
+    var standard;
+    if (col.role === "extra") return col.sourceLabel || "Column";
+    if (!meta) return col.sourceLabel || "Column";
+    standard = meta.headerLabel || meta.label;
+    if (col.sourceLabel && col.sourceLabel !== standard && col.sourceLabel !== meta.label) {
+      return col.sourceLabel;
     }
-    html += '<option value="hide">Hide column</option>';
-    html += "</select>";
-    return html;
+    return standard;
   }
 
-  function setColumnRole(index, newRole) {
-    var col = state.columns[index];
-    if (!col) return;
-    if (newRole === "hide") {
-      col.hidden = true;
-      return;
-    }
-    col.hidden = false;
-    if (newRole === col.role) return;
-    if (newRole !== "extra") {
-      var i;
-      for (i = 0; i < state.columns.length; i++) {
-        if (i !== index && state.columns[i].role === newRole && !state.columns[i].hidden) {
-          state.columns[i].role = col.role === "extra" ? "extra" : col.role;
-          col.role = newRole;
-          return;
-        }
-      }
-    }
-    col.role = newRole;
+  function columnHeaderLabelHtml(col) {
+    return '<span class="col-header-label">' + escapeHtml(columnHeaderLabel(col)) + "</span>";
   }
 
   function migrateRows(rows, payload) {
@@ -824,6 +1563,7 @@
     var parsed;
     if (priceIdx >= 0) {
       for (i = 0; i < state.rows.length; i++) {
+        if (isGroupHeaderRow(state.rows[i])) continue;
         parsed = parseMoneyText(getCellValue(state.rows[i], String(priceIdx)));
         if (parsed.currency === "USD") counts.USD += 1;
         if (parsed.currency === "CAD") counts.CAD += 1;
@@ -839,6 +1579,9 @@
   }
 
   function lineTotalForRow(row) {
+    if (isGroupHeaderRow(row)) {
+      return { amount: 0, currency: detectTableCurrency() };
+    }
     var qtyIdx = columnIndexByRole("qty");
     var priceIdx = columnIndexByRole("price");
     if (qtyIdx < 0 || priceIdx < 0) return { amount: 0, currency: null };
@@ -881,30 +1624,130 @@
     return "$" + formatted;
   }
 
-  function formatGrandTotalHtml(totals) {
+  function formatGrandTotalAmount(totals) {
     var keys = Object.keys(totals).filter(function (key) {
       return totals[key];
     });
     keys.sort();
-    if (!keys.length) {
-      return (
-        '<span class="grand-total-label">Grand total</span> ' + escapeHtml(formatMoney(0))
-      );
+    if (!keys.length) return escapeHtml(formatMoney(0));
+    if (keys.length === 1) return escapeHtml(formatMoney(totals[keys[0]], keys[0]));
+    return keys
+      .map(function (key) {
+        return escapeHtml(formatMoney(totals[key], key));
+      })
+      .join(' <span class="grand-total-sep" aria-hidden="true">·</span> ');
+  }
+
+  function formatGrandTotalPlain(totals) {
+    var keys = Object.keys(totals).filter(function (key) {
+      return totals[key];
+    });
+    keys.sort();
+    if (!keys.length) return formatMoney(0);
+    if (keys.length === 1) return formatMoney(totals[keys[0]], keys[0]);
+    return keys
+      .map(function (key) {
+        return formatMoney(totals[key], key);
+      })
+      .join(" · ");
+  }
+
+  function formatGrandTotalHtml(totals) {
+    return formatGrandTotalAmount(totals);
+  }
+
+  function exportColumnsWithTotals() {
+    var cols = exportColumns();
+    if (!totalsVisible()) {
+      return { cols: cols, hasLineTotal: false };
     }
-    if (keys.length === 1) {
-      return (
-        '<span class="grand-total-label">Grand total</span> ' +
-        escapeHtml(formatMoney(totals[keys[0]], keys[0]))
-      );
+    return {
+      cols: cols.concat([
+        {
+          index: -1,
+          key: "__line_total",
+          role: "line_total",
+          label: "Line total",
+          className: "col-line-total",
+        },
+      ]),
+      hasLineTotal: true,
+    };
+  }
+
+  function groupHeaderExportLabel(row) {
+    var descIdx = columnIndexByRole("description");
+    var key = descIdx >= 0 ? String(descIdx) : "0";
+    return String(getCellValue(row, key) || "").trim() || "Group";
+  }
+
+  function exportDescriptionColumnIndex(cols) {
+    var i;
+    for (i = 0; i < cols.length; i++) {
+      if (cols[i].role === "description") return i;
     }
-    return (
-      '<span class="grand-total-label">Grand total</span> ' +
-      keys
-        .map(function (key) {
-          return escapeHtml(formatMoney(totals[key], key));
-        })
-        .join(' <span class="grand-total-sep" aria-hidden="true">·</span> ')
-    );
+    return 0;
+  }
+
+  function buildExportTableModel() {
+    var columnBundle = exportColumnsWithTotals();
+    var cols = columnBundle.cols;
+    var showTotals = columnBundle.hasLineTotal;
+    var entries = [];
+    var grandTotals = {};
+    var r;
+    var row;
+    var c;
+    var col;
+    var cells;
+    var lineTotal;
+    var currency;
+    for (r = 0; r < state.rows.length; r++) {
+      row = state.rows[r];
+      if (isGroupHeaderRow(row)) {
+        entries.push({ type: "group", label: groupHeaderExportLabel(row) });
+        continue;
+      }
+      cells = [];
+      for (c = 0; c < cols.length; c++) {
+        col = cols[c];
+        if (col.role === "line_total") {
+          lineTotal = lineTotalForRow(row);
+          cells.push(formatMoney(lineTotal.amount, lineTotal.currency));
+          if (showTotals) {
+            currency = lineTotal.currency || detectTableCurrency();
+            grandTotals[currency] = (grandTotals[currency] || 0) + lineTotal.amount;
+          }
+        } else {
+          cells.push(normalizeExportCell(getCellValue(row, col.key), col.role));
+        }
+      }
+      entries.push({ type: "data", cells: cells });
+    }
+    return { cols: cols, entries: entries, grandTotals: grandTotals, showTotals: showTotals };
+  }
+
+  function exportGroupHeaderCells(cols, label) {
+    var cells = [];
+    var descIdx = exportDescriptionColumnIndex(cols);
+    var i;
+    for (i = 0; i < cols.length; i++) {
+      cells.push(i === descIdx ? "— " + label + " —" : "");
+    }
+    return cells;
+  }
+
+  function exportGrandTotalCells(cols, grandTotals) {
+    var cells = [];
+    var i;
+    var totalText = formatGrandTotalPlain(grandTotals);
+    if (cols.length === 1) return [totalText];
+    for (i = 0; i < cols.length; i++) {
+      if (i === cols.length - 1) cells.push(totalText);
+      else if (i === cols.length - 2) cells.push("Grand total");
+      else cells.push("");
+    }
+    return cells;
   }
 
   function truncatePreview(text, max) {
@@ -971,84 +1814,107 @@
     saveState();
   }
 
-  function applyTableZoom() {
-    var zoom = state.tableZoom;
-    if (zoom < TABLE_ZOOM_MIN) zoom = TABLE_ZOOM_MIN;
-    if (zoom > TABLE_ZOOM_MAX) zoom = TABLE_ZOOM_MAX;
-    state.tableZoom = zoom;
-    if (els.listWorkspace) {
-      els.listWorkspace.style.setProperty("--table-zoom", String(zoom / 100));
-    }
-    if (els.zoomLabel) els.zoomLabel.textContent = zoom + "%";
-    if (els.btnZoomOut) els.btnZoomOut.disabled = zoom <= TABLE_ZOOM_MIN;
-    if (els.btnZoomIn) els.btnZoomIn.disabled = zoom >= TABLE_ZOOM_MAX;
-    scheduleFitTableColumns();
-  }
-
-  function columnWidthSpec(role) {
+  function columnWidthMin(role) {
     switch (role) {
+      case "actions":
+        return 36;
       case "part":
-        return { min: 88, headerMin: 108, weight: 1.2 };
+        return 72;
       case "description":
-        return { min: 96, headerMin: 96, weight: 4 };
+        return 96;
       case "price":
-        return { min: 76, headerMin: 88, weight: 0 };
+        return 64;
       case "qty":
-        return { min: 52, headerMin: 76, weight: 0 };
+        return 52;
       case "comment":
-        return { min: 88, headerMin: 88, weight: 1.4 };
+        return 72;
+      case "lineTotal":
+        return 88;
       default:
-        return { min: 72, headerMin: 88, weight: 1 };
+        return 64;
     }
   }
 
-  function scheduleFitTableColumns() {
-    if (fitTableColumnsTimer) window.clearTimeout(fitTableColumnsTimer);
-    fitTableColumnsTimer = window.setTimeout(fitTableColumns, 40);
+  function columnWidthDefault(role) {
+    switch (role) {
+      case "actions":
+        return 40;
+      case "part":
+        return 108;
+      case "description":
+        return 280;
+      case "price":
+        return 88;
+      case "qty":
+        return 76;
+      case "comment":
+        return 120;
+      case "lineTotal":
+        return 100;
+      default:
+        return 88;
+    }
   }
 
-  function fitTableColumns() {
+  function columnWidthSlots() {
+    var cols = visibleColumns();
+    var showTotals = totalsVisible();
+    var slots = [{ key: COLUMN_SLOT_ACTIONS, role: "actions" }];
+    var i;
+    for (i = 0; i < cols.length; i++) {
+      slots.push({ key: cols[i].colId, role: cols[i].role });
+    }
+    if (showTotals) {
+      slots.push({ key: COLUMN_SLOT_LINE_TOTAL, role: "lineTotal" });
+    }
+    return slots;
+  }
+
+  function columnDragGripHtml() {
+    return '<span class="col-drag-grip" title="Drag to reorder column" aria-hidden="true"></span>';
+  }
+
+  function columnResizeHandleHtml(resizeIndex) {
+    return (
+      '<span class="col-resize-handle" role="separator" aria-orientation="vertical" aria-label="Resize column" data-resize-index="' +
+      resizeIndex +
+      '"></span>'
+    );
+  }
+
+  function ensureColumnWidths(forceFit) {
+    var slots = columnWidthSlots();
     var wrap = els.tableWrap;
-    var table = els.table;
-    var cols;
-    var showTotals;
+    var available;
     var specs;
     var widths;
-    var available;
-    var zoom;
     var totalMin;
     var totalWeight;
     var remainder;
-    var colgroup;
-    var html;
     var i;
-    var sum;
-    var scale;
-    if (!wrap || !table) return;
-    if (!state.rows.length) {
-      colgroup = table.querySelector("colgroup");
-      if (colgroup) colgroup.innerHTML = "";
-      return;
+    var absorbIdx;
+    var others;
+    if (!state.columnWidths) state.columnWidths = {};
+
+    for (i = 0; i < slots.length; i++) {
+      if (state.columnWidths[slots[i].key] == null) forceFit = true;
     }
-    zoom = state.tableZoom / 100;
-    if (zoom < 0.6) zoom = 0.6;
-    available = wrap.clientWidth / zoom;
+    if (!forceFit || !wrap || !state.rows.length) return;
+
+    available = tableWrapInnerWidth(wrap);
     if (available < 160) return;
 
-    cols = visibleColumns();
-    showTotals = totalsVisible();
-    specs = [{ min: 40, headerMin: 40, weight: 0, fixed: true }];
-    for (i = 0; i < cols.length; i++) {
-      var spec = columnWidthSpec(cols[i].role);
+    specs = [];
+    for (i = 0; i < slots.length; i++) {
+      var role = slots[i].role;
+      var isFlex = role === "description" || role === "comment" || role === "extra";
       specs.push({
-        min: spec.min,
-        headerMin: spec.headerMin || spec.min,
-        weight: spec.weight,
-        fixed: spec.weight === 0,
+        key: slots[i].key,
+        min: columnWidthMin(role),
+        headerMin: columnWidthDefault(role),
+        weight: role === "description" ? 4 : role === "comment" ? 1.4 : 0,
+        fixed: !isFlex,
       });
-    }
-    if (showTotals) {
-      specs.push({ min: 92, headerMin: 100, weight: 0, fixed: true });
     }
 
     totalMin = 0;
@@ -1068,28 +1934,66 @@
       widths.push(Math.round(specs[i].headerMin + extra));
     }
 
-    sum = 0;
-    for (i = 0; i < widths.length; i++) sum += widths[i];
-    if (sum > available && sum > 0) {
-      var fixedSum = 0;
-      var flexSum = 0;
-      var flexIndices = [];
+    absorbIdx = -1;
+    for (i = 0; i < slots.length; i++) {
+      if (slots[i].role === "description") {
+        absorbIdx = i;
+        break;
+      }
+    }
+    if (absorbIdx < 0) {
       for (i = 0; i < specs.length; i++) {
-        if (specs[i].fixed) {
-          fixedSum += widths[i];
-        } else {
-          flexSum += widths[i];
-          flexIndices.push(i);
+        if (!specs[i].fixed) {
+          absorbIdx = i;
+          break;
         }
       }
-      var flexAvailable = Math.max(0, available - fixedSum);
-      if (flexSum > flexAvailable && flexSum > 0) {
-        scale = flexAvailable / flexSum;
-        for (i = 0; i < flexIndices.length; i++) {
-          var idx = flexIndices[i];
-          widths[idx] = Math.max(specs[idx].min, Math.floor(widths[idx] * scale));
-        }
+    }
+    if (absorbIdx >= 0) {
+      others = 0;
+      for (i = 0; i < widths.length; i++) {
+        if (i !== absorbIdx) others += widths[i];
       }
+      widths[absorbIdx] = Math.max(specs[absorbIdx].min, available - others);
+    }
+
+    for (i = 0; i < specs.length; i++) {
+      state.columnWidths[specs[i].key] = widths[i];
+    }
+  }
+
+  function applyColumnWidths() {
+    var table = els.table;
+    var wrap = els.tableWrap;
+    var slots = columnWidthSlots();
+    var colgroup;
+    var html = "";
+    var widths = [];
+    var sum = 0;
+    var i;
+    var slot;
+    var width;
+    if (!table || !wrap) return;
+    if (!state.rows.length) {
+      colgroup = table.querySelector("colgroup");
+      if (colgroup) colgroup.innerHTML = "";
+      table.style.width = "";
+      table.style.minWidth = "";
+      return;
+    }
+
+    ensureColumnWidths(false);
+    for (i = 0; i < slots.length; i++) {
+      slot = slots[i];
+      width = Math.round(
+        state.columnWidths[slot.key] != null
+          ? state.columnWidths[slot.key]
+          : columnWidthDefault(slot.role)
+      );
+      width = Math.max(columnWidthMin(slot.role), width);
+      state.columnWidths[slot.key] = width;
+      widths.push(width);
+      sum += width;
     }
 
     colgroup = table.querySelector("colgroup");
@@ -1097,33 +2001,88 @@
       colgroup = document.createElement("colgroup");
       table.insertBefore(colgroup, table.firstChild);
     }
-    html = "";
     for (i = 0; i < widths.length; i++) {
       html += '<col style="width:' + widths[i] + 'px">';
     }
     colgroup.innerHTML = html;
+    table.style.width = Math.max(wrap.clientWidth, sum) + "px";
+    table.style.minWidth = sum + "px";
   }
 
-  function setTableZoom(zoom) {
-    state.tableZoom = zoom;
-    applyTableZoom();
-    saveState();
+  function scheduleApplyColumnWidths() {
+    if (columnResizeTimer) window.clearTimeout(columnResizeTimer);
+    columnResizeTimer = window.setTimeout(applyColumnWidths, 40);
   }
 
-  function adjustTableZoom(delta) {
-    setTableZoom(state.tableZoom + delta);
+  function setupColumnResize() {
+    var active = null;
+
+    function endResize(event) {
+      if (!active) return;
+      if (event && event.pointerId !== active.pointerId) return;
+      if (active.handle && active.handle.releasePointerCapture) {
+        try {
+          active.handle.releasePointerCapture(active.pointerId);
+        } catch (err) {}
+      }
+      active = null;
+      if (els.tableWrap) els.tableWrap.classList.remove("is-resizing-cols");
+      saveState();
+    }
+
+    els.table.addEventListener("pointerdown", function (event) {
+      var handle = event.target.closest(".col-resize-handle");
+      var slots;
+      var slot;
+      var width;
+      if (!handle) return;
+      slots = columnWidthSlots();
+      slot = slots[Number(handle.getAttribute("data-resize-index"))];
+      if (!slot) return;
+      ensureColumnWidths(false);
+      width =
+        state.columnWidths[slot.key] != null
+          ? state.columnWidths[slot.key]
+          : columnWidthDefault(slot.role);
+      active = {
+        slotKey: slot.key,
+        min: columnWidthMin(slot.role),
+        startX: event.clientX,
+        startWidth: width,
+        pointerId: event.pointerId,
+        handle: handle,
+      };
+      if (els.tableWrap) els.tableWrap.classList.add("is-resizing-cols");
+      handle.setPointerCapture(event.pointerId);
+      event.preventDefault();
+      event.stopPropagation();
+    });
+
+    els.table.addEventListener("pointermove", function (event) {
+      var next;
+      if (!active || event.pointerId !== active.pointerId) return;
+      next = Math.round(active.startWidth + (event.clientX - active.startX));
+      next = Math.max(active.min, next);
+      state.columnWidths[active.slotKey] = next;
+      applyColumnWidths();
+      event.preventDefault();
+    });
+
+    els.table.addEventListener("pointerup", endResize);
+    els.table.addEventListener("pointercancel", endResize);
   }
 
   function applyInputsHidden() {
     var hidden = !!state.inputHidden;
     if (els.appLayout) els.appLayout.classList.toggle("inputs-hidden", hidden);
     if (els.panePaste) els.panePaste.hidden = hidden;
-    if (els.btnShowInputs) els.btnShowInputs.hidden = !hidden;
-    scheduleFitTableColumns();
+    setShowGstInputsButtonsVisible(hidden);
+    scheduleApplyColumnWidths();
   }
 
   function setInputsHidden(hidden) {
     state.inputHidden = !!hidden;
+    if (hidden) syncConfigFromPasteBox();
     applyInputsHidden();
   }
 
@@ -1132,9 +2091,16 @@
     saveState();
   }
 
+  function syncConfigFromPasteBox() {
+    if (!els.configPasteBox) return false;
+    var text = els.configPasteBox.value;
+    if (!text.trim()) return false;
+    return organizeConfig(text) > 0;
+  }
+
   function focusListWorkspace() {
     setInputsHidden(true);
-    if (hasConfigFields()) setConfigSummaryCollapsed(true);
+    if (!hasConfigFields()) syncConfigFromPasteBox();
     if (exportHasContent() || getNotesPlain().trim()) setCopyOutputCollapsed(true);
     saveState();
   }
@@ -1146,12 +2112,12 @@
         saveState();
       });
     }
-    if (els.btnShowInputs) {
-      els.btnShowInputs.addEventListener("click", function () {
+    tableActionButtons("show-inputs").forEach(function (btn) {
+      btn.addEventListener("click", function () {
         setInputsHidden(false);
         saveState();
       });
-    }
+    });
     if (els.btnToggleConfigSummary) {
       els.btnToggleConfigSummary.addEventListener("click", function () {
         toggleConfigSummaryCollapsed();
@@ -1162,22 +2128,6 @@
         toggleCopyOutputCollapsed();
       });
     }
-    if (els.btnZoomIn) {
-      els.btnZoomIn.addEventListener("click", function () {
-        adjustTableZoom(TABLE_ZOOM_STEP);
-      });
-    }
-    if (els.btnZoomOut) {
-      els.btnZoomOut.addEventListener("click", function () {
-        adjustTableZoom(-TABLE_ZOOM_STEP);
-      });
-    }
-    if (els.btnZoomReset) {
-      els.btnZoomReset.addEventListener("click", function () {
-        setTableZoom(100);
-      });
-    }
-    applyTableZoom();
     applyConfigSummaryCollapse();
     applyCopyOutputCollapse();
     applyInputsHidden();
@@ -1246,7 +2196,7 @@
     for (i = 0; i < parsed.length; i++) {
       fields.push({ id: newId(), label: parsed[i].label, value: parsed[i].value });
     }
-    return sortConfigFields(fields);
+    return fields;
   }
 
   function looksLikeGstOptionLabel(label) {
@@ -1257,9 +2207,10 @@
 
   function configFieldPriority(label) {
     var key = String(label || "").trim().toLowerCase();
+    var order = getWorkflowProfile().configLabelOrder;
     var i;
-    for (i = 0; i < GST_CONFIG_LABEL_ORDER.length; i++) {
-      if (key === GST_CONFIG_LABEL_ORDER[i]) return (i + 1) * 10;
+    for (i = 0; i < order.length; i++) {
+      if (key === order[i]) return (i + 1) * 10;
     }
     if (/^serial(\s*number)?$/i.test(key)) return 95;
     if (looksLikeGstOptionLabel(label)) return 85;
@@ -1310,6 +2261,7 @@
     var html = "";
     var i;
     var field;
+    var fieldPlaceholder = getWorkflowProfile().configFieldPlaceholder;
     for (i = 0; i < state.configFields.length; i++) {
       field = state.configFields[i];
       html +=
@@ -1320,7 +2272,9 @@
         escapeAttr(field.id) +
         '" value="' +
         escapeAttr(field.label || "") +
-        '" spellcheck="false" aria-label="Configuration field name" placeholder="Application" />' +
+        '" spellcheck="false" aria-label="Configuration field name" placeholder="' +
+        escapeAttr(fieldPlaceholder) +
+        '" />' +
         '<span class="config-colon" aria-hidden="true">:</span>' +
         '<input class="config-value-input" data-config-value="' +
         escapeAttr(field.id) +
@@ -1395,19 +2349,19 @@
   }
 
   function exportHasContent() {
-    return state.rows.length > 0 || hasConfigFields();
+    return countDataRows(state.rows) > 0 || hasConfigFields();
   }
 
   function toCopyText() {
     var exportedAt = new Date();
-    var cols = exportColumns();
     var lines = exportHeaderPlainLines(exportedAt);
     var configLines = exportConfigPlainLines();
     var notes = getNotesPlain().trim();
-    var r;
-    var c;
-    var values;
     var i;
+    var tableModel;
+    var exportCols;
+    var e;
+    var entry;
     if (configLines.length) {
       lines.push("");
       for (i = 0; i < configLines.length; i++) {
@@ -1419,21 +2373,27 @@
       lines.push("Configuration notes:");
       lines.push(notes);
     }
-    if (cols.length && state.rows.length) {
+    if (exportColumns().length && state.rows.length) {
+      tableModel = buildExportTableModel();
+      exportCols = tableModel.cols;
       lines.push("");
       lines.push(
-        cols
+        exportCols
           .map(function (col) {
             return col.label;
           })
           .join("\t")
       );
-      for (r = 0; r < state.rows.length; r++) {
-        values = [];
-        for (c = 0; c < cols.length; c++) {
-          values.push(normalizeExportCell(getCellValue(state.rows[r], cols[c].key), cols[c].role));
+      for (e = 0; e < tableModel.entries.length; e++) {
+        entry = tableModel.entries[e];
+        if (entry.type === "group") {
+          lines.push(exportGroupHeaderCells(exportCols, entry.label).join("\t"));
+        } else {
+          lines.push(entry.cells.join("\t"));
         }
-        lines.push(values.join("\t"));
+      }
+      if (tableModel.showTotals && tableModel.entries.length) {
+        lines.push(exportGrandTotalCells(exportCols, tableModel.grandTotals).join("\t"));
       }
     }
     return lines.join("\r\n");
@@ -1494,10 +2454,10 @@
       if (document.execCommand("copy")) {
         showToast("Copied to clipboard.");
       } else {
-        showToast("Select the text and press Ctrl+C to copy.");
+        showToast("Select the text and press Ctrl+C or ⌘C to copy.");
       }
     } catch (err) {
-      showToast("Select the text and press Ctrl+C to copy.");
+      showToast("Select the text and press Ctrl+C or ⌘C to copy.");
     }
   }
 
@@ -1556,20 +2516,28 @@
     var cols = visibleColumns();
     var showTotals = totalsVisible();
     var html = "<tr>";
+    var resizeIndex = 0;
     var i;
     var grandTotals = {};
     var currency;
-    html += '<th class="row-actions" aria-label="Row actions"></th>';
+    html +=
+      '<th class="row-actions" aria-label="Row actions">' +
+      columnResizeHandleHtml(resizeIndex++) +
+      "</th>";
     for (i = 0; i < cols.length; i++) {
       html += '<th class="' + cols[i].className + '" data-col-index="' + cols[i].index + '">';
-      html += roleSelectHtml(cols[i]);
-      html += "</th>";
+      html += '<div class="col-header-main">';
+      html += columnDragGripHtml();
+      html += columnHeaderLabelHtml(cols[i]);
+      html += columnResizeHandleHtml(resizeIndex++);
+      html += "</div></th>";
     }
     if (showTotals) {
       html +=
         '<th class="col-line-total">' +
         '<div class="col-header-main line-total-header">' +
-        '<span class="col-legend col-legend-total">Line total</span>' +
+        '<span class="col-header-label col-header-label-total">Line total</span>' +
+        columnResizeHandleHtml(resizeIndex++) +
         "</div></th>";
     }
     html += "</tr>";
@@ -1583,18 +2551,47 @@
     var lineTotal;
     for (r = 0; r < state.rows.length; r++) {
       row = state.rows[r];
+      var isHeader = isGroupHeaderRow(row);
       lineTotal = showTotals ? lineTotalForRow(row) : { amount: 0, currency: null };
-      if (showTotals) {
+      if (showTotals && !isHeader) {
         currency = lineTotal.currency || detectTableCurrency();
         grandTotals[currency] = (grandTotals[currency] || 0) + lineTotal.amount;
       }
-      body += '<tr data-id="' + row.id + '" data-row-index="' + r + '">';
+      body += '<tr class="' + (isHeader ? "is-group-header" : "") + '" data-id="' + row.id + '" data-row-index="' + r + '"' + (isHeader ? ' data-row-type="groupHeader"' : "") + ">";
+      if (isHeader) {
+        var descColKey = columnIndexByRole("description");
+        descColKey = descColKey >= 0 ? String(descColKey) : cols.length ? cols[0].key : "0";
+        body +=
+          '<td class="row-actions">' +
+          '<div class="row-actions-inner">' +
+          '<button type="button" class="btn btn-icon" data-delete="' +
+          row.id +
+          '" title="Remove this group header" aria-label="Remove this group header">×</button>' +
+          "</div></td>";
+        body +=
+          '<td class="group-header-label-cell" colspan="' +
+          cols.length +
+          '"><input class="group-header-label" data-id="' +
+          row.id +
+          '" data-key="' +
+          escapeAttr(descColKey) +
+          '" value="' +
+          escapeAttr(getCellValue(row, descColKey)) +
+          '" placeholder="Group name" aria-label="Group name" /></td>';
+        if (showTotals) {
+          body += '<td class="col-line-total group-header-total" aria-hidden="true"></td>';
+        }
+        body += "</tr>";
+        continue;
+      }
       body +=
         '<td class="row-actions">' +
         '<div class="row-actions-inner">' +
         '<button type="button" class="btn btn-icon" data-delete="' +
         row.id +
-        '" title="Remove this line" aria-label="Remove this line">×</button></div></td>';
+        '" title="Remove this line" aria-label="Remove this line">×</button>' +
+        '<span class="row-drag-grip" title="Drag to reorder" aria-hidden="true"></span>' +
+        "</div></td>";
       for (c = 0; c < cols.length; c++) {
         col = cols[c];
         if (col.role === "description") {
@@ -1631,12 +2628,17 @@
     if (els.tfoot) {
       if (showTotals && state.rows.length) {
         var foot = "<tr class=\"grand-total-row\"><td class=\"row-actions\"></td>";
-        for (c = 0; c < cols.length; c++) {
-          foot += "<td></td>";
+        if (cols.length) {
+          foot +=
+            '<td class="grand-total-label-cell" colspan="' +
+            cols.length +
+            '"><div class="grand-total-label-wrap">' +
+            '<span class="grand-total-verify hint">Verify total matches GST pricing total.</span>' +
+            '<span class="grand-total-label">Grand total</span></div></td>';
         }
         foot +=
           '<td class="col-line-total grand-total-cell">' +
-          formatGrandTotalHtml(grandTotals) +
+          formatGrandTotalAmount(grandTotals) +
           "</td></tr>";
         els.tfoot.innerHTML = foot;
       } else {
@@ -1645,20 +2647,27 @@
     }
 
     var hasRows = state.rows.length > 0;
+    var dataRowTotal = countDataRows(state.rows);
+    var groupHeaderTotal = state.rows.length - dataRowTotal;
     els.tableWrap.classList.toggle("has-rows", hasRows);
-    if (els.columnsBtn) els.columnsBtn.disabled = !state.columns.length;
+    setTableActionDisabled("columns", !state.columns.length);
     renderColumnsMenu();
-    els.addRow.disabled = false;
-    if (els.exportBtn) els.exportBtn.disabled = !exportHasContent();
+    setTableActionDisabled("add-row", false);
+    setTableActionDisabled("auto-group", !dataRowTotal);
+    setTableActionDisabled("add-group-header", !state.columns.length);
+    setTableActionDisabled("export", !exportHasContent());
     if (!hasRows) {
       els.rowCount.textContent = "No lines yet. Paste a list, then click Organize list.";
-    } else if (state.rows.length === 1) {
-      els.rowCount.textContent = "1 line";
+    } else if (dataRowTotal === 1) {
+      els.rowCount.textContent = groupHeaderTotal ? "1 line in 1 group" : "1 line";
+    } else if (groupHeaderTotal) {
+      els.rowCount.textContent = dataRowTotal + " lines in " + groupHeaderTotal + " groups";
     } else {
-      els.rowCount.textContent = state.rows.length + " lines";
+      els.rowCount.textContent = dataRowTotal + " lines";
     }
     updateCopyOutput();
-    scheduleFitTableColumns();
+    ensureColumnWidths(false);
+    applyColumnWidths();
   }
 
   function updateTotalsDisplay() {
@@ -1675,6 +2684,7 @@
       rowEl = rowEls[i];
       rowIdx = Number(rowEl.getAttribute("data-row-index"));
       if (rowIdx < 0 || rowIdx >= state.rows.length) continue;
+      if (isGroupHeaderRow(state.rows[rowIdx])) continue;
       lineTotal = lineTotalForRow(state.rows[rowIdx]);
       currency = lineTotal.currency || detectTableCurrency();
       grandTotals[currency] = (grandTotals[currency] || 0) + lineTotal.amount;
@@ -1682,7 +2692,7 @@
       if (cell) cell.textContent = formatMoney(lineTotal);
     }
     cell = els.tfoot.querySelector(".grand-total-cell");
-    if (cell) cell.innerHTML = formatGrandTotalHtml(grandTotals);
+    if (cell) cell.innerHTML = formatGrandTotalAmount(grandTotals);
   }
 
   function clearDragMarks() {
@@ -1697,6 +2707,17 @@
   function setTableDragging(on) {
     if (els.tableWrap) els.tableWrap.classList.toggle("is-reordering", on);
     document.body.classList.toggle("is-table-dragging", on);
+  }
+
+  function applyGroupDragVisual(headerIndex) {
+    var block = groupBlockRange(headerIndex);
+    var i;
+    var tr;
+    if (!block) return;
+    for (i = block.start; i <= block.end; i++) {
+      tr = els.tbody.querySelector('tr[data-row-index="' + i + '"]');
+      if (tr) tr.classList.add("is-dragging");
+    }
   }
 
   function applyDragActiveState(active) {
@@ -1741,9 +2762,17 @@
 
   function finishTableDrag(active) {
     var toIndex = active.hoverIndex;
-    if (toIndex != null && toIndex !== active.fromIndex) {
-      if (active.type === "col") moveColumn(active.fromIndex, toIndex);
-      else moveRow(active.fromIndex, toIndex);
+    var moved = false;
+    if (toIndex != null) {
+      if (active.type === "col" && toIndex !== active.fromIndex) {
+        moveColumn(active.fromIndex, toIndex);
+        moved = true;
+      } else if (active.type === "row" && toIndex !== active.fromIndex) {
+        moveRow(active.fromIndex, toIndex);
+        moved = true;
+      }
+    }
+    if (moved) {
       renderTable();
       saveState();
     }
@@ -1757,7 +2786,7 @@
     var DRAG_THRESHOLD = 6;
 
     function isInteractiveTarget(node) {
-      return !!node.closest("input, textarea, button, select, option, a, label");
+      return !!node.closest("input, textarea, button, select, option, a, label, .col-resize-handle");
     }
 
     function pointerDistance(startX, startY, x, y) {
@@ -1785,7 +2814,7 @@
     els.table.addEventListener("pointerdown", function (event) {
       var tr = event.target.closest("tbody tr[data-row-index]");
       var th = event.target.closest("th[data-col-index]");
-      if (tr && !isInteractiveTarget(event.target)) {
+      if (tr && !tr.classList.contains("is-group-header") && !isInteractiveTarget(event.target)) {
         pending = {
           type: "row",
           fromIndex: Number(tr.getAttribute("data-row-index")),
@@ -1829,7 +2858,7 @@
           mark = els.thead.querySelector('th[data-col-index="' + target + '"]');
           if (mark) mark.classList.add("drag-over");
         }
-      } else {
+      } else if (active.type === "row") {
         target = findDropRow(event.clientX, event.clientY);
         if (target != null) {
           mark = els.tbody.querySelector('tr[data-row-index="' + target + '"]');
@@ -2102,7 +3131,8 @@
       inputHidden: state.inputHidden,
       configSummaryCollapsed: state.configSummaryCollapsed,
       copyOutputCollapsed: state.copyOutputCollapsed,
-      tableZoom: state.tableZoom,
+      columnWidths: state.columnWidths,
+      workflow: state.workflow,
       nextId: nextId,
     };
     try {
@@ -2133,7 +3163,9 @@
       state.inputHidden = !!(payload.inputHidden || payload.inputDocked);
       state.configSummaryCollapsed = !!payload.configSummaryCollapsed;
       state.copyOutputCollapsed = !!payload.copyOutputCollapsed;
-      state.tableZoom = payload.tableZoom || 100;
+      state.columnWidths = payload.columnWidths || {};
+      state.workflow =
+        payload.workflow && WORKFLOW_PROFILES[payload.workflow] ? payload.workflow : "machines";
       nextId = payload.nextId || state.rows.length + 1;
       if (payload.hidePrices && state.columns.length) {
         setRoleHidden("price", true);
@@ -2143,10 +3175,14 @@
         renderTable();
         els.saveNote.hidden = false;
       } else if (hasConfigFields()) {
-        if (els.exportBtn) els.exportBtn.disabled = false;
+        if (els.exportBtn) setTableActionDisabled("export", !exportHasContent());
         els.saveNote.hidden = false;
       }
-      applyTableZoom();
+      if (!hasConfigFields()) syncConfigFromPasteBox();
+      syncWorkflowFromInput();
+      if (state.configFields.length) {
+        state.configFields = sortConfigFields(state.configFields);
+      }
       applyConfigSummaryCollapse();
       applyCopyOutputCollapse();
       applyInputsHidden();
@@ -2159,6 +3195,9 @@
     var parsed = parseConfigPaste(text);
     if (!parsed.length) return 0;
     state.configFields = configFieldsFromParsed(parsed);
+    syncWorkflowFromInput();
+    state.configFields = sortConfigFields(state.configFields);
+    setConfigSummaryCollapsed(false);
     renderConfigSummary();
     return parsed.length;
   }
@@ -2212,10 +3251,15 @@
     }
 
     if (!partsCount && configCount) {
-      if (els.exportBtn) els.exportBtn.disabled = !exportHasContent();
+      setTableActionDisabled("export", !exportHasContent());
     }
 
     if (configCount || partsCount) {
+      syncWorkflowFromInput();
+      if (state.configFields.length) {
+        state.configFields = sortConfigFields(state.configFields);
+        renderConfigSummary();
+      }
       focusListWorkspace();
     } else {
       saveState();
@@ -2244,11 +3288,15 @@
   }
 
   function toCsv(exportedAt) {
-    var cols = exportColumns();
     var lines = [];
     var headerLines = exportHeaderPlainLines(exportedAt);
     var configLines = exportConfigPlainLines();
+    var tableModel;
+    var exportCols;
     var i;
+    var e;
+    var entry;
+    var rowCells;
     for (i = 0; i < headerLines.length; i++) {
       lines.push(csvCell(headerLines[i]));
     }
@@ -2258,21 +3306,28 @@
         lines.push(csvCell(configLines[i]));
       }
     }
-    if (cols.length && state.rows.length) {
+    if (state.rows.length && exportColumns().length) {
+      tableModel = buildExportTableModel();
+      exportCols = tableModel.cols;
       lines.push("");
-      var headers = cols.map(function (col) {
-        return csvCell(col.label);
-      });
-      lines.push(headers.join(","));
-      var r;
-      var c;
-      var values;
-      for (r = 0; r < state.rows.length; r++) {
-        values = [];
-        for (c = 0; c < cols.length; c++) {
-          values.push(csvCell(normalizeExportCell(getCellValue(state.rows[r], cols[c].key), cols[c].role)));
+      lines.push(
+        exportCols
+          .map(function (col) {
+            return csvCell(col.label);
+          })
+          .join(",")
+      );
+      for (e = 0; e < tableModel.entries.length; e++) {
+        entry = tableModel.entries[e];
+        if (entry.type === "group") {
+          rowCells = exportGroupHeaderCells(exportCols, entry.label).map(csvCell);
+        } else {
+          rowCells = entry.cells.map(csvCell);
         }
-        lines.push(values.join(","));
+        lines.push(rowCells.join(","));
+      }
+      if (tableModel.showTotals && tableModel.entries.length) {
+        lines.push(exportGrandTotalCells(exportCols, tableModel.grandTotals).map(csvCell).join(","));
       }
     }
     return lines.join("\r\n");
@@ -2317,12 +3372,16 @@
   }
 
   function toDocumentHtml(exportedAt) {
-    var cols = exportColumns();
     var notesHtml = sanitizeNotesHtml(getNotesHtml());
+    var tableModel;
+    var cols;
     var html = "";
-    var r;
     var c;
+    var e;
+    var entry;
     var value;
+    var colspan;
+    var colspan;
     html +=
       "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\">" +
       "<title>GST BOM</title>" +
@@ -2340,6 +3399,10 @@
       "table{border-collapse:collapse;width:100%;margin-top:0.35rem;}" +
       "th,td{border:1px solid #D5D7DC;padding:0.35rem 0.5rem;text-align:left;vertical-align:top;}" +
       "th{background:#F1F1F6;font-weight:600;}" +
+      "tr.export-group-header td{background:#F1F1F6;font-weight:600;font-size:12pt;color:#252A2E;" +
+      "border-top:2px solid #0063A3;border-bottom:1px solid #D5D7DC;padding:0.45rem 0.65rem;}" +
+      "tr.export-grand-total td{font-weight:600;background:#F1F1F6;border-top:2px solid #252A2E;}" +
+      "tr.export-grand-total td.grand-total-label{text-align:right;}" +
       "</style></head><body>";
     html += "<h1>GST BOM</h1>";
     html += exportHeaderHtml(exportedAt);
@@ -2349,17 +3412,43 @@
     if (notesHtml) {
       html += "<h2>Configuration notes</h2><div>" + notesHtml + "</div>";
     }
-    if (state.rows.length && cols.length) {
+    if (state.rows.length && exportColumns().length) {
+      tableModel = buildExportTableModel();
+      cols = tableModel.cols;
       html += "<h2>Parts list</h2><table><thead><tr>";
       for (c = 0; c < cols.length; c++) {
         html += "<th>" + escapeHtml(cols[c].label) + "</th>";
       }
       html += "</tr></thead><tbody>";
-      for (r = 0; r < state.rows.length; r++) {
+      for (e = 0; e < tableModel.entries.length; e++) {
+        entry = tableModel.entries[e];
+        if (entry.type === "group") {
+          html +=
+            '<tr class="export-group-header"><td colspan="' +
+            cols.length +
+            '">' +
+            escapeHtml(entry.label) +
+            "</td></tr>";
+          continue;
+        }
         html += "<tr>";
         for (c = 0; c < cols.length; c++) {
-          value = normalizeExportCell(getCellValue(state.rows[r], cols[c].key), cols[c].role);
+          value = entry.cells[c];
           html += "<td>" + escapeHtml(value).replace(/\n/g, "<br>") + "</td>";
+        }
+        html += "</tr>";
+      }
+      if (tableModel.showTotals && tableModel.entries.length) {
+        colspan = Math.max(1, cols.length - 1);
+        html += '<tr class="export-grand-total">';
+        if (cols.length === 1) {
+          html += "<td>" + escapeHtml(formatGrandTotalPlain(tableModel.grandTotals)) + "</td>";
+        } else {
+          html +=
+            '<td class="grand-total-label" colspan="' +
+            colspan +
+            '">Grand total</td>';
+          html += "<td>" + escapeHtml(formatGrandTotalPlain(tableModel.grandTotals)) + "</td>";
         }
         html += "</tr>";
       }
@@ -2390,14 +3479,7 @@
     organizeAll("");
   });
 
-  els.sample.addEventListener("click", function () {
-    if (els.configPasteBox) els.configPasteBox.value = SAMPLE_CONFIG;
-    els.pasteBox.value = SAMPLE_PASTE;
-    if (els.notesBox) setNotesFromText(SAMPLE_NOTES);
-    organizeAll("");
-  });
-
-  els.clear.addEventListener("click", function () {
+  function clearAll() {
     if (els.configPasteBox) els.configPasteBox.value = "";
     els.pasteBox.value = "";
     if (els.notesBox) setNotesHtml("");
@@ -2407,8 +3489,7 @@
     state.inputHidden = false;
     state.configSummaryCollapsed = false;
     state.copyOutputCollapsed = false;
-    state.tableZoom = 100;
-    applyTableZoom();
+    state.columnWidths = {};
     applyConfigSummaryCollapse();
     applyCopyOutputCollapse();
     applyInputsHidden();
@@ -2420,19 +3501,35 @@
     } catch (err) {}
     els.saveNote.hidden = true;
     showToast("Cleared.");
+  }
+
+  tableActionButtons("clear").forEach(function (btn) {
+    btn.addEventListener("click", clearAll);
   });
 
-  function placeExportMenu() {
-    var menu = els.exportMenu;
-    var btn = els.exportBtn;
+  function placeMenuNearButton(menu, btn) {
     var box;
     var left;
+    var top;
     var pad = 8;
+    var menuHeight;
+    var rect;
     if (!menu || !btn || menu.hidden) return;
     menu.style.position = "fixed";
     menu.style.right = "auto";
-    menu.style.top = Math.round(btn.getBoundingClientRect().bottom + 6) + "px";
-    menu.style.left = Math.round(btn.getBoundingClientRect().left) + "px";
+    rect = btn.getBoundingClientRect();
+    menu.style.visibility = "hidden";
+    menu.style.left = Math.round(rect.left) + "px";
+    menu.style.top = "0";
+    menuHeight = menu.getBoundingClientRect().height;
+    menu.style.visibility = "";
+    if (window.innerHeight - rect.bottom > menuHeight + 12 || rect.top < menuHeight + 12) {
+      top = rect.bottom + 6;
+    } else {
+      top = rect.top - menuHeight - 6;
+    }
+    menu.style.top = Math.round(top) + "px";
+    menu.style.left = Math.round(rect.left) + "px";
     box = menu.getBoundingClientRect();
     left = box.left;
     if (box.right > window.innerWidth - pad) {
@@ -2440,47 +3537,59 @@
     }
     if (left < pad) left = pad;
     menu.style.left = Math.round(left) + "px";
+  }
+
+  function placeExportMenu() {
+    placeMenuNearButton(els.exportMenu, exportMenuAnchor || els.exportBtn);
   }
 
   function placeColumnsMenu() {
-    var menu = els.columnsMenu;
-    var btn = els.columnsBtn;
-    var box;
-    var left;
-    var pad = 8;
-    if (!menu || !btn || menu.hidden) return;
-    menu.style.position = "fixed";
-    menu.style.right = "auto";
-    menu.style.top = Math.round(btn.getBoundingClientRect().bottom + 6) + "px";
-    menu.style.left = Math.round(btn.getBoundingClientRect().left) + "px";
-    box = menu.getBoundingClientRect();
-    left = box.left;
-    if (box.right > window.innerWidth - pad) {
-      left = window.innerWidth - pad - box.width;
-    }
-    if (left < pad) left = pad;
-    menu.style.left = Math.round(left) + "px";
+    placeMenuNearButton(els.columnsMenu, columnsMenuAnchor || els.columnsBtn);
   }
 
-  if (els.columnsBtn && els.columnsMenu) {
-    els.columnsBtn.addEventListener("click", function (event) {
-      event.stopPropagation();
-      els.columnsMenu.hidden = !els.columnsMenu.hidden;
-      if (els.columnsMenu.hidden) {
-        els.columnsMenu.style.position = "";
-        els.columnsMenu.style.top = "";
-        els.columnsMenu.style.left = "";
-      } else {
-        placeColumnsMenu();
-      }
+  function resetFloatingMenu(menu) {
+    if (!menu) return;
+    menu.hidden = true;
+    menu.style.position = "";
+    menu.style.top = "";
+    menu.style.left = "";
+    menu.style.visibility = "";
+  }
+
+  function toggleColumnsMenu(btn) {
+    if (!els.columnsMenu) return;
+    columnsMenuAnchor = btn;
+    els.columnsMenu.hidden = !els.columnsMenu.hidden;
+    if (els.columnsMenu.hidden) {
+      resetFloatingMenu(els.columnsMenu);
+    } else {
+      placeColumnsMenu();
+    }
+  }
+
+  function toggleExportMenu(btn) {
+    if (!els.exportMenu) return;
+    exportMenuAnchor = btn;
+    els.exportMenu.hidden = !els.exportMenu.hidden;
+    if (els.exportMenu.hidden) {
+      resetFloatingMenu(els.exportMenu);
+    } else {
+      placeExportMenu();
+    }
+  }
+
+  if (els.columnsMenu) {
+    tableActionButtons("columns").forEach(function (btn) {
+      btn.addEventListener("click", function (event) {
+        event.stopPropagation();
+        toggleColumnsMenu(btn);
+      });
     });
     document.addEventListener("click", function (event) {
       if (els.columnsMenu.hidden) return;
-      if (event.target.closest(".columns-wrap")) return;
-      els.columnsMenu.hidden = true;
-      els.columnsMenu.style.position = "";
-      els.columnsMenu.style.top = "";
-      els.columnsMenu.style.left = "";
+      if (event.target.closest('[data-table-action="columns"]')) return;
+      if (event.target.closest("#columns-menu")) return;
+      resetFloatingMenu(els.columnsMenu);
     });
     window.addEventListener("resize", placeColumnsMenu);
     window.addEventListener("scroll", placeColumnsMenu, true);
@@ -2504,19 +3613,50 @@
     });
   }
 
-  els.thead.addEventListener("change", function (event) {
-    var select = event.target;
-    if (!select || !select.getAttribute("data-col-index")) return;
-    setColumnRole(Number(select.getAttribute("data-col-index")), select.value);
-    renderTable();
-    saveState();
-    showToast("Column updated.");
+  tableActionButtons("add-row").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      state.rows.push(emptyRow());
+      renderTable();
+      saveState();
+    });
   });
 
-  els.addRow.addEventListener("click", function () {
-    state.rows.push(emptyRow());
-    renderTable();
-    saveState();
+  tableActionButtons("auto-group").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var result = autoSortCleanList();
+      var parts = [];
+      if (result.headerCount) {
+        parts.push(result.headerCount + " group header" + (result.headerCount === 1 ? "" : "s"));
+      }
+      if (result.groupedCount) {
+        parts.push(result.groupedCount + " grouped line" + (result.groupedCount === 1 ? "" : "s"));
+      }
+      if (result.licenseCount) {
+        parts.push(result.licenseCount + " license line" + (result.licenseCount === 1 ? "" : "s"));
+      }
+      if (parts.length) {
+        showToast("Auto-group added " + parts.join(", ") + ".");
+      } else {
+        showToast("Sorted lines by BOM category.");
+      }
+    });
+  });
+
+  tableActionButtons("add-group-header").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      if (!state.columns.length) {
+        showToast("Organize a list first, then add group headers.", true);
+        return;
+      }
+      state.rows.push(groupHeaderRow(""));
+      renderTable();
+      saveState();
+      var headerRows = els.tbody.querySelectorAll("tr.is-group-header");
+      if (headerRows.length) {
+        var labelInput = headerRows[headerRows.length - 1].querySelector(".group-header-label");
+        if (labelInput) labelInput.focus();
+      }
+    });
   });
 
   if (els.addConfigField) {
@@ -2550,13 +3690,14 @@
         return field.id !== deleteId;
       });
       renderConfigSummary();
-      if (els.exportBtn) els.exportBtn.disabled = !exportHasContent();
+      setTableActionDisabled("export", !exportHasContent());
       saveState();
     });
   }
 
   if (els.configPasteBox) {
     els.configPasteBox.addEventListener("input", function () {
+      if (state.inputHidden) syncConfigFromPasteBox();
       saveState();
     });
   }
@@ -2567,34 +3708,24 @@
     });
   }
 
-  if (els.exportBtn && els.exportMenu) {
-    els.exportBtn.addEventListener("click", function (event) {
-      event.stopPropagation();
-      els.exportMenu.hidden = !els.exportMenu.hidden;
-      if (els.exportMenu.hidden) {
-        els.exportMenu.style.position = "";
-        els.exportMenu.style.top = "";
-        els.exportMenu.style.left = "";
-      } else {
-        placeExportMenu();
-      }
+  if (els.exportMenu) {
+    tableActionButtons("export").forEach(function (btn) {
+      btn.addEventListener("click", function (event) {
+        event.stopPropagation();
+        toggleExportMenu(btn);
+      });
     });
     els.exportMenu.addEventListener("click", function (event) {
       var option = event.target.closest("[data-export-preset]");
       if (!option) return;
-      els.exportMenu.hidden = true;
-      els.exportMenu.style.position = "";
-      els.exportMenu.style.top = "";
-      els.exportMenu.style.left = "";
+      resetFloatingMenu(els.exportMenu);
       runExport(option.getAttribute("data-export-preset"));
     });
     document.addEventListener("click", function (event) {
       if (els.exportMenu.hidden) return;
-      if (event.target.closest(".export-wrap")) return;
-      els.exportMenu.hidden = true;
-      els.exportMenu.style.position = "";
-      els.exportMenu.style.top = "";
-      els.exportMenu.style.left = "";
+      if (event.target.closest('[data-table-action="export"]')) return;
+      if (event.target.closest("#export-menu")) return;
+      resetFloatingMenu(els.exportMenu);
     });
     window.addEventListener("resize", placeExportMenu);
     window.addEventListener("scroll", placeExportMenu, true);
@@ -2676,14 +3807,19 @@
 
   setupWorkspaceControls();
   setupTableReorder();
+  setupColumnResize();
   loadState();
+  syncWorkflowFromInput();
+  if (state.configFields.length) {
+    state.configFields = sortConfigFields(state.configFields);
+  }
   renderConfigSummary();
   if (!state.rows.length) {
     renderTable();
   }
-  window.addEventListener("resize", scheduleFitTableColumns);
-  if (els.tableWrap && typeof ResizeObserver !== "undefined") {
-    new ResizeObserver(scheduleFitTableColumns).observe(els.tableWrap);
+  window.addEventListener("resize", scheduleApplyColumnWidths);
+  if (els.listWorkspace && typeof ResizeObserver !== "undefined") {
+    new ResizeObserver(scheduleApplyColumnWidths).observe(els.listWorkspace);
   }
   window.addEventListener("resize", resizeCopyOutputBox);
 })();

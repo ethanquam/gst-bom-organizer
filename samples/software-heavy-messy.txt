@@ -1,0 +1,7 @@
+1	880012-001	Option - 3D Ready License, 12 month	450.00
+1	160005-517	Kit - Base, Dozer, Grade Control	1996.00
+1	880012-002	Software - Business Center HCE, Seat	1200.00
+2	990033-015	Cable - Display, 15 m	89.00
+1	880012-003	License - Trimble Connected Support	199.00
+1	990022-210	Display - Field Tablet, 10 in	2100.00
+1	880012-001	Option - 3D Ready License, 12 month	450.00

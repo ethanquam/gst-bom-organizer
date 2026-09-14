@@ -23,45 +23,55 @@
           height="36"
         />
         <div class="header-copy">
-          <h1>GST BOM Organizer</h1>
+          <h1>GST BOM Organizer <span class="beta-label">(Beta)</span></h1>
           <p class="subtitle">
-            Paste configuration, notes, and parts from the Guided Selling Tool. GST cannot go back — capture notes as you go.
+            Paste configuration, notes, and parts from GST (Guided Selling Tool) into a clean BOM (Bill of Materials). GST cannot go back — capture notes as you go.
           </p>
         </div>
       </div>
-      <p id="save-note" class="save-note" hidden>Saved in this browser</p>
+      <div class="header-actions">
+        <p id="save-note" class="save-note" hidden>Saved in this browser</p>
+      </div>
     </header>
+
+    <p class="beta-disclaimer" role="note">
+      <strong>Unofficial beta tool — not a Trimble product.</strong>
+      Pricing shown here mirrors GST and is only as accurate as GST. Best practice is to verify
+      pricing at
+      <a href="https://store.trimble.com" target="_blank" rel="noopener noreferrer">store.trimble.com</a>.
+      Do not paste customer-confidential data into shared demos.
+    </p>
 
     <main class="layout" id="app-layout">
       <section class="pane pane-paste" id="pane-paste">
         <div class="paste-panel" id="paste-panel">
           <div class="paste-panel-toolbar">
             <span class="paste-panel-title">GST input</span>
-            <button type="button" id="btn-hide-inputs" class="btn btn-compact" title="Hide input panel">Hide inputs ◀</button>
+            <button type="button" id="btn-hide-inputs" class="btn btn-gold" title="Hide input panel">Hide inputs ◀</button>
           </div>
           <div class="paste-stack">
             <div class="paste-block" id="paste-block-config">
               <div class="pane-head">
                 <h2 id="config-paste-heading">1. Paste configuration summary</h2>
-                <p class="hint">
-                  From the final GST screen, copy the configuration block on the right (product type, manufacturer,
-                  factory fit, model, serial, options). Each line is <strong>Label:</strong> then the value.
-                  Click <strong>Organize list</strong> to sort fields into GST order.
+                <p class="hint" id="config-paste-hint">
+                  From the final GST screen, copy the configuration block on the right. Each line is
+                  <strong>Label:</strong> then the value. Click <strong>Organize list</strong> — field order is chosen
+                  automatically for Machines or Site Positioning.
                 </p>
               </div>
               <textarea
                 id="config-paste-box"
                 spellcheck="false"
-                placeholder="Application:	Trimble Earthworks - Excavator&#10;Manufacturer:	Caterpillar&#10;Factory Fit Level:	Cat Grade 2D Assist (Basic 2D)"
+                placeholder="Application:	Trimble Earthworks - Excavator&#10;Manufacturer:	Caterpillar&#10;Factory Fit Level:	Cat Grade 2D Assist (Basic 2D)&#10;&#10;—or—&#10;&#10;Product Line:	GNSS Receiver&#10;Receiver Model:	R780&#10;Receiver Configuration:	:R780 Model 2 450/900Mhz Radio&#10;Accessory Package Option:	No Accessory Package"
               ></textarea>
             </div>
             <div class="paste-block" id="paste-block-notes">
               <div class="pane-head">
                 <h2 id="notes-heading">2. Paste configuration notes</h2>
-                <p class="hint">
+                <p class="hint" id="notes-paste-hint">
                   Copy GST notes as you work through each step (serial range, factory fit warnings, licensing, SNM941
                   compliance, and so on). GST has no back button — if you miss a note, you start over. Web links stay as
-                  real addresses. Hold Ctrl and click a link to open it.
+                  real addresses. Hold Ctrl- or ⌘-click a link to open it.
                 </p>
               </div>
               <div
@@ -79,7 +89,8 @@
               <div class="pane-head">
                 <h2 id="paste-heading">3. Paste parts table</h2>
                 <p class="hint">
-                  In GST, select the parts table, copy it (Ctrl+C), then click in this box and paste (Ctrl+V).
+                  In GST, <strong>select / highlight the parts table</strong>, copy it (Ctrl+C or ⌘C), then click in
+                  this box and paste (Ctrl+V or ⌘V).
                 </p>
               </div>
               <textarea
@@ -91,8 +102,7 @@
           </div>
           <div class="button-row">
             <button type="button" id="btn-organize" class="btn primary">Organize list</button>
-            <button type="button" id="btn-sample" class="btn">Load sample list</button>
-            <button type="button" id="btn-clear" class="btn danger">Clear</button>
+            <button type="button" id="btn-clear" class="btn danger" data-table-action="clear">Clear</button>
           </div>
         </div>
       </section>
@@ -112,7 +122,7 @@
             </button>
             <div class="config-summary-labels">
               <h2 class="config-summary-title">Configuration</h2>
-              <p class="hint config-summary-hint">Edit fields below. Organize list sorts into GST order.</p>
+              <p class="hint config-summary-hint" id="config-summary-hint">Edit fields below. Organize list sorts into GST order.</p>
               <p class="hint config-summary-preview" id="config-summary-preview" hidden></p>
             </div>
             <button type="button" id="btn-add-config-field" class="btn">Add field</button>
@@ -123,26 +133,23 @@
           <div>
             <h2 id="table-heading">4. Clean list</h2>
             <p id="row-count" class="hint">No lines yet. Paste a list, then click Organize list.</p>
-            <p class="hint table-reorder-hint">Drag any row or column header to reorder. A gold highlight shows where it will land.</p>
+            <p class="hint table-reorder-hint">Drag any row or column header to reorder. Drag a column edge to resize. A gold highlight shows where a reorder will land.</p>
           </div>
           <div class="button-row wrap table-toolbar">
-            <button type="button" id="btn-show-inputs" class="btn" hidden title="Show GST input panel">Show GST inputs</button>
-            <div class="zoom-wrap" aria-label="Table zoom">
-              <button type="button" id="btn-zoom-out" class="btn btn-icon" title="Zoom out" aria-label="Zoom out">−</button>
-              <span id="zoom-label" class="zoom-label">100%</span>
-              <button type="button" id="btn-zoom-in" class="btn btn-icon" title="Zoom in" aria-label="Zoom in">+</button>
-              <button type="button" id="btn-zoom-reset" class="btn btn-compact" title="Reset zoom">Reset</button>
-            </div>
+            <button type="button" id="btn-show-inputs" class="btn btn-gold" data-table-action="show-inputs" hidden title="Show GST input panel">Show GST inputs</button>
             <div class="columns-wrap">
-              <button type="button" id="btn-columns" class="btn" disabled>Columns</button>
+              <button type="button" id="btn-columns" class="btn" data-table-action="columns" disabled>Columns</button>
               <div id="columns-menu" class="columns-menu" hidden>
                 <button type="button" class="columns-show-all" id="btn-show-all">Show All</button>
                 <div class="columns-menu-list" id="columns-menu-list"></div>
               </div>
             </div>
-            <button type="button" id="btn-add-row" class="btn" disabled>Add row</button>
+            <button type="button" id="btn-add-row" class="btn" data-table-action="add-row" disabled>Add row</button>
+            <button type="button" id="btn-auto-sort" class="btn btn-group" data-table-action="auto-group" disabled title="Group lines by store-style categories (receivers, option keys, antennas, cables, software, and more)">Auto-group</button>
+            <button type="button" id="btn-add-group-header" class="btn btn-group" data-table-action="add-group-header" disabled title="Insert an editable group header row">Add group header</button>
+            <button type="button" class="btn danger" data-table-action="clear">Clear</button>
             <div class="export-wrap">
-              <button type="button" id="btn-export" class="btn primary" disabled>Export</button>
+              <button type="button" id="btn-export" class="btn primary" data-table-action="export" disabled>Export list</button>
               <div id="export-menu" class="export-menu" hidden>
                 <button type="button" class="export-option" data-export-preset="excel">Excel / Sheets</button>
                 <button type="button" class="export-option" data-export-preset="word">Word / Docs</button>
@@ -161,6 +168,17 @@
             <p id="empty-table" class="empty-table">The clean table will show up here.</p>
           </div>
         </div>
+        <div class="list-footer">
+          <div class="button-row wrap table-toolbar table-toolbar-footer">
+            <button type="button" class="btn btn-gold" data-table-action="show-inputs" hidden title="Show GST input panel">Show GST inputs</button>
+            <button type="button" class="btn" data-table-action="columns" disabled>Columns</button>
+            <button type="button" class="btn" data-table-action="add-row" disabled>Add row</button>
+            <button type="button" class="btn btn-group" data-table-action="auto-group" disabled title="Group lines by store-style categories (receivers, option keys, antennas, cables, software, and more)">Auto-group</button>
+            <button type="button" class="btn btn-group" data-table-action="add-group-header" disabled title="Insert an editable group header row">Add group header</button>
+            <button type="button" class="btn danger" data-table-action="clear">Clear</button>
+            <button type="button" class="btn primary" data-table-action="export" disabled>Export list</button>
+          </div>
+        </div>
         <div id="copy-output-wrap" class="copy-output-wrap" hidden>
           <div class="pane-head copy-output-head">
             <button
@@ -176,7 +194,8 @@
             <div class="copy-output-labels">
               <h2 id="copy-output-heading">5. Copy organized text</h2>
               <p class="hint">
-                Configuration, notes, and parts in one block. Select all (Ctrl+A) and copy, or click
+                Configuration, notes, and parts in one block. Select all (Ctrl+A or ⌘A) and copy (Ctrl+C or
+                ⌘C), or click
                 <strong>Copy all</strong>, then paste into your quoting tool or email.
               </p>
             </div>
@@ -193,6 +212,135 @@
       </section>
     </main>
 
-    <script src="app.js"></script>
+    <div id="access-gate" class="access-gate" hidden>
+      <div class="access-gate-dialog" role="dialog" aria-modal="true" aria-labelledby="access-gate-title">
+        <h2 id="access-gate-title" class="access-gate-title">Verify access</h2>
+        <p id="access-gate-message" class="access-gate-message">
+          Enter your work email to open this tool.
+        </p>
+        <p id="access-gate-expiry" class="access-gate-expiry" hidden></p>
+        <p id="access-gate-error" class="access-gate-error" hidden></p>
+
+        <div id="access-step-email" class="access-gate-step">
+          <div class="access-gate-field">
+            <label class="access-label" for="access-email">Work email</label>
+            <input
+              type="email"
+              id="access-email"
+              class="access-input"
+              autocomplete="username"
+              placeholder="you@trimble.com"
+            />
+          </div>
+          <button type="button" id="access-btn-request" class="btn primary access-btn">Continue</button>
+        </div>
+
+        <div id="access-step-password" class="access-gate-step" hidden>
+          <form id="access-login-form" class="access-gate-form" method="post" action="#">
+            <div class="access-gate-field">
+              <label class="access-label" for="access-login-username">Work email</label>
+              <input
+                type="email"
+                id="access-login-username"
+                name="username"
+                class="access-input"
+                autocomplete="username"
+                readonly
+              />
+            </div>
+            <div class="access-gate-field">
+              <label class="access-label" for="access-password">Password</label>
+              <input
+                type="password"
+                id="access-password"
+                name="password"
+                class="access-input"
+                autocomplete="current-password"
+                minlength="8"
+              />
+            </div>
+            <div class="access-gate-actions">
+              <button type="submit" id="access-btn-login" class="btn primary access-btn">Sign in</button>
+              <button type="button" id="access-btn-forgot" class="btn">Forgot password</button>
+              <button type="button" id="access-btn-change-email-password" class="btn">Change email</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="access-step-code" class="access-gate-step" hidden>
+          <p class="access-hint">Code sent to <strong id="access-email-display"></strong></p>
+          <div class="access-gate-field">
+            <label class="access-label" for="access-code">6-digit code</label>
+            <input
+              type="text"
+              id="access-code"
+              class="access-input access-input-code"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              maxlength="6"
+              placeholder="000000"
+            />
+          </div>
+          <div class="access-gate-actions">
+            <button type="button" id="access-btn-verify" class="btn primary access-btn">Verify code</button>
+            <button type="button" id="access-btn-resend" class="btn">Resend code</button>
+            <button type="button" id="access-btn-change-email" class="btn">Change email</button>
+          </div>
+        </div>
+
+        <div id="access-step-set-password" class="access-gate-step" hidden>
+          <form id="access-set-password-form" class="access-gate-form" method="post" action="#">
+            <div class="access-gate-field">
+              <label class="access-label" for="access-set-username">Work email</label>
+              <input
+                type="email"
+                id="access-set-username"
+                name="username"
+                class="access-input"
+                autocomplete="username"
+                readonly
+              />
+            </div>
+            <div class="access-gate-field">
+              <label class="access-label" for="access-new-password">New password</label>
+              <input
+                type="password"
+                id="access-new-password"
+                name="new-password"
+                class="access-input"
+                autocomplete="new-password"
+                minlength="8"
+              />
+            </div>
+            <div class="access-gate-field">
+              <label class="access-label" for="access-confirm-password">Confirm password</label>
+              <input
+                type="password"
+                id="access-confirm-password"
+                name="confirm-password"
+                class="access-input"
+                autocomplete="new-password"
+                minlength="8"
+              />
+            </div>
+            <div class="access-gate-actions">
+              <button type="submit" id="access-btn-set-password" class="btn primary access-btn">Save password &amp; open</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="access-step-pending" class="access-gate-step" hidden>
+          <p class="access-hint">
+            Non-Trimble addresses need manual approval. You will receive email when access is granted.
+          </p>
+          <button type="button" id="access-btn-change-email-pending" class="btn">
+            Use a different email
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="access-config.js"></script>
+    <script src="access-gate.js"></script>
   </body>
 </html>

@@ -1,0 +1,11 @@
+# Brand reference PDF (large; not needed on Pages)
+brand/*.pdf
+
+# Wrangler local state
+.wrangler/
+.dev.vars
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log

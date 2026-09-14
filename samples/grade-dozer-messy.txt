@@ -1,0 +1,9 @@
+2	990033-015	Cable - Display, 15 m	89.00
+1	990077-012	Harness - Valve, Generic Sample Machine	0.00
+4	990055-003	Sensor - Slope, Machine Body, Training	0.00
+1	160005-517	Kit - Base, Dozer, Grade Control	1996.00
+1	990044-008	Receiver - GNSS, Dual Antenna, Not For Sale	0.00
+1	990022-210	Display - Field Tablet, 10 in, Training Unit	0.00
+2	990033-015	Cable - GNSS Antenna, 10 m	125.00
+1	520435-10	FRU - Electronic Controller	892.50
+1	990066-440	Radio - 450 MHz, Example Region	0.00

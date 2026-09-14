@@ -1,0 +1,7 @@
+1	770101-05	Bracket - Display, Universal Mount	45.00
+3	990033-020	Cable - Power, Display, 3 m	27.00
+1	770102-12	Bracket - Antenna, Low Profile	38.00
+2	990033-015	Cable - GNSS Antenna, 10 m	125.00
+4	990033-008	Cable - Data, CAN, 8 m	64.00
+1	990033-025	Cable - Radio, 5 m	42.00
+2	770101-05	Bracket - Display, Universal Mount	45.00

@@ -1,0 +1,13 @@
+1	PB-01	CCFS RTK Base [R750, R780]	7745.00
+1	58957-05-HH	Cable, GPS, 5m, TNC/TNC Rt. Angle	125.00
+1	SCS900-22	Siteworks/SCS900 Roading Module	0.00
+1	132798-HH	TSC710 Adjustable Pole Mount Clamp	89.00
+1	CON-R780-102-50	R780 Model 2 Smart Antenna, 450/900Mhz Radio	8495.00
+1	115000-50	Antenna - GNSS, Zephyr 3 Base (boxed)	3390.00
+1	SCS900-20	Siteworks/SCS900 Standard	0.00
+1	109000-10-HH	Dual Slot Battery Charger (without Power Supply or Cord)	320.00
+1	TSC710-1-1100-00-HH	Trimble TSC710 controller - QWERTY keypad, WWAN, Worldwide region, Standalone	4295.00
+1	80751-HH	Cable - 7P Lemo (R780, SPS98x) to USB-A and Plug/PwrJack	95.00
+1	192670-02-HH	Kit - Battery, Li-Ion, 7.2V 3350mAHr	165.00
+1	TPP-GNSS-5YR	TPP - Hardware - R12/R12i, R780-2, R980 or SP100 GNSS Receiver (12m exp)	370.00
+1	189200-HH	Trimble GNSS + TSCx Data Collector Transport Case	245.00

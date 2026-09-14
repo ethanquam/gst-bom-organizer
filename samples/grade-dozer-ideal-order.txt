@@ -1,0 +1,12 @@
+# Ideal part-number order after Group lines (grade-dozer-messy.txt)
+# Machine: D6XE grade dozer — kits first, training last
+
+160005-517
+990022-210
+990044-008
+990055-003
+990066-440
+990033-015
+990033-015
+990077-012
+520435-10

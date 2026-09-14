@@ -1,0 +1,4 @@
+1	990033-010	Cable - Sensor, 10 m	55.00
+1	520435-10	FRU - Electronic Controller	892.50
+1	990055-003	Sensor - Slope, Machine Body	320.00
+1	990033-012	Cable - Sensor, 12 m	62.00

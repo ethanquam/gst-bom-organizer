@@ -1,0 +1,62 @@
+category,priority,match_type,pattern,notes
+kit,5,description_prefix,Kit -,GST kit lines
+kit,6,description_prefix,Kit,,Alternate kit punctuation
+display,10,description_prefix,Display -,Field displays
+display,11,description_contains,Tablet,Tablet SKUs
+display,12,part_prefix,TSC710,TSC710 controllers
+display,12,part_prefix,TSC510,TSC510 controllers
+display,12,part_prefix,TDC6,TDC6 controllers
+gnss,17,part_prefix,400976-,MS976 GNSS receiver FRUs
+gnss,17,part_prefix,400996-,MS996 GNSS receiver FRUs
+gnss,17,part_prefix,400956-,MS956 GNSS receiver FRUs
+gnss,18,part_prefix,CON-R,SPS R750/R780 receivers
+optical,19,description_prefix,Instrument -,Total stations / optical instruments
+optical,19,part_prefix,SPS,SPS total stations
+optical,19,part_prefix,SX12,SX12 total station
+software,3,part_prefix,TPP-,Trimble protection plans
+software,3,part_prefix,EWHCC-,Firmware protection plans
+software,3,part_prefix,EW-CC-,Software maintenance plans
+software,3,part_prefix,ADHCC-,Premium protection bundles
+software,4,part_prefix,130300-,MS9xx RTK / receiver option keys
+software,4,part_prefix,PB-,CCFS option keys (base)
+software,4,part_prefix,PR-,CCFS option keys (rover)
+software,4,part_prefix,MAR-,Receiver precision upgrades
+gnss,20,description_prefix,Receiver -,GNSS receivers
+gnss,21,description_contains,GNSS,GNSS in description
+gnss,22,description_prefix,Antenna -,Antennas
+sensor,30,description_prefix,Sensor -,Machine sensors
+radio,40,description_prefix,Radio -,Radios
+radio,41,description_contains,Modem,Cell modems
+cabling,50,description_prefix,Cable -,Cables
+cabling,51,description_contains,Cable -,Cable mid-string
+harness,60,description_prefix,Harness -,Harnesses
+bracket,70,description_prefix,Bracket -,Brackets
+bracket,71,description_contains,Mount,Mounting hardware
+bracket,72,description_contains,Bracket,Bracket without prefix
+software,78,part_prefix,SCS900,Siteworks / SCS900 modules
+software,79,part_prefix,SITEWORKS,Siteworks product codes
+software,80,part_prefix,TSV-,SiteVision subscriptions
+software,81,part_prefix,IS132309,Earthworks licensing options
+software,82,description_prefix,Software -,Software products
+software,81,description_contains,License,License lines
+software,82,description_contains,Option -,Option licenses
+software,83,description_contains,Subscription,Subscriptions
+fru,7,description_prefix,FRU -,Before display/software false positives
+fru,91,part_prefix,520,Common FRU series
+install,100,description_contains,Install,Install labor
+install,101,description_contains,Labor,Labor lines
+install,102,description_contains,Freight,Freight
+training,110,description_contains,Training,Training parts
+training,111,description_contains,Sample,Sample/demo SKUs
+training,112,description_contains,Demo Only,Demo-only lines
+kit,4,part_prefix,160005,Dozer Earthworks base kits
+kit,8,description_contains,EC520,EC520 controller
+sensor,31,description_contains,VM510,Valve module
+sensor,32,description_contains,AA510,Audible alarm
+radio,42,description_contains,SNM94,Connected Site Gateway
+harness,61,description_contains,CI510,CI510 CAN interface
+harness,62,description_contains,CI520,CI520 CAN interface
+harness,63,part_prefix,1506,Platform/harness family 1506xx
+cabling,52,part_prefix,1504,Power and extension cables 1504xx
+gnss,23,description_contains,MS99,MS9xx GNSS Smart Antenna
+bracket,73,description_contains,Mast mount,Mast mounting hardware
