@@ -24,6 +24,14 @@ var SHEETS = {
 };
 
 function doGet(e) {
+  return handleHttp_(e);
+}
+
+function doPost(e) {
+  return handleHttp_(e, true);
+}
+
+function handleHttp_(e, asHtmlCallback) {
   var params = e && e.parameter ? e.parameter : {};
   var action = String(params.action || "").toLowerCase();
 
@@ -36,6 +44,9 @@ function doGet(e) {
 
     var result = handleJsonAction(action, params);
     if (params.callback) {
+      if (asHtmlCallback) {
+        return htmlCallback_(params.callback, result);
+      }
       return ContentService.createTextOutput(params.callback + "(" + JSON.stringify(result) + ")").setMimeType(
         ContentService.MimeType.JAVASCRIPT
       );
@@ -43,13 +54,32 @@ function doGet(e) {
     return jsonResponse(result);
   } catch (err) {
     var message = err && err.message ? err.message : String(err);
+    var errorResult = { status: "error", message: message };
     if (params.callback) {
+      if (asHtmlCallback) {
+        return htmlCallback_(params.callback, errorResult);
+      }
       return ContentService.createTextOutput(
-        params.callback + "(" + JSON.stringify({ status: "error", message: message }) + ")"
+        params.callback + "(" + JSON.stringify(errorResult) + ")"
       ).setMimeType(ContentService.MimeType.JAVASCRIPT);
     }
     return htmlPage("Error", "<p>" + escapeHtml(message) + "</p>");
   }
+}
+
+function htmlCallback_(callbackName, result) {
+  var name = String(callbackName || "").replace(/[^\w$]/g, "");
+  if (!name) name = "gstAccessCb";
+  var payload = JSON.stringify(result).replace(/</g, "\\u003c");
+  return HtmlService.createHtmlOutput(
+    "<!DOCTYPE html><html><body><script>try{parent." +
+      name +
+      "(" +
+      payload +
+      ");}catch(e){}</script></body></html>"
+  )
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
+    .setSandboxMode(HtmlService.SandboxMode.IFRAME);
 }
 
 function handleJsonAction(action, params) {

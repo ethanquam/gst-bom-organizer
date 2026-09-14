@@ -73,10 +73,72 @@
       };
       script.onerror = function () {
         cleanup();
-        reject(new Error("Could not reach the access service."));
+        reject(
+          new Error(
+            "Could not reach the access service. Redeploy Apps Script (New version) and try again."
+          )
+        );
       };
       script.src = url.toString();
       document.head.appendChild(script);
+    });
+  }
+
+  /* Passwords go via POST iframe so they are not blocked in the page URL. */
+  function formPost(action, params) {
+    var c = cfg();
+    return new Promise(function (resolve, reject) {
+      if (!c.appsScriptUrl || !/^https?:\/\//i.test(c.appsScriptUrl)) {
+        reject(new Error("Access service is not configured yet."));
+        return;
+      }
+      var callbackName = "gstAccessCb_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
+      var iframe = document.createElement("iframe");
+      var form = document.createElement("form");
+      var timer = window.setTimeout(function () {
+        cleanup();
+        reject(new Error("Request timed out. Try again."));
+      }, 25000);
+
+      function cleanup() {
+        window.clearTimeout(timer);
+        delete window[callbackName];
+        if (form.parentNode) form.parentNode.removeChild(form);
+        if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+      }
+
+      window[callbackName] = function (data) {
+        cleanup();
+        resolve(data || {});
+      };
+
+      iframe.name = callbackName + "_frame";
+      iframe.title = "access";
+      iframe.style.display = "none";
+      form.method = "POST";
+      form.action = c.appsScriptUrl;
+      form.target = iframe.name;
+      form.style.display = "none";
+
+      function addField(name, value) {
+        var input = document.createElement("input");
+        input.type = "hidden";
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+      }
+
+      addField("action", action);
+      addField("callback", callbackName);
+      Object.keys(params || {}).forEach(function (key) {
+        if (params[key] != null && params[key] !== "") {
+          addField(key, String(params[key]));
+        }
+      });
+
+      document.body.appendChild(iframe);
+      document.body.appendChild(form);
+      form.submit();
     });
   }
 
@@ -365,7 +427,7 @@
     }
     setBusy(true);
     showError("");
-    jsonp("access_login", { email: email, password: password })
+    formPost("access_login", { email: email, password: password })
       .then(function (result) {
         if (!result || result.status !== "ok") {
           throw new Error((result && result.message) || "Incorrect email or password.");
@@ -399,7 +461,7 @@
     }
     setBusy(true);
     showError("");
-    jsonp("access_set_password", {
+    formPost("access_set_password", {
       email: email,
       setupToken: state.setupToken,
       password: password,
