@@ -60,7 +60,11 @@
       var script = document.createElement("script");
       var timer = window.setTimeout(function () {
         cleanup();
-        reject(new Error("Request timed out. Try again."));
+        reject(
+          new Error(
+            "Access service timed out or crashed. In Apps Script: confirm SPREADSHEET_ID, Save, then Deploy → Manage deployments → Edit → New version → Deploy."
+          )
+        );
       }, 25000);
       function cleanup() {
         window.clearTimeout(timer);

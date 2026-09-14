@@ -36,6 +36,10 @@ function handleHttp_(e, asHtmlCallback) {
   var action = String(params.action || "").toLowerCase();
 
   try {
+    if (action === "ping") {
+      return respondJsonpOrHtml_(params, { status: "ok", app: CONFIG.APP_NAME }, asHtmlCallback);
+    }
+
     ensureSheets();
 
     if (action === "access_approve" || action === "access_deny" || action === "access_revoke") {
@@ -43,28 +47,30 @@ function handleHttp_(e, asHtmlCallback) {
     }
 
     var result = handleJsonAction(action, params);
-    if (params.callback) {
-      if (asHtmlCallback) {
-        return htmlCallback_(params.callback, result);
-      }
-      return ContentService.createTextOutput(params.callback + "(" + JSON.stringify(result) + ")").setMimeType(
-        ContentService.MimeType.JAVASCRIPT
-      );
-    }
-    return jsonResponse(result);
+    return respondJsonpOrHtml_(params, result, asHtmlCallback);
   } catch (err) {
     var message = err && err.message ? err.message : String(err);
     var errorResult = { status: "error", message: message };
-    if (params.callback) {
-      if (asHtmlCallback) {
-        return htmlCallback_(params.callback, errorResult);
-      }
+    try {
+      return respondJsonpOrHtml_(params, errorResult, asHtmlCallback);
+    } catch (err2) {
       return ContentService.createTextOutput(
-        params.callback + "(" + JSON.stringify(errorResult) + ")"
+        (params.callback || "gstAccessCb") + "(" + JSON.stringify(errorResult) + ")"
       ).setMimeType(ContentService.MimeType.JAVASCRIPT);
     }
-    return htmlPage("Error", "<p>" + escapeHtml(message) + "</p>");
   }
+}
+
+function respondJsonpOrHtml_(params, result, asHtmlCallback) {
+  if (params.callback) {
+    if (asHtmlCallback) {
+      return htmlCallback_(params.callback, result);
+    }
+    return ContentService.createTextOutput(params.callback + "(" + JSON.stringify(result) + ")").setMimeType(
+      ContentService.MimeType.JAVASCRIPT
+    );
+  }
+  return jsonResponse(result);
 }
 
 function htmlCallback_(callbackName, result) {
@@ -83,9 +89,7 @@ function htmlCallback_(callbackName, result) {
       "try{if(window.parent&&window.parent!==window){window.parent.postMessage(msg,'*');}}" +
       "catch(e){}" +
       "</script><p>OK</p></body></html>"
-  )
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
-    .setSandboxMode(HtmlService.SandboxMode.IFRAME);
+  ).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
 function handleJsonAction(action, params) {
@@ -433,6 +437,9 @@ function sendDeniedEmail(email) {
 }
 
 function ensureSheets() {
+  if (!CONFIG.SPREADSHEET_ID || CONFIG.SPREADSHEET_ID.indexOf("PASTE_SHEET") === 0) {
+    throw new Error("Set CONFIG.SPREADSHEET_ID to your Google Sheet ID, then deploy a new version.");
+  }
   var ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
   ensureSheet(ss, SHEETS.REQUESTS, ["email", "token", "status", "requestedAt"]);
   ensureSheet(ss, SHEETS.APPROVED, [
@@ -445,7 +452,11 @@ function ensureSheets() {
     "setupToken",
     "setupTokenExpires",
   ]);
-  ensureApprovedPasswordColumns_();
+  try {
+    ensureApprovedPasswordColumns_();
+  } catch (err) {
+    // Older sheets still work; password columns added when possible.
+  }
   ensureSheet(ss, SHEETS.CODES, ["email", "code", "expiresAt", "used", "grantType", "createdAt"]);
   ensureSheet(ss, SHEETS.EVENTS, ["timestamp", "action", "email", "detail"]);
 }
@@ -668,12 +679,16 @@ function clearCodesForEmail(email) {
 }
 
 function logEvent(action, email, detail) {
-  appendRow(SHEETS.EVENTS, {
-    timestamp: new Date().toISOString(),
-    action: action,
-    email: email || "",
-    detail: detail || "",
-  });
+  try {
+    appendRow(SHEETS.EVENTS, {
+      timestamp: new Date().toISOString(),
+      action: action,
+      email: email || "",
+      detail: detail || "",
+    });
+  } catch (err) {
+    // Never fail a login because audit logging failed.
+  }
 }
 
 function isAutoApproveEmail(email) {
