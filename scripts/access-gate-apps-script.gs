@@ -110,7 +110,7 @@ function accessVerify(emailRaw, codeRaw) {
 
   var codeRow = findValidCode(email, code);
   if (!codeRow) {
-    logEvent("access_verify_failed", email, "bad_code");
+    logEvent("access_verify_failed", email, "bad_code:" + code);
     return { status: "error", message: "Invalid or expired code." };
   }
 
@@ -232,6 +232,7 @@ function sendAccessCode(email, grantType) {
     grantType: grantType,
     createdAt: new Date().toISOString(),
   });
+  forceCodeColumnText_();
 
   var body =
     "Your " +
@@ -250,6 +251,15 @@ function sendAccessCode(email, grantType) {
     body: body,
   });
   logEvent("access_code_sent", email, grantType);
+}
+
+function forceCodeColumnText_() {
+  var sheet = getSheet(SHEETS.CODES);
+  var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  var codeCol = headers.indexOf("code") + 1;
+  if (codeCol > 0) {
+    sheet.getRange(2, codeCol, Math.max(sheet.getLastRow(), 2), 1).setNumberFormat("@");
+  }
 }
 
 function sendAdminApprovalEmail(email, token) {
@@ -417,11 +427,12 @@ function updateRequestStatus(rowIndex, status) {
 
 function findValidCode(email, code) {
   var rows = readRows(SHEETS.CODES);
+  var wanted = normalizeCode(code);
   for (var i = rows.length - 1; i >= 0; i--) {
     var row = rows[i];
     if (normalizeEmail(row.email) !== email) continue;
-    if (String(row.code) !== code) continue;
-    if (String(row.used) === "true") continue;
+    if (normalizeCode(row.code) !== wanted) continue;
+    if (isUsedFlag(row.used)) continue;
     if (!isFuture(row.expiresAt)) continue;
     return row;
   }
@@ -463,12 +474,38 @@ function normalizeEmail(value) {
   return String(value || "").trim().toLowerCase();
 }
 
+function normalizeCode(value) {
+  return String(value == null ? "" : value)
+    .trim()
+    .replace(/\s+/g, "")
+    .replace(/\.0+$/, "");
+}
+
+function isUsedFlag(value) {
+  if (value === true || value === 1) return true;
+  var text = String(value == null ? "" : value).trim().toLowerCase();
+  return text === "true" || text === "yes" || text === "1";
+}
+
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function isFuture(iso) {
-  return Date.parse(iso) > Date.now();
+function toMillis(value) {
+  if (Object.prototype.toString.call(value) === "[object Date]") {
+    var time = value.getTime();
+    return isNaN(time) ? NaN : time;
+  }
+  if (typeof value === "number" && !isNaN(value)) {
+    return value;
+  }
+  var parsed = Date.parse(String(value || ""));
+  return isNaN(parsed) ? NaN : parsed;
+}
+
+function isFuture(value) {
+  var ms = toMillis(value);
+  return !isNaN(ms) && ms > Date.now();
 }
 
 function makeRevokeToken(email) {
