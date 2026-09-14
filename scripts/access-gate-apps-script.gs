@@ -5,7 +5,7 @@
  */
 
 var CONFIG = {
-  SPREADSHEET_ID: "PASTE_SHEET_ID_HERE",
+  SPREADSHEET_ID: "1utG_k7WoG_NKaEFhY_oiRDM9RTCb7BkmHlhZutwgwfk",
   RECIPIENT_EMAIL: "ethan_quam@trimble.com",
   APP_URL: "https://ethanquam.github.io/gst-bom-organizer/",
   APP_NAME: "GST BOM Organizer",
