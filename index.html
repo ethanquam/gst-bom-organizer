@@ -222,37 +222,43 @@
         <p id="access-gate-error" class="access-gate-error" hidden></p>
 
         <div id="access-step-email" class="access-gate-step">
-          <label class="access-label" for="access-email">Work email</label>
-          <input
-            type="email"
-            id="access-email"
-            class="access-input"
-            autocomplete="username"
-            placeholder="you@trimble.com"
-          />
+          <div class="access-gate-field">
+            <label class="access-label" for="access-email">Work email</label>
+            <input
+              type="email"
+              id="access-email"
+              class="access-input"
+              autocomplete="username"
+              placeholder="you@trimble.com"
+            />
+          </div>
           <button type="button" id="access-btn-request" class="btn primary access-btn">Continue</button>
         </div>
 
         <div id="access-step-password" class="access-gate-step" hidden>
           <form id="access-login-form" class="access-gate-form" method="post" action="#">
-            <label class="access-label" for="access-login-username">Work email</label>
-            <input
-              type="email"
-              id="access-login-username"
-              name="username"
-              class="access-input"
-              autocomplete="username"
-              readonly
-            />
-            <label class="access-label" for="access-password">Password</label>
-            <input
-              type="password"
-              id="access-password"
-              name="password"
-              class="access-input"
-              autocomplete="current-password"
-              minlength="8"
-            />
+            <div class="access-gate-field">
+              <label class="access-label" for="access-login-username">Work email</label>
+              <input
+                type="email"
+                id="access-login-username"
+                name="username"
+                class="access-input"
+                autocomplete="username"
+                readonly
+              />
+            </div>
+            <div class="access-gate-field">
+              <label class="access-label" for="access-password">Password</label>
+              <input
+                type="password"
+                id="access-password"
+                name="password"
+                class="access-input"
+                autocomplete="current-password"
+                minlength="8"
+              />
+            </div>
             <div class="access-gate-actions">
               <button type="submit" id="access-btn-login" class="btn primary access-btn">Sign in</button>
               <button type="button" id="access-btn-forgot" class="btn">Forgot password</button>
@@ -263,16 +269,18 @@
 
         <div id="access-step-code" class="access-gate-step" hidden>
           <p class="access-hint">Code sent to <strong id="access-email-display"></strong></p>
-          <label class="access-label" for="access-code">6-digit code</label>
-          <input
-            type="text"
-            id="access-code"
-            class="access-input access-input-code"
-            inputmode="numeric"
-            autocomplete="one-time-code"
-            maxlength="6"
-            placeholder="000000"
-          />
+          <div class="access-gate-field">
+            <label class="access-label" for="access-code">6-digit code</label>
+            <input
+              type="text"
+              id="access-code"
+              class="access-input access-input-code"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              maxlength="6"
+              placeholder="000000"
+            />
+          </div>
           <div class="access-gate-actions">
             <button type="button" id="access-btn-verify" class="btn primary access-btn">Verify code</button>
             <button type="button" id="access-btn-resend" class="btn">Resend code</button>
@@ -282,34 +290,42 @@
 
         <div id="access-step-set-password" class="access-gate-step" hidden>
           <form id="access-set-password-form" class="access-gate-form" method="post" action="#">
-            <label class="access-label" for="access-set-username">Work email</label>
-            <input
-              type="email"
-              id="access-set-username"
-              name="username"
-              class="access-input"
-              autocomplete="username"
-              readonly
-            />
-            <label class="access-label" for="access-new-password">New password</label>
-            <input
-              type="password"
-              id="access-new-password"
-              name="new-password"
-              class="access-input"
-              autocomplete="new-password"
-              minlength="8"
-            />
-            <label class="access-label" for="access-confirm-password">Confirm password</label>
-            <input
-              type="password"
-              id="access-confirm-password"
-              name="confirm-password"
-              class="access-input"
-              autocomplete="new-password"
-              minlength="8"
-            />
-            <button type="submit" id="access-btn-set-password" class="btn primary access-btn">Save password &amp; open</button>
+            <div class="access-gate-field">
+              <label class="access-label" for="access-set-username">Work email</label>
+              <input
+                type="email"
+                id="access-set-username"
+                name="username"
+                class="access-input"
+                autocomplete="username"
+                readonly
+              />
+            </div>
+            <div class="access-gate-field">
+              <label class="access-label" for="access-new-password">New password</label>
+              <input
+                type="password"
+                id="access-new-password"
+                name="new-password"
+                class="access-input"
+                autocomplete="new-password"
+                minlength="8"
+              />
+            </div>
+            <div class="access-gate-field">
+              <label class="access-label" for="access-confirm-password">Confirm password</label>
+              <input
+                type="password"
+                id="access-confirm-password"
+                name="confirm-password"
+                class="access-input"
+                autocomplete="new-password"
+                minlength="8"
+              />
+            </div>
+            <div class="access-gate-actions">
+              <button type="submit" id="access-btn-set-password" class="btn primary access-btn">Save password &amp; open</button>
+            </div>
           </form>
         </div>
 
