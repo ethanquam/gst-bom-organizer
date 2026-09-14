@@ -139,13 +139,11 @@ function accessStart(emailRaw, reset) {
   }
 
   if (approved) {
-    sendAccessCode(email, approved.grantType || "existing");
-    return { status: "verify_code" };
+    return issueCodeResponse_(email, approved.grantType || "existing");
   }
 
   if (isAutoApproveEmail(email)) {
-    sendAccessCode(email, "auto");
-    return { status: "verify_code" };
+    return issueCodeResponse_(email, "auto");
   }
 
   if (reset) {
@@ -164,9 +162,27 @@ function accessStart(emailRaw, reset) {
     status: "pending",
     requestedAt: new Date().toISOString(),
   });
-  sendAdminApprovalEmail(email, token);
+  try {
+    sendAdminApprovalEmail(email, token);
+  } catch (err) {
+    logEvent("admin_email_failed", email, String(err && err.message ? err.message : err));
+  }
   logEvent("access_request_pending", email, "");
   return { status: "pending" };
+}
+
+function issueCodeResponse_(email, grantType) {
+  storeAccessCode_(email, grantType);
+  try {
+    sendAccessCodeEmail_(email, peekLatestCode_(email));
+  } catch (err) {
+    logEvent("access_code_email_failed", email, String(err && err.message ? err.message : err));
+    return {
+      status: "verify_code",
+      message: "Code was created but email may be delayed. Check inbox/spam or use Resend.",
+    };
+  }
+  return { status: "verify_code" };
 }
 
 function accessVerify(emailRaw, codeRaw) {
@@ -338,6 +354,11 @@ function grantAccess(email, grantType) {
 }
 
 function sendAccessCode(email, grantType) {
+  var code = storeAccessCode_(email, grantType);
+  sendAccessCodeEmail_(email, code);
+}
+
+function storeAccessCode_(email, grantType) {
   var code = String(Math.floor(100000 + Math.random() * 900000));
   var expiresAt = new Date();
   expiresAt.setMinutes(expiresAt.getMinutes() + CONFIG.ACCESS_CODE_MINUTES);
@@ -350,7 +371,22 @@ function sendAccessCode(email, grantType) {
     createdAt: new Date().toISOString(),
   });
   forceCodeColumnText_();
+  logEvent("access_code_stored", email, grantType);
+  return code;
+}
 
+function peekLatestCode_(email) {
+  var rows = readRows(SHEETS.CODES);
+  for (var i = rows.length - 1; i >= 0; i--) {
+    if (normalizeEmail(rows[i].email) === email && !isUsedFlag(rows[i].used) && isFuture(rows[i].expiresAt)) {
+      return normalizeCode(rows[i].code);
+    }
+  }
+  return "";
+}
+
+function sendAccessCodeEmail_(email, code) {
+  if (!code) return;
   var body =
     "Your " +
     CONFIG.APP_NAME +
@@ -367,7 +403,7 @@ function sendAccessCode(email, grantType) {
     subject: CONFIG.APP_NAME + " access code",
     body: body,
   });
-  logEvent("access_code_sent", email, grantType);
+  logEvent("access_code_sent", email, "");
 }
 
 function forceCodeColumnText_() {
@@ -553,7 +589,10 @@ function upsertApprovedUser(email, expiresAt, grantType) {
 }
 
 function userHasPassword(approved) {
-  return !!(approved && String(approved.passwordHash || "").trim());
+  if (!approved) return false;
+  var hash = String(approved.passwordHash || approved.passwordhash || "").trim();
+  var salt = String(approved.passwordSalt || approved.passwordsalt || "").trim();
+  return !!(hash && salt);
 }
 
 function issueSetupToken(email) {

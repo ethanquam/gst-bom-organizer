@@ -65,7 +65,7 @@
             "Access service timed out or crashed. In Apps Script: confirm SPREADSHEET_ID, Save, then Deploy → Manage deployments → Edit → New version → Deploy."
           )
         );
-      }, 25000);
+      }, 20000);
       function cleanup() {
         window.clearTimeout(timer);
         delete window[callbackName];
@@ -363,7 +363,10 @@
             ui.codeInput.value = "";
             ui.codeInput.focus();
           }
-          if (ui.message) ui.message.textContent = "Enter the 6-digit code sent to your email.";
+          if (ui.message) {
+            ui.message.textContent =
+              (result && result.message) || "Enter the 6-digit code sent to your email.";
+          }
           setExpiryNote(
             state.resetMode
               ? "After you verify, you will set a new password."
@@ -383,7 +386,15 @@
         throw new Error("Unexpected response from access service.");
       })
       .catch(function (err) {
-        showError(err.message || "Something went wrong.");
+        var msg = err.message || "Something went wrong.";
+        if (/timed out|crashed/i.test(msg) && !state.resetMode) {
+          showPasswordStep(email);
+          showError(
+            "Email check timed out. If you already set a password, sign in below. Otherwise use Forgot password."
+          );
+          return;
+        }
+        showError(msg);
       })
       .then(function () {
         setBusy(false);
